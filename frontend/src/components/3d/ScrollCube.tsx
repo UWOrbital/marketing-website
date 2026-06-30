@@ -1,59 +1,44 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 const ORBIT_R = 2.5;
-const CUBE_S = 0.8;
 
 export function ScrollCube({
   progressRef,
 }: {
   progressRef: { current: number };
 }) {
-  const mesh = useRef<THREE.Mesh>(null);
   const pos = useRef<THREE.Group>(null);
-  const edge = useRef<THREE.LineBasicMaterial>(null);
+  const model = useRef<THREE.Group>(null);
   const smooth = useRef(0);
 
+  const { scene } = useGLTF("/satellite.glb");
+
   useFrame((_, delta) => {
-    if (!mesh.current || !pos.current || !edge.current) return;
+    if (!pos.current || !model.current) return;
     smooth.current +=
-      (progressRef.current - smooth.current) * Math.min(1, delta * 6);
+      (progressRef.current - smooth.current) * Math.min(1, delta * 4);
 
     const a = smooth.current * Math.PI * 2;
     pos.current.position.x = Math.cos(a) * ORBIT_R;
     pos.current.position.z = -Math.sin(a) * ORBIT_R;
-    mesh.current.rotation.x += delta * 1.2;
-    mesh.current.rotation.y += delta * 0.8;
+    model.current.rotation.y = -a;
 
-    const t = Math.min(1, smooth.current / 0.3);
-    const s = 1 + (1 - t) * 1.8;
+    const t = Math.min(1, smooth.current / 0.2);
+    const s = 1 + (1 - t) * 3;
     pos.current.scale.setScalar(s);
-    edge.current.opacity = 0.15 + (1 - t) * 0.35;
   });
 
   return (
     <group ref={pos}>
-      <mesh ref={mesh}>
-        <boxGeometry args={[CUBE_S, CUBE_S, CUBE_S]} />
-        <meshStandardMaterial
-          color="#3b82f6"
-          metalness={0.6}
-          roughness={0.25}
-        />
-      </mesh>
-      <lineSegments>
-        <edgesGeometry args={[new THREE.BoxGeometry(CUBE_S, CUBE_S, CUBE_S)]} />
-        <lineBasicMaterial
-          ref={edge}
-          color="#eff6ff"
-          transparent
-          opacity={0.15}
-        />
-      </lineSegments>
+      <primitive ref={model} object={scene.clone()} rotation={[0.3, 0, 0]} />
     </group>
   );
 }
+
+useGLTF.preload("/satellite.glb");
 
 const planets = [
   { r: 4.0, s: 0.04, c: "#94a3b8", sp: 0.15, o: 0 },

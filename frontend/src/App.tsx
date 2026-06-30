@@ -1,7 +1,9 @@
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
-import { PageOrbit } from "./components/PageOrbit";
+import { Leads } from "./components/Leads";
+import { Timeline } from "./components/Timeline";
 import { Footer } from "./components/Footer";
+import { PageOrbit } from "./components/PageOrbit";
 
 function App() {
   return (
@@ -9,7 +11,8 @@ function App() {
       <div className="relative z-10">
         <Nav />
         <Hero />
-        <div className="h-[200vh]" />
+        <Leads />
+        <Timeline />
         <Footer />
       </div>
       <PageOrbit />
