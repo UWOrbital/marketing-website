@@ -31,9 +31,9 @@ const links = [
 
 export function Footer() {
   return (
-    <footer className="py-16 px-4">
+    <footer className="py-12 sm:py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col items-start gap-8">
+        <div className="flex flex-col items-start gap-6 sm:gap-8">
           <div>
             <img src={Logo} alt="UW Orbital" className="h-10 w-auto mb-4" />
             <p className="text-gray-500 text-sm max-w-md leading-relaxed">

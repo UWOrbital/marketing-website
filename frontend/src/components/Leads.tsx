@@ -1,15 +1,15 @@
 export function Leads() {
   return (
-    <section className="py-32 px-4">
+    <section className="py-20 sm:py-32 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-heading font-bold text-white mb-4">
+        <h2 className="text-2xl sm:text-4xl font-heading font-bold text-white mb-4">
           Our Team
         </h2>
-        <p className="text-gray-500 text-sm mb-12">
+        <p className="text-gray-500 text-sm mb-8 sm:mb-12">
           UW Orbital consists of 8 subteams & 1 subproject team
         </p>
 
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <p className="text-white font-medium mb-1">
             <span className="text-orbital-blue">Team Leads:</span> Lorem, Ipsum
           </p>
@@ -18,7 +18,7 @@ export function Leads() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useScroll } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import { ScrollCube, CubeStars, Planets } from "./3d/ScrollCube";
@@ -14,9 +14,17 @@ export function PageOrbit() {
     return unsub;
   }, [scrollYProgress]);
 
+  const [cam] = useState(() => {
+    const w = typeof window !== "undefined" ? window.innerWidth : 1024;
+    const narrow = w < 640;
+    return { pos: narrow ? [0, 1, 3.5] : [0, 1.5, 4], fov: narrow ? 50 : 40 };
+  });
+
   return (
     <div className="fixed inset-0 -z-0">
-      <Canvas camera={{ position: [0, 1.5, 4], fov: 40 }}>
+      <Canvas
+        camera={{ position: cam.pos as [number, number, number], fov: cam.fov }}
+      >
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 5, 5]} intensity={2} />
         <directionalLight

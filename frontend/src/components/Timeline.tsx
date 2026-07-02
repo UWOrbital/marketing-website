@@ -1,12 +1,12 @@
 export function Timeline() {
   return (
-    <section className="py-32 px-4">
+    <section className="py-20 sm:py-32 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-heading font-bold text-white mb-8">
+        <h2 className="text-2xl sm:text-4xl font-heading font-bold text-white mb-6 sm:mb-8">
           Competition Timelines
         </h2>
 
-        <div className="text-gray-400 text-base leading-relaxed max-w-3xl mb-12">
+        <div className="text-gray-400 text-sm sm:text-base leading-relaxed max-w-3xl mb-12">
           <p className="mb-6">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim

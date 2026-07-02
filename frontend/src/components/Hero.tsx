@@ -11,10 +11,10 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight font-heading leading-none">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight font-heading leading-none">
             UW Orbital
           </h1>
-          <p className="text-base sm:text-lg text-gray-500 mt-3">
+          <p className="text-sm sm:text-base md:text-lg text-gray-500 mt-2 sm:mt-3">
             University of Waterloo Satellite Design Team
           </p>
         </motion.div>

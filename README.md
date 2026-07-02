@@ -1,11 +1,27 @@
-# UW Orbital's Marketing Site
-UW Orbital's main front-facing site! 
+# UW Orbital Marketing Site
 
->[!WARNING]
-> This is in active development and is not deployed yet!
+Main front-facing website for UW Orbital, the University of Waterloo Satellite Design Team.
 
-## Front-end Stack
-React + Vite
+## Stack
 
-## Backend Stack 
-TBD
+- **Frontend**: React 19 + Vite + Three.js + Framer Motion + TailwindCSS
+- **Backend**: Express + TypeScript
+
+## Dev
+
+```sh
+# Frontend
+cd frontend
+npm run dev
+
+# Backend (separate terminal)
+cd backend
+npm run dev
+```
+
+## Build
+
+```sh
+cd frontend && npm run build
+cd backend  && npm run build
+```
