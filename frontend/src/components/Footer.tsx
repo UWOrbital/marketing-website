@@ -31,7 +31,7 @@ const links = [
 
 export function Footer() {
   return (
-    <footer className="py-12 sm:py-16 px-4">
+    <footer id="join" className="py-12 sm:py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col items-start gap-6 sm:gap-8">
           <div>

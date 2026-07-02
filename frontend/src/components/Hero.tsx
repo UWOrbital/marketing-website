@@ -37,10 +37,10 @@ export function Hero() {
           className="mt-10"
         >
           <a
-            href="#"
+            href="#join"
             className="inline-block px-6 py-3 bg-orbital-blue text-white font-medium hover:bg-orbital-blue-dark transition-all text-sm"
           >
-            Our Mission
+            Join Us
           </a>
         </motion.div>
       </div>

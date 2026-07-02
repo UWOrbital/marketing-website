@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const ORBIT_R = 2.5;
+const ORBIT_R = 2.0;
 
 export function ScrollCube({
   progressRef,
@@ -27,7 +27,7 @@ export function ScrollCube({
     model.current.rotation.y = -a;
 
     const t = Math.min(1, smooth.current / 0.2);
-    const s = 1 + (1 - t) * 3;
+    const s = 0.3 + (1 - t) * 0.7;
     pos.current.scale.setScalar(s);
   });
 

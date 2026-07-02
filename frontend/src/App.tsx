@@ -1,7 +1,6 @@
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
-import { Leads } from "./components/Leads";
-import { Timeline } from "./components/Timeline";
+import { Slideshow } from "./components/Slideshow";
 import { Footer } from "./components/Footer";
 import { PageOrbit } from "./components/PageOrbit";
 
@@ -11,8 +10,7 @@ function App() {
       <div className="relative z-10">
         <Nav />
         <Hero />
-        <Leads />
-        <Timeline />
+        <Slideshow />
         <Footer />
       </div>
       <PageOrbit />
