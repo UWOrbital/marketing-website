@@ -6,7 +6,11 @@ export function Nav() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <a href="#" className="flex items-center gap-3">
-            <img src={Logo} alt="UW Orbital" className="h-12 sm:h-16 w-auto" />
+            <img
+              src={Logo}
+              alt="UW Orbital"
+              className="h-12 sm:h-16 w-auto object-contain"
+            />
           </a>
         </div>
       </div>

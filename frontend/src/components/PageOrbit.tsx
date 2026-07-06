@@ -1,7 +1,27 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useScroll } from "framer-motion";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 import { ScrollCube, CubeStars, Planets } from "./3d/ScrollCube";
+
+function AspectFix() {
+  const { gl, camera } = useThree();
+  const cam = camera as THREE.PerspectiveCamera;
+
+  useFrame(() => {
+    const w = gl.domElement.clientWidth;
+    const h = gl.domElement.clientHeight;
+    if (w > 0 && h > 0) {
+      const a = w / h;
+      if (Math.abs(cam.aspect - a) > 0.001) {
+        cam.aspect = a;
+        cam.updateProjectionMatrix();
+      }
+    }
+  });
+
+  return null;
+}
 
 export function PageOrbit() {
   const progress = useRef(0);
@@ -14,17 +34,21 @@ export function PageOrbit() {
     return unsub;
   }, [scrollYProgress]);
 
-  const [cam] = useState(() => {
-    const w = typeof window !== "undefined" ? window.innerWidth : 1024;
-    const narrow = w < 640;
-    return { pos: narrow ? [0, 1, 3.5] : [0, 1.5, 4], fov: narrow ? 50 : 40 };
-  });
+  const cam = useMemo(() => {
+    const narrow = typeof window !== "undefined" && window.innerWidth < 640;
+    return {
+      position: [0, 1.5, narrow ? 6 : 4] as [number, number, number],
+      fov: 40,
+    };
+  }, []);
 
   return (
-    <div className="fixed inset-0 -z-0">
-      <Canvas
-        camera={{ position: cam.pos as [number, number, number], fov: cam.fov }}
-      >
+    <div
+      className="fixed top-0 left-0 -z-0"
+      style={{ width: "100vw", height: "100vh" }}
+    >
+      <Canvas dpr={[1, 2]} camera={cam} gl={{ antialias: true }}>
+        <AspectFix />
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 5, 5]} intensity={2} />
         <directionalLight

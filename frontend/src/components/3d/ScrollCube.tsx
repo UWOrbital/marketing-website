@@ -3,13 +3,17 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const ORBIT_R = 2.0;
-
 export function ScrollCube({
   progressRef,
 }: {
   progressRef: { current: number };
 }) {
+  const isMobile = useMemo(
+    () => typeof window !== "undefined" && window.innerWidth < 640,
+    [],
+  );
+  const mult = isMobile ? 0.5 : 1;
+
   const pos = useRef<THREE.Group>(null);
   const model = useRef<THREE.Group>(null);
   const smooth = useRef(0);
@@ -22,12 +26,13 @@ export function ScrollCube({
       (progressRef.current - smooth.current) * Math.min(1, delta * 4);
 
     const a = smooth.current * Math.PI * 2;
-    pos.current.position.x = Math.cos(a) * ORBIT_R;
-    pos.current.position.z = -Math.sin(a) * ORBIT_R;
+    pos.current.position.x = Math.cos(a) * 2.0 * mult;
+    pos.current.position.z = -Math.sin(a) * 2.0 * mult;
     model.current.rotation.y = -a;
 
-    const t = Math.min(1, smooth.current / 0.2);
-    const s = 0.3 + (1 - t) * 0.7;
+    const p = smooth.current;
+    const t = p < 0.2 ? p / 0.2 : p > 0.8 ? 1 - (p - 0.8) / 0.2 : 1;
+    const s = (0.3 + (1 - t) * 0.7) * mult;
     pos.current.scale.setScalar(s);
   });
 
@@ -83,9 +88,13 @@ export function Planets() {
 }
 
 export function CubeStars() {
+  const n = useMemo(() => {
+    if (typeof window === "undefined") return 1200;
+    return window.innerWidth < 640 ? 600 : 1200;
+  }, []);
   const positions = useMemo(() => {
-    const pos = new Float32Array(2000 * 3);
-    for (let i = 0; i < 2000; i++) {
+    const pos = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 60;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 30;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 30 - 15;

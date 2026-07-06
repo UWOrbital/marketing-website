@@ -1,3 +1,4 @@
+import { LINKS } from "../config";
 import Logo from "../assets/Logo.avif";
 import MailIcon from "../assets/mail.avif";
 import DiscordIcon from "../assets/discord.avif";
@@ -5,28 +6,12 @@ import InstagramIcon from "../assets/instagram.avif";
 import FacebookIcon from "../assets/facebook.avif";
 import LinkedinIcon from "../assets/linkedin.avif";
 
-const links = [
-  { icon: MailIcon, href: "mailto:uworbital@gmail.com", label: "Email" },
-  {
-    icon: DiscordIcon,
-    href: "https://discord.gg/j32DZswg5b",
-    label: "Discord",
-  },
-  {
-    icon: InstagramIcon,
-    href: "https://www.instagram.com/uworbital",
-    label: "Instagram",
-  },
-  {
-    icon: FacebookIcon,
-    href: "https://www.facebook.com/uworbital/",
-    label: "Facebook",
-  },
-  {
-    icon: LinkedinIcon,
-    href: "https://www.linkedin.com/company/uw-orbital/",
-    label: "LinkedIn",
-  },
+const links: { icon: string; href: string; label: string }[] = [
+  { icon: MailIcon, href: LINKS.EMAIL, label: "Email" },
+  { icon: DiscordIcon, href: LINKS.DISCORD, label: "Discord" },
+  { icon: InstagramIcon, href: LINKS.INSTAGRAM, label: "Instagram" },
+  { icon: FacebookIcon, href: LINKS.FACEBOOK, label: "Facebook" },
+  { icon: LinkedinIcon, href: LINKS.LINKEDIN, label: "LinkedIn" },
 ];
 
 export function Footer() {
@@ -42,17 +27,21 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4 sm:gap-3">
             {links.map((l) => (
               <a
                 key={l.label}
                 href={l.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 border border-white/10 flex items-center justify-center hover:bg-white/5 hover:text-white text-gray-400 transition-all"
+                className="w-11 h-11 sm:w-9 sm:h-9 border border-white/10 flex items-center justify-center hover:bg-white/5 hover:text-white text-gray-400 transition-all"
                 aria-label={l.label}
               >
-                <img src={l.icon} alt={l.label} className="w-4 h-4" />
+                <img
+                  src={l.icon}
+                  alt={l.label}
+                  className="w-5 h-5 sm:w-4 sm:h-4"
+                />
               </a>
             ))}
           </div>
