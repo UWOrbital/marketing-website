@@ -25,7 +25,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-8"
         >
-          <h2 className="text-base sm:text-lg text-white/80 font-heading">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl text-white/80 font-heading">
             Yes, we're going to space.
           </h2>
         </motion.div>

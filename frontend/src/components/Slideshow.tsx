@@ -51,7 +51,7 @@ export function Slideshow() {
   const s = slides[idx];
 
   return (
-    <section ref={el} className="relative h-[400vh]">
+    <section id="about" ref={el} className="relative h-[400vh]">
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         <div className="px-4 sm:px-8 max-w-6xl mx-auto w-full">
           <div className="inline-block p-6 sm:p-8 md:p-10 rounded-2xl bg-[#050510]/60 backdrop-blur-2xl border border-white/[0.08] max-w-2xl">
