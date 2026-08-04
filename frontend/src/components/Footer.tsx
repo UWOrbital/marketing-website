@@ -1,18 +1,18 @@
-import { LINKS } from "../config";
 import Logo from "../assets/Logo.avif";
 import MailIcon from "../assets/mail.avif";
 import DiscordIcon from "../assets/discord.avif";
 import InstagramIcon from "../assets/instagram.avif";
 import FacebookIcon from "../assets/facebook.avif";
 import LinkedinIcon from "../assets/linkedin.avif";
+import { footer } from "../content";
 
-const links: { icon: string; href: string; label: string }[] = [
-  { icon: MailIcon, href: LINKS.EMAIL, label: "Email" },
-  { icon: DiscordIcon, href: LINKS.DISCORD, label: "Discord" },
-  { icon: InstagramIcon, href: LINKS.INSTAGRAM, label: "Instagram" },
-  { icon: FacebookIcon, href: LINKS.FACEBOOK, label: "Facebook" },
-  { icon: LinkedinIcon, href: LINKS.LINKEDIN, label: "LinkedIn" },
-];
+const icons: Record<string, string> = {
+  Email: MailIcon,
+  Discord: DiscordIcon,
+  Instagram: InstagramIcon,
+  Facebook: FacebookIcon,
+  LinkedIn: LinkedinIcon,
+};
 
 export function Footer() {
   return (
@@ -22,13 +22,12 @@ export function Footer() {
           <div>
             <img src={Logo} alt="UW Orbital" className="h-10 w-auto mb-4" />
             <p className="text-gray-500 text-sm max-w-md leading-relaxed">
-              University of Waterloo Satellite Design Team. Designing, building,
-              and launching CubeSats.
+              {footer.description}
             </p>
           </div>
 
           <div className="flex items-center gap-4 sm:gap-3">
-            {links.map((l) => (
+            {footer.social.map((l) => (
               <a
                 key={l.label}
                 href={l.href}
@@ -38,7 +37,7 @@ export function Footer() {
                 aria-label={l.label}
               >
                 <img
-                  src={l.icon}
+                  src={icons[l.label]}
                   alt={l.label}
                   className="w-5 h-5 sm:w-4 sm:h-4"
                 />
@@ -47,7 +46,7 @@ export function Footer() {
           </div>
 
           <p className="text-gray-600 text-xs">
-            &copy; {new Date().getFullYear()} UW Orbital. All rights reserved.
+            &copy; {new Date().getFullYear()} {footer.copyright}
           </p>
         </div>
       </div>

@@ -1,7 +1,13 @@
+import { footer } from "./content";
+
+const byLabel = Object.fromEntries(
+  footer.social.map((s) => [s.label.toUpperCase(), s.href]),
+);
+
 export const LINKS = {
-  EMAIL: "mailto:uworbital@gmail.com",
-  DISCORD: "https://discord.gg/j32DZswg5b",
-  INSTAGRAM: "https://www.instagram.com/uworbital",
-  FACEBOOK: "https://www.facebook.com/uworbital/",
-  LINKEDIN: "https://www.linkedin.com/company/uw-orbital/",
+  EMAIL: byLabel.Email,
+  DISCORD: byLabel.Discord,
+  INSTAGRAM: byLabel.Instagram,
+  FACEBOOK: byLabel.Facebook,
+  LINKEDIN: byLabel.LinkedIn,
 } as const;

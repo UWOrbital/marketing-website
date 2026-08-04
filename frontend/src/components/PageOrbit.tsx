@@ -23,7 +23,7 @@ function AspectFix() {
   return null;
 }
 
-export function PageOrbit() {
+export function PageOrbit({ satellite = true }: { satellite?: boolean }) {
   const progress = useRef(0);
   const { scrollYProgress } = useScroll();
 
@@ -61,7 +61,7 @@ export function PageOrbit() {
           intensity={0.5}
           color="#60a5fa"
         />
-        <ScrollCube progressRef={progress} />
+        {satellite && <ScrollCube progressRef={progress} />}
         <Planets />
         <CubeStars />
       </Canvas>

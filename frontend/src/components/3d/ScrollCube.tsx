@@ -26,8 +26,18 @@ export function ScrollCube({
       (progressRef.current - smooth.current) * Math.min(1, delta * 4);
 
     const a = smooth.current * Math.PI * 2;
-    pos.current.position.x = Math.cos(a) * 2.0 * mult;
-    pos.current.position.z = -Math.sin(a) * 2.0 * mult;
+    const n = 6;
+    const cos_a = Math.cos(a);
+    const sin_a = Math.sin(a);
+    const denom = Math.pow(
+      Math.pow(Math.abs(cos_a), n) + Math.pow(Math.abs(sin_a), n),
+      1 / n,
+    );
+    const R = 1.5;
+    const rx = cos_a >= 0 ? R : R * 2;
+    pos.current.position.x = ((rx * cos_a) / denom) * mult + 0.5 * mult;
+    pos.current.position.y = ((R * sin_a) / denom) * mult;
+    pos.current.position.z = Math.cos(a) * 0.3 * mult;
     model.current.rotation.y = -a;
 
     const p = smooth.current;

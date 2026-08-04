@@ -2,6 +2,7 @@
 
 @theme {
   --font-heading: system-ui, sans-serif;
+  --font-figtree: "Figtree", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --color-orbital-blue: #3b82f6;
