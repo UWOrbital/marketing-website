@@ -365,6 +365,10 @@ p:last-child { margin-bottom: 0; }
 .split { margin-bottom: 64px; }
 .split:last-child { margin-bottom: 0; }
 .split--solo { grid-template-columns: 1fr; }
+/* Prose beside a short leads rail. Without this the rail takes half the row
+   and the paragraph is squeezed into a narrow column. */
+.split--rail { grid-template-columns: 1.7fr 1fr; }
+@media (max-width: 860px) { .split--rail { grid-template-columns: 1fr; } }
 .split--solo p { max-width: 80ch; }
 .split h3 { font-size: clamp(26px, 3.4vw, 40px); font-weight: 900; margin-bottom: 16px; }
 .split .figure img { max-height: 420px; }

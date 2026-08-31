@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
   site, heroImages, awards, mission, timeline, teams, teamLead, galleryImages,
-  events, features, join, sponsors, sponsorIntro, sponsorPackage, tiers,
+  join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
-import { ArrowLink, Award, Card, Hero, NewsCard, Section, Split, Stat } from './ui'
+import { ArrowLink, Award, Card, Hero, Section, Split, Stat } from './ui'
 
 // The 3 subteams the landing page shows. Software replaced GNC here.
 // The order follows `teams`, which already lists these 3 in this order.
@@ -32,26 +32,10 @@ export function Home() {
         <Link className="btn btn--ghost" to="/join">Join the Team</Link>
       </Hero>
 
-      <Section title="Featured News" action={<ArrowLink to="/features">All coverage</ArrowLink>}>
-        <div className="grid grid--4">
-          {features.map((f) => (
-            <NewsCard key={f.href} href={f.href} image={f.image} outlet={f.outlet} title={f.title} />
-          ))}
-        </div>
-      </Section>
-
       <Section wash title="Our Subteams" action={<ArrowLink to="/team">Meet the team</ArrowLink>}>
         <div className="grid grid--3">
           {teams.filter((t) => FEATURED_TEAMS.includes(t.slug)).map((t) => (
             <Card key={t.slug} to={`/team/${t.slug}`} image={t.image} meta="Subteam" title={t.name} />
-          ))}
-        </div>
-      </Section>
-
-      <Section title="Events & Milestones" action={<ArrowLink to="/events">All milestones</ArrowLink>}>
-        <div className="grid grid--2">
-          {events.items.slice(0, 2).map((e) => (
-            <Card key={e.title} size="lg" to="/events" image={e.image} meta="Milestone" title={e.title} />
           ))}
         </div>
       </Section>
@@ -163,17 +147,11 @@ export function TeamDetail() {
       <Hero image={t.image} eyebrow="Subteam" title={t.name} sub={t.summary} />
 
       <Section>
-        <div className="split split--top">
+        <div className="split split--top split--rail">
           <div>
-            <h3>What the team does</h3>
+            <h3>Mission</h3>
             <p>{t.body}</p>
             {t.body2 && <p>{t.body2}</p>}
-            {t.owns && (
-              <>
-                <h3 style={{ marginTop: 36, marginBottom: 14 }}>Subsystems</h3>
-                <ul className="owns">{t.owns.map((o) => <li key={o}>{o}</li>)}</ul>
-              </>
-            )}
             {t.stack && (
               <>
                 <h3 style={{ marginTop: 36, marginBottom: 14 }}>Tech stack</h3>
@@ -185,7 +163,7 @@ export function TeamDetail() {
             <p className="eyebrow" style={{ marginBottom: 12 }}>Leads</p>
             <ul className="leadlist">{t.leads.map((n) => <li key={n}>{n}</li>)}</ul>
             <div style={{ marginTop: 28 }}>
-              <Link className="btn btn--primary" to="/join">Join this team</Link>
+              <Link className="btn btn--primary" to="/join">Join us</Link>
             </div>
           </div>
         </div>
@@ -195,53 +173,6 @@ export function TeamDetail() {
         <div className="grid grid--3">
           {others.map((o) => (
             <Card key={o.slug} to={`/team/${o.slug}`} image={o.image} meta="Subteam" title={o.name} />
-          ))}
-        </div>
-      </Section>
-    </>
-  )
-}
-
-export function Events() {
-  return (
-    <>
-      <Hero image={heroImages.events} eyebrow="Progress" title="Events & Milestones" sub={events.intro} />
-      <Section>
-        <div className="grid grid--2">
-          {events.items.map((e) => (
-            <article className="box" key={e.title}>
-              <img src={e.image} alt="" loading="lazy" style={{ width: '100%', height: 260, objectFit: 'cover' }} />
-              <div style={{ padding: 28 }}>
-                <h3 style={{ fontSize: 24, marginBottom: 12 }}>{e.title}</h3>
-                <p style={{ color: 'var(--gray)' }}>{e.body}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </Section>
-      <Section wash>
-        <ArrowLink to="/gallery">See more photos of the team</ArrowLink>
-      </Section>
-    </>
-  )
-}
-
-export function Features() {
-  return (
-    <>
-      <Hero image={heroImages.features} eyebrow="News" title="Features" sub="UW Orbital in the press." />
-      <Section>
-        <div className="rows">
-          {features.map((f) => (
-            <a className="row" key={f.href} href={f.href} target="_blank" rel="noreferrer">
-              <img src={f.image} alt="" loading="lazy" />
-              <div>
-                <span className="eyebrow">{f.outlet}</span>
-                <div className="row__title" style={{ marginTop: 6 }}>{f.title}</div>
-                <p className="row__dek">{f.dek}</p>
-              </div>
-              <span className="row__go">→</span>
-            </a>
           ))}
         </div>
       </Section>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { nav, site } from './content'
-import { Events, Features, Gallery, Home, Join, Mission, NotFound, Sponsors, Team, TeamDetail } from './pages'
+import { Gallery, Home, Join, Mission, NotFound, Sponsors, Team, TeamDetail } from './pages'
 
 function Header() {
   const [open, setOpen] = useState(false)
@@ -94,9 +94,7 @@ export default function App() {
           <Route path="/team/:slug" element={<TeamDetail />} />
           {/* the old Wix Subsystems page is merged into Team */}
           <Route path="/subsystems" element={<Navigate to="/team" replace />} />
-          <Route path="/events" element={<Events />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/features" element={<Features />} />
           <Route path="/sponsors" element={<Sponsors />} />
           <Route path="/join" element={<Join />} />
           <Route path="*" element={<NotFound />} />

@@ -22,9 +22,7 @@ export const site = {
 export const nav = [
   { label: 'Mission', to: '/mission' },
   { label: 'Team', to: '/team' },
-  { label: 'Events', to: '/events' },
   { label: 'Gallery', to: '/gallery' },
-  { label: 'Features', to: '/features' },
   { label: 'Sponsors', to: '/sponsors' },
 ]
 
@@ -135,6 +133,7 @@ export type Team = {
   summary: string
   body: string
   body2?: string
+  /** Kept from the live site. The subteam page no longer renders it. */
   owns?: string[]
   stack?: string[]
 }
@@ -241,7 +240,9 @@ export const galleryImages = [
 // Newest first. The landing page shows the first 2.
 // TODO: the 2022 items at the bottom are 4 years old. Business team to say
 // which ones stay and to send photos for anything from 2023 onward.
-export const events = {
+// Parked. Same as blogParked: restore the route, the nav entry, and the
+// Home section to bring it back. The copy and the images are still here.
+export const eventsParked = {
   intro: 'Here are a few recent events and milestones that Orbital has met!',
   items: [
     {
@@ -283,7 +284,8 @@ export const events = {
   ],
 }
 
-export const features = [
+// Parked. See eventsParked.
+export const featuresParked = [
   {
     outlet: 'CBC News',
     title: 'University of Waterloo Orbital Team aims for space with student-built satellite',
