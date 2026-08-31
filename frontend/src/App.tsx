@@ -30,7 +30,7 @@ function Header() {
               {n.label}
             </NavLink>
           ))}
-          <Link className="btn btn--primary btn--sm header__cta" to="/join">Join Us</Link>
+          <Link className="btn btn--ghost btn--sm header__cta" to="/join">Join Us</Link>
         </nav>
       </div>
     </header>
