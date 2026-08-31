@@ -1,68 +1,705 @@
+/* ---------- tokens ---------- */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Palette taken from the UW Orbital logo.
+     Three brand colours, sampled from the logo file:
+       red  #ff2000  the swirl. Artwork only. It is not a UI accent, because
+                     the red-on-black look reads as nasa.gov.
+       blue #4494c6  the wordmark and the satellite
+       grey #999999  the tagline
+     --accent is the brand blue darkened to #2f7aa8. White text on #4494c6
+     is 3.3:1 and fails WCAG AA. #2f7aa8 is 4.7:1 and passes. */
+  --blue: #4494c6;
+  --accent: #2f7aa8;
+  --accent-dark: #23516f;
+  --grey: #999999;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --black: #0b0b0b;
+  --ink: #1b1b1b;
+  --gray: #5f5f5f;
+  --line: #d9d9d9;
+  --paper: #ffffff;
+  --wash: #f2f2f2;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --sans: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --pad: 24px;
+  --max: 1440px;
+  --header-h: 72px;
+
+  /* One easing curve and one duration for every hover. */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.18s;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.06;
+  color: var(--black);
+}
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--black); color: #fff; padding: 12px 20px;
+}
+.skip:focus { left: 0; }
+
+/* ---------- layout ---------- */
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+
+.section { padding: 72px 0; }
+.section--tight { padding: 48px 0; }
+.section--dark { background: var(--black); color: #fff; }
+.section--dark h1, .section--dark h2, .section--dark h3, .section--dark h4 { color: #fff; }
+.section--wash { background: var(--wash); }
+
+.section-head {
   display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.section-head h2 { font-size: clamp(34px, 5vw, 56px); font-weight: 900; }
+.section--center .section-head { justify-content: center; text-align: center; }
+
+.lede { font-size: 20px; max-width: 68ch; color: var(--gray); }
+.section--dark .lede { color: #bdbdbd; }
+
+/* ---------- eyebrow / meta ---------- */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+.section--dark .eyebrow, .card .eyebrow { color: #d6d6d6; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.tag::before {
+  content: '';
+  width: 12px; height: 12px;
+  border: 1.5px solid currentColor;
+}
+
+/* ---------- links & buttons ---------- */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 17px;
+  text-decoration: none;
+  color: var(--black);
+}
+.section--dark .arrow-link { color: #fff; }
+.arrow-link::after {
+  content: '→';
+  display: grid;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  width: 24px; height: 24px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* One button family. Every variant keeps the same box, so two buttons that sit
+   next to each other line up: same padding, same 2px border, same text size.
+   Only the fill and the border colour change. */
+.btn {
+  display: inline-block;
+  padding: 12px 26px;
+  border: 2px solid transparent;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  text-decoration: none;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
+.btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn--primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
+.btn--ghost { border-color: currentColor; color: inherit; }
+.btn--ghost:hover { background: #fff; color: var(--black); border-color: #fff; }
+/* The header bar is 72px tall. The full-size button does not fit in it. */
+.btn--sm { padding: 8px 18px; font-size: 15px; }
+
+/* ---------- header ---------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--black);
+  color: #fff;
+  border-bottom: 1px solid #262626;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.header__bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: var(--header-h);
+}
+.header__logo { display: flex; align-items: center; text-decoration: none; }
+.header__logo img { height: 40px; width: auto; }
+@media (max-width: 420px) { .header__logo img { height: 30px; } }
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.header__nav a {
+  padding: 8px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #e6e6e6;
+}
+.header__nav a:hover { color: #fff; background: #1e1e1e; }
+.header__nav a.is-active { color: #fff; box-shadow: inset 0 -3px 0 var(--accent); }
+.header__cta { margin-left: 8px; }
+
+.header__toggle {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 8px 12px;
+  font: 600 14px var(--sans);
+  cursor: pointer;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@media (max-width: 1080px) {
+  .header__toggle { display: block; }
+  .header__nav {
+    display: none;
+    position: absolute;
+    left: 0; right: 0; top: var(--header-h);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--black);
+    border-bottom: 1px solid #262626;
+    padding: 8px var(--pad) 20px;
   }
-  a:hover {
-    color: #747bff;
+  .header__nav.is-open { display: flex; }
+  .header__nav a { padding: 14px 0; border-bottom: 1px solid #1e1e1e; }
+  .header__cta { margin: 16px 0 0; text-align: center; }
+}
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 380px;
+  background: var(--black);
+  color: #fff;
+  overflow: hidden;
+}
+.hero--tall { min-height: min(62vh, 560px); }
+.hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.62;
+}
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.82) 100%);
+}
+.hero__body {
+  position: relative;
+  width: 100%;
+  padding: 48px 0;
+}
+.hero h1 {
+  color: #fff;
+  font-size: clamp(34px, 5.2vw, 62px);
+  font-weight: 800;
+  max-width: 20ch;
+}
+.hero__sub {
+  margin-top: 18px;
+  font-size: clamp(16px, 1.6vw, 19px);
+  color: #d8d8d8;
+  max-width: 58ch;
+}
+.hero__actions { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* The metrics used to sit in a black band under the hero. They now sit inside
+   it, so the earth photo runs behind them instead of stopping above them. */
+.hero__stats {
+  margin-top: 44px;
+  padding-top: 26px;
+  border-top: 1px solid rgb(255 255 255 / 0.22);
+}
+.hero .stat { border-top: 0; padding-top: 0; }
+.hero .stat__n { color: #fff; font-size: clamp(34px, 4.4vw, 52px); }
+.hero .stat__l { color: #cfcfcf; }
+@media (max-width: 700px) { .hero__stats { margin-top: 32px; } }
+
+/* ---------- cards ---------- */
+.grid { display: grid; gap: 20px; }
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1000px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
+
+/* Featured news. The old block was a 2fr/1fr/1fr mosaic of photos with the
+   headline reversed out over a dark scrim. That is the nasa.gov house style,
+   so it went. These cards put the photo above the text on a white card, which
+   is a plain editorial row and reads as ours. */
+.newscard {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+.newscard img { width: 100%; height: 170px; object-fit: cover; }
+.newscard__body { display: flex; flex-direction: column; gap: 8px; padding: 20px; }
+.newscard__title { font-size: 18px; font-weight: 800; line-height: 1.25; color: var(--black); }
+.newscard:hover .newscard__title { color: var(--accent); }
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  padding: 18px;
+  overflow: hidden;
+  background: var(--black);
+  color: #fff;
+  text-decoration: none;
+  isolation: isolate;
+}
+.card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  transition: transform 0.4s ease;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.12) 38%, rgba(0,0,0,0.55) 68%, rgba(0,0,0,0.92) 100%);
+}
+.card:hover .card__img { transform: scale(1.04); }
+.card__foot { display: flex; flex-direction: column; gap: 6px; }
+.card__title {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+.card--lg .card__title { font-size: clamp(24px, 2.6vw, 34px); }
+.card--sm .card__title { font-size: 17px; line-height: 1.2; }
+
+/* ---------- prose blocks ---------- */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.split--flip > :first-child { order: 2; }
+/* Centring is right for text beside a picture. It is wrong for two text
+   columns of different heights, because the short one floats to the middle. */
+.split--top { align-items: start; }
+@media (max-width: 860px) {
+  .split { grid-template-columns: 1fr; gap: 28px; }
+  .split--flip > :first-child { order: 0; }
+}
+.split { margin-bottom: 64px; }
+.split:last-child { margin-bottom: 0; }
+.split--solo { grid-template-columns: 1fr; }
+.split--solo p { max-width: 80ch; }
+.split h3 { font-size: clamp(26px, 3.4vw, 40px); font-weight: 900; margin-bottom: 16px; }
+.split .figure img { max-height: 420px; }
+.split p { font-size: 17px; color: var(--ink); }
+
+.figure { margin: 0; }
+.figure img { width: 100%; object-fit: cover; }
+.figure figcaption { margin-top: 10px; font-family: var(--mono); font-size: 12px; color: var(--gray); }
+
+/* ---------- stats ---------- */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 700px) { .stats { grid-template-columns: 1fr; } }
+.stat { border-top: 3px solid var(--accent); padding-top: 16px; }
+.stat__n { font-size: clamp(40px, 6vw, 64px); font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.stat__l { margin-top: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); }
+.section--dark .stat__l { color: #b0b0b0; }
+
+/* ---------- box: the one card style, used everywhere ---------- */
+.box {
+  border: 1px solid var(--line);
+  background: #fff;
+}
+a.box:hover { border-color: var(--black); }
+
+/* ---------- team ---------- */
+.teamgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 1000px) { .teamgrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .teamgrid { grid-template-columns: 1fr; } }
+.teamcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  padding: 26px;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+}
+.teamcard:hover { border-color: var(--black); }
+.teamcard:hover h3 { color: var(--accent); }
+.teamcard__icon {
+  position: relative;
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 18px;
+}
+.teamcard__icon img {
+  position: absolute;
+  inset: 0;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+/* The accent icon sits on top of the black one and fades in. The black one
+   never fades out. It used to, with no transition, so it vanished in one frame
+   while the icon above it was still 15% opaque, and the white card flashed
+   through the gap. Leaving the base in place means there is nothing to see
+   through. Both discs are the same shape, so the base is fully covered.
+   ponytail: hue-rotate recolours the red artwork to blue. Drop the filter and
+   rename the files when there is a real blue icon set. */
+.teamcard__icon-hover {
+  opacity: 0;
+  filter: hue-rotate(195deg) saturate(0.75);
+  transition: opacity 0.15s ease;
+}
+.teamcard:hover .teamcard__icon-hover { opacity: 1; }
+.teamcard h3 { font-size: 21px; font-weight: 800; margin-bottom: 10px; }
+.teamcard__summary { font-size: 15px; color: var(--gray); margin-bottom: 18px; }
+.teamcard ul { margin: 0 0 18px; padding: 0; list-style: none; }
+.teamcard li { font-size: 15px; color: var(--ink); padding: 2px 0; }
+.teamcard__more {
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--black);
+}
+.teamcard:hover .teamcard__more { color: var(--accent); }
+
+.leadlist, .owns { margin: 0; padding: 0; list-style: none; }
+.leadlist li {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.owns li {
+  font-size: 16px;
+  padding: 8px 0 8px 16px;
+  border-left: 3px solid var(--black);
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+/* ---------- sponsors ---------- */
+.tier { margin-bottom: 56px; }
+.tier__head {
+  display: flex; align-items: center; gap: 16px;
+  border-bottom: 2px solid var(--black);
+  padding-bottom: 10px;
+  margin-bottom: 28px;
+}
+.tier__head h3 { font-size: 26px; font-weight: 900; }
+.tier__count { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; color: var(--gray); margin-left: auto; }
+
+.sponsorgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 900px) { .sponsorgrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .sponsorgrid { grid-template-columns: 1fr; } }
+.sponsor {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 24px;
+  text-decoration: none;
+}
+.sponsor:hover { border-color: var(--black); }
+.sponsor__logo {
+  height: 56px;
+  display: grid; place-items: center;
+  margin-bottom: 18px;
+}
+.sponsor__logo img { max-height: 56px; width: auto; object-fit: contain; }
+.sponsor h4 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+.sponsor__since { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray); margin-bottom: 12px; }
+.sponsor p { font-size: 14px; color: var(--gray); line-height: 1.5; }
+
+/* ---------- list rows (blog, press) ---------- */
+.rows { border-top: 1px solid var(--line); }
+.row {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 28px;
+  align-items: center;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+.row:hover .row__title { color: var(--accent); }
+.row img { width: 200px; height: 120px; object-fit: cover; }
+.row__title { font-size: clamp(20px, 2.2vw, 28px); font-weight: 800; line-height: 1.2; color: var(--black); }
+.row__dek { margin-top: 8px; color: var(--gray); font-size: 16px; }
+.row__go { font-size: 22px; color: var(--accent); }
+@media (max-width: 760px) {
+  .row { grid-template-columns: 1fr; gap: 14px; }
+  .row img { width: 100%; height: 180px; }
+  .row__go { display: none; }
+}
+
+/* ---------- steps ---------- */
+.steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 700px) { .steps { grid-template-columns: 1fr; } }
+.step {
+  display: block;
+  border: 1px solid var(--line);
+  padding: 28px;
+  text-decoration: none;
+  background: #fff;
+}
+.step:hover { border-color: var(--black); }
+.step__n {
+  font-family: var(--mono);
+  font-size: 12px; letter-spacing: 0.2em;
+  color: var(--black);
+}
+.step h3 { margin-top: 10px; font-size: 24px; font-weight: 800; }
+
+/* ---------- gallery ---------- */
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+.gallery img { width: 100%; height: 200px; object-fit: cover; }
+.gallery__lead { width: 100%; max-height: 520px; object-fit: cover; }
+
+/* Each photo is a button, not a bare image, so the keyboard reaches it and
+   Enter opens it. */
+.gallery__item {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.gallery__item img { transition: opacity var(--dur) var(--ease); }
+.gallery__item:hover img { opacity: 0.82; }
+
+/* ponytail: native <dialog>. Esc, the backdrop, and the focus trap are free. */
+.lightbox {
+  max-width: 92vw;
+  max-height: 92vh;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-out;
+  overflow: hidden;
+}
+.lightbox::backdrop { background: rgb(0 0 0 / 0.86); }
+.lightbox img { max-width: 92vw; max-height: 92vh; width: auto; height: auto; object-fit: contain; }
+
+/* ---------- footer ---------- */
+.footer { background: var(--black); color: #c9c9c9; padding: 56px 0 32px; }
+.footer a { color: #c9c9c9; text-decoration: none; }
+.footer a:hover { color: #fff; }
+.footer__top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+@media (max-width: 800px) { .footer__top { grid-template-columns: 1fr; gap: 28px; } }
+.footer h4 { color: #fff; font-size: 13px; font-family: var(--mono); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 14px; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer li { padding: 5px 0; font-size: 15px; }
+.footer__logo { height: 52px; width: auto; }
+.footer__bottom {
+  margin-top: 40px; padding-top: 20px;
+  border-top: 1px solid #262626;
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: #8a8a8a;
+}
+
+/* ---------- award badge ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border-left: 3px solid var(--accent);
+  background: rgba(0, 0, 0, 0.45);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* ---------- timeline ---------- */
+.timeline { border-top: 1px solid var(--line); }
+.timeline--center { max-width: 900px; margin-inline: auto; }
+.tl {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 32px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+@media (max-width: 700px) { .tl { grid-template-columns: 1fr; gap: 10px; } }
+.tl__date {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--black);
+  padding-top: 6px;
+}
+.tl h3 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+.tl p { color: var(--gray); max-width: 70ch; }
+
+/* ---------- competition award badge ---------- */
+.awards {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.award {
+  position: relative;
+  margin: 0;
+  width: 250px;
+  aspect-ratio: 1;
+  flex: none;
+}
+.award__wreath { position: absolute; inset: 0; width: 100%; height: 100%; }
+.award__text {
+  position: absolute;
+  inset: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-align: center;
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  color: #fff;
+  line-height: 1.02;
+}
+.award__comp { font-size: 29px; letter-spacing: 0.04em; white-space: nowrap; }
+.award__result { font-size: 24px; letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap; }
+.award__year { font-size: 17px; letter-spacing: 0.08em; margin-top: 5px; }
+.section--dark .award__text { color: #fff; }
+@media (max-width: 560px) {
+  .awards { gap: 24px; }
+  .award { width: 190px; }
+  .award__comp { font-size: 22px; }
+  .award__result { font-size: 18px; }
+  .award__year { font-size: 13px; }
+}
+
+/* ---------- hover motion ----------
+   The hover states above were instant. This block only adds the transition
+   to them, plus a small lift on buttons. No new hover state is invented here.
+   ponytail: one block, not a transition line on every rule. */
+
+.btn {
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.22);
+}
+/* Press returns the button to the rest position faster than it rose. */
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+  transition-duration: 0.06s;
+}
+
+.header__nav a { transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease); }
+.arrow-link::after { transition: transform var(--dur) var(--ease); }
+.arrow-link:hover::after { transform: translateX(4px); }
+
+a.box, .teamcard, .sponsor, .step { transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+a.box:hover, .teamcard:hover, .sponsor:hover, .step:hover { box-shadow: 0 4px 14px rgb(0 0 0 / 0.07); }
+
+.teamcard h3, .teamcard__more, .row__title, .newscard__title { transition: color var(--dur) var(--ease); }
+.row__go { transition: transform var(--dur) var(--ease); }
+.row:hover .row__go { transform: translateX(4px); }
+
+
+/* Respect the system setting. Hover still changes colour, it just does not move. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  button {
-    background-color: #f9f9f9;
-  }
+  .btn:hover { transform: none; }
 }
