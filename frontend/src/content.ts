@@ -55,23 +55,20 @@ export const mission = {
       body: 'The Canadian Satellite Design Challenge asks university teams to design, build, and qualify a 3U CubeSat over two years. Every entry goes through the same design reviews and the same environmental test campaign that a commercial satellite goes through. UW Orbital entered CSDC-6 and CSDC-7, and won both.',
       body2: 'CSDC-7 is finished. The team now competes for CUBICS, the CubeSats Initiative in Canada for STEM. The Canadian Space Agency runs it and pays for development and launch. UW Orbital applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
       images: [
-        { src: img('c9cb7d_5e0676298b6442b8b41f560c42dc5742~mv2.png'), alt: 'CubeSat render' },
+        { src: '/cad-exploded.png', alt: 'Exploded view of the V6 CubeSat CAD model' },
       ],
     },
     {
       heading: 'CubeSats',
       body: 'CubeSats are low-cost, small-footprint alternatives to traditional multi-million dollar satellites which carry specialized science, communications, or biological payloads. The affordability of CubeSat allows for more simplified designs and rapid development timelines, providing a path for student organizations to get involved in the space industry. CubeSats often "piggyback" with larger satellites during launch, and once in the correct orbit, are released via springloaded "dispensers".',
-      // This section used to have no image, so it rendered full width. The
-      // exploded view moved here from Competition, which had 2 images and
-      // showed only the first.
-      images: [{ src: img('c9cb7d_5f0917c4200449b7a03e013909a4953a~mv2.png'), alt: 'Exploded view of the CubeSat' }],
+      images: [{ src: '/cad-front.png', alt: 'Front view of the V6 CubeSat CAD model' }],
     },
     {
       heading: 'Payloads',
       body: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit. Amateur Radio Operators (AROs, also known as ham radio operators) contact the CubeSat, ask for a set of coordinates, and receive the picture on the downlink. This puts amateur radio education first.',
       body2: 'The team is also working with a company named QEYnet to launch a prototype for an infrared laser beacon that the company is developing in pursuit of a novel approach to post-quantum computing key distribution methods.',
       link: { label: 'Learn more about QEYnet', href: 'https://www.qeynet.com/' },
-      images: [{ src: img('6a67b4_be2190950af741dcbea99b1e9f1bbf8d~mv2.jpg'), alt: 'Concept of operations diagram' }],
+      images: [{ src: '/cad-back.png', alt: 'Back view of the V6 CubeSat CAD model' }],
     },
   ],
   timeline: { src: img('6a67b4_34779a5f43cd4a4c97977fb516357365~mv2.jpg'), alt: 'CubeSat project timeline' },
