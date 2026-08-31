@@ -1,35 +1,108 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import { nav, site } from './content'
+import { Events, Features, Gallery, Home, Join, Mission, NotFound, Sponsors, Team, TeamDetail } from './pages'
 
-function App() {
-  const [count, setCount] = useState(0)
+function Header() {
+  const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
+  useEffect(() => setOpen(false), [pathname])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <header className="header">
+      <div className="wrap header__bar">
+        <Link className="header__logo" to="/">
+          <img src="/logo-light.png" alt={site.name} />
+        </Link>
+
+        <button
+          className="header__toggle"
+          aria-expanded={open}
+          aria-controls="primary-nav"
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? 'Close' : 'Menu'}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+        <nav id="primary-nav" className={open ? 'header__nav is-open' : 'header__nav'}>
+          {nav.map((n) => (
+            <NavLink key={n.to} to={n.to} className={({ isActive }) => (isActive ? 'is-active' : undefined)}>
+              {n.label}
+            </NavLink>
+          ))}
+          <Link className="btn btn--primary btn--sm header__cta" to="/join">Join Us</Link>
+        </nav>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </header>
   )
 }
 
-export default App
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="wrap">
+        <div className="footer__top">
+          <div>
+            <img className="footer__logo" src="/logo-light.png" alt={site.name} />
+            <p style={{ maxWidth: '34ch', marginTop: 16 }}>{site.tagline}</p>
+            <a className="btn btn--primary" style={{ marginTop: 18 }} href={`mailto:${site.email}`}>{site.email}</a>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <ul>
+              {nav.map((n) => <li key={n.to}><Link to={n.to}>{n.label}</Link></li>)}
+              <li><Link to="/join">Join Us</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Follow</h4>
+            <ul>
+              {site.social.map((s) => (
+                <li key={s.label}>
+                  <a href={s.href} target="_blank" rel="noreferrer">{s.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="footer__bottom">
+          <span>University of Waterloo Satellite Design Team</span>
+          <span />
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <a className="skip" href="#main">Skip to main content</a>
+      <Header />
+      <main id="main">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/mission" element={<Mission />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/team/:slug" element={<TeamDetail />} />
+          {/* the old Wix Subsystems page is merged into Team */}
+          <Route path="/subsystems" element={<Navigate to="/team" replace />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/sponsors" element={<Sponsors />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <Footer />
+    </BrowserRouter>
+  )
+}
