@@ -53,11 +53,8 @@ export const mission = {
   sections: [
     {
       heading: 'Competition',
-      // PLACEHOLDER COPY. The Latin lorem ipsum is gone, but this is still not
-      // final text. CSDC-7 is over and the team has not decided what comes
-      // next. Business team to replace both paragraphs before launch.
       body: 'The Canadian Satellite Design Challenge asks university teams to design, build, and qualify a 3U CubeSat over two years. Every entry goes through the same design reviews and the same environmental test campaign that a commercial satellite goes through. UW Orbital entered CSDC-6 and CSDC-7, and won both.',
-      body2: 'Winning CSDC-7 in 2026 pays for the launch. The team is now working through launch integration and deciding which competition to enter next.',
+      body2: 'CSDC-7 is finished. The team now competes for CUBICS, the CubeSats Initiative in Canada for STEM. The Canadian Space Agency runs it and pays for development and launch. UW Orbital applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
       images: [
         { src: img('c9cb7d_5e0676298b6442b8b41f560c42dc5742~mv2.png'), alt: 'CubeSat render' },
       ],
@@ -72,7 +69,7 @@ export const mission = {
     },
     {
       heading: 'Payloads',
-      body: 'Our primary payload is a "Selfie-Sat" camera that provides Amateur Radio Operators (AROs, also known as ham radio operators) to communicate with the CubeSat and retrieve a picture of a given set of coordinates, all in pursuit of furthering amateur radio education.',
+      body: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit. Amateur Radio Operators (AROs, also known as ham radio operators) contact the CubeSat, ask for a set of coordinates, and receive the picture on the downlink. This puts amateur radio education first.',
       body2: 'The team is also working with a company named QEYnet to launch a prototype for an infrared laser beacon that the company is developing in pursuit of a novel approach to post-quantum computing key distribution methods.',
       link: { label: 'Learn more about QEYnet', href: 'https://www.qeynet.com/' },
       images: [{ src: img('6a67b4_be2190950af741dcbea99b1e9f1bbf8d~mv2.jpg'), alt: 'Concept of operations diagram' }],
@@ -112,13 +109,19 @@ export const timeline = [
   {
     date: 'Jun 2026',
     title: 'CSDC-7 Won',
-    body: 'UW Orbital placed first at CSDC-7. First place pays for the launch.',
+    body: 'UW Orbital placed first at CSDC-7, after winning CSDC-6 in 2023.',
   },
   {
-    // PLACEHOLDER COPY. The launch date and the provider are not set.
+    date: 'Nov 2026',
+    title: 'CUBICS Proposal',
+    body: 'A University of Waterloo faculty member is the applicant. The team writes the Stream 2 proposal and adapts the CSDC-7 satellite to the CUBICS mission. The deadline is November 19, 2026.',
+  },
+  {
+    // The CSA procures the launch 3 to 4 years after the project starts. The
+    // date is not set until the grant is awarded.
     date: 'Next',
-    title: 'Launch Integration',
-    body: 'The team is working with the launch provider on the integration and licensing paperwork. The launch date is TBD.',
+    title: 'Launch',
+    body: 'CUBICS puts the CubeSat in a 500 to 620 km orbit, 3 to 4 years after the project starts. The launch date is TBD.',
   },
 ]
 
@@ -244,7 +247,7 @@ export const events = {
     {
       // PLACEHOLDER COPY. The result is real. The wording is not final.
       title: 'First place at CSDC-7',
-      body: 'UW Orbital won the seventh Canadian Satellite Design Challenge in June 2026, after winning CSDC-6 in 2023. First place covers the cost of the launch, so the satellite the team built is going up.',
+      body: 'UW Orbital won the seventh Canadian Satellite Design Challenge in June 2026, after winning CSDC-6 in 2023. The satellite passed vibration and thermal vacuum testing, and it is the baseline for the CUBICS proposal.',
       image: img('6a67b4_7fd679032b804f84a60ed71b590d0fb0~mv2.jpg'),
     },
     {

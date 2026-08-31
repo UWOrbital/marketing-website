@@ -59,11 +59,11 @@ export function Home() {
       <Section dark>
         <div className="split">
           <div>
-            <p className="eyebrow" style={{ marginBottom: 16 }}>Canadian Satellite Design Challenge</p>
-            <h2 style={{ fontSize: 'clamp(30px, 4vw, 48px)' }}>Winners of CSDC-7.</h2>
+            <p className="eyebrow" style={{ marginBottom: 16 }}>Next: CUBICS 2026</p>
+            <h2 style={{ fontSize: 'clamp(30px, 4vw, 48px)' }}>Winners of CSDC-7. Now we fly it.</h2>
             <p className="lede" style={{ marginTop: 20 }}>
-              A dozen universities from across Canada enter every two years. UW Orbital won CSDC-6 in
-              2023 and won CSDC-7 in 2026.
+              UW Orbital won CSDC-6 in 2023 and CSDC-7 in 2026. The team now competes for CUBICS,
+              the Canadian Space Agency program that funds development and buys the launch.
             </p>
             <div style={{ marginTop: 28 }}><ArrowLink to="/mission">Read our mission</ArrowLink></div>
           </div>
