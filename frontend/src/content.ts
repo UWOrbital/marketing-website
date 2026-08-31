@@ -46,7 +46,8 @@ export const awards = [
 ]
 
 export const mission = {
-  title: 'Our Mission',
+  title: 'Mission',
+  // Nothing renders this now. The Mission hero is the title only.
   statement: "Our mission is to build a 3U CubeSat and launch it, making it the University of Waterloo's first satellite launched by students.",
   sections: [
     {

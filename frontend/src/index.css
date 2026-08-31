@@ -233,7 +233,7 @@ p:last-child { margin-bottom: 0; }
 .hero {
   position: relative;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   min-height: 380px;
   background: var(--black);
   color: #fff;

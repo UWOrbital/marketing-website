@@ -16,7 +16,6 @@ export function Home() {
       <Hero
         tall
         image={heroImages.home}
-        eyebrow={site.tagline}
         title={site.headline}
         sub="We are building a 3U CubeSat and launching it, to make it the University of Waterloo's first satellite launched by students."
         badge={site.award}
@@ -64,7 +63,7 @@ export function Home() {
 export function Mission() {
   return (
     <>
-      <Hero image={heroImages.mission} eyebrow="About" title={mission.title} sub={mission.statement} />
+      <Hero image={heroImages.mission} title={mission.title} />
       <Section>
         {mission.sections.map((s, i) => (
           <Split key={s.heading} heading={s.heading} image={s.images[0]?.src} alt={s.images[0]?.alt} flip={i % 2 === 1}>
@@ -103,9 +102,7 @@ export function Team() {
     <>
       <Hero
         image={heroImages.team}
-        eyebrow="About"
-        title="Our Team"
-        sub="6 subteams build the satellite, fund the project, and fly it. Pick one to see what it does."
+        title="Team"
       />
 
       <Section tight>
@@ -144,7 +141,7 @@ export function TeamDetail() {
   const others = teams.filter((x) => x.slug !== t.slug)
   return (
     <>
-      <Hero image={t.image} eyebrow="Subteam" title={t.name} sub={t.summary} />
+      <Hero image={t.image} title={t.name} sub={t.summary} />
 
       <Section>
         <div className="split split--top split--rail">
@@ -183,7 +180,7 @@ export function TeamDetail() {
 export function Sponsors() {
   return (
     <>
-      <Hero image={heroImages.sponsors} eyebrow="Support us" title="Sponsors" />
+      <Hero image={heroImages.sponsors} title="Sponsors" />
       <Section>
         <div className="split" style={{ marginBottom: 0 }}>
           <div>
@@ -234,7 +231,7 @@ export function Sponsors() {
 export function Join() {
   return (
     <>
-      <Hero image={heroImages.join} eyebrow="Join us" title="Build hardware that leaves the planet." sub={join.why} />
+      <Hero image={heroImages.join} title="Build hardware that leaves the planet." sub={join.why} />
       <Section title="How to join">
         <div className="steps">
           {join.steps.map((s) => (
@@ -289,12 +286,7 @@ export function Gallery() {
   const [open, setOpen] = useState<string | null>(null)
   return (
     <>
-      <Hero
-        image={heroImages.team}
-        eyebrow="Team assets"
-        title="The team in action"
-        sub="Photos from the lab, the machine shop, testing trips, and competition. Click a photo to see it full size."
-      />
+      <Hero image={heroImages.team} title="Gallery" />
       <Section>
         <button className="gallery__item" style={{ marginBottom: 20 }} onClick={() => setOpen(lead)}>
           <img src={lead} alt="The UW Orbital team outside the Waterloo sign" className="gallery__lead" />

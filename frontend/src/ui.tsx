@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-export function Hero({ image, eyebrow, title, sub, tall, badge, stats, children }: {
+export function Hero({ image, title, sub, tall, badge, stats, children }: {
   image: string
-  eyebrow?: string
   title: string
   sub?: string
   tall?: boolean
@@ -23,7 +22,6 @@ export function Hero({ image, eyebrow, title, sub, tall, badge, stats, children 
               <span className="badge">{badge}</span>
             </p>
           )}
-          {eyebrow && <p className="eyebrow" style={{ marginBottom: 16 }}>{eyebrow}</p>}
           <h1>{title}</h1>
           {sub && <p className="hero__sub">{sub}</p>}
           {children && <div className="hero__actions">{children}</div>}
