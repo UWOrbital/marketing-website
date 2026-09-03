@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
-  site, heroImages, awards, mission, timeline, teams, teamLead, galleryImages,
+  site, heroImages, awards, mission, timeline, projects, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
 import { ArrowLink, Award, Card, Hero, Section, Split, Stat } from './ui'
@@ -63,13 +63,12 @@ export function Home() {
 export function Mission() {
   return (
     <>
-      <Hero image={heroImages.mission} title={mission.title} />
+      <Hero image={heroImages.mission} title={mission.title} sub={mission.statement} />
       <Section>
         {mission.sections.map((s, i) => (
           <Split key={s.heading} heading={s.heading} image={s.images[0]?.src} alt={s.images[0]?.alt} flip={i % 2 === 1}>
             {s.body && <p>{s.body}</p>}
             {s.body2 && <p>{s.body2}</p>}
-            {s.link && <ArrowLink href={s.link.href}>{s.link.label}</ArrowLink>}
           </Split>
         ))}
       </Section>
@@ -78,6 +77,17 @@ export function Mission() {
             that used to be here is what pushed them left. */}
         <div className="awards">
           {awards.map((a) => <Award key={a.competition} {...a} />)}
+        </div>
+      </Section>
+      <Section title="Projects" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
+        <div className="grid grid--2">
+          {projects.map((p) => (
+            <div className="box" style={{ padding: 26 }} key={p.name}>
+              <p className="eyebrow" style={{ marginBottom: 8 }}>{p.status}</p>
+              <h3>{p.name}</h3>
+              <p style={{ marginTop: 12 }}>{p.body}</p>
+            </div>
+          ))}
         </div>
       </Section>
       <Section wash center title="Project Timeline">
@@ -123,7 +133,7 @@ export function Team() {
               <h3>{t.name}</h3>
               <p className="teamcard__summary">{t.summary}</p>
               <p className="eyebrow" style={{ marginBottom: 6 }}>Leads</p>
-              <ul>{t.leads.map((n) => <li key={n}>{n}</li>)}</ul>
+              <ul>{t.leads.map((l) => <li key={l.name}>{l.name}</li>)}</ul>
               <span className="teamcard__more">Read more →</span>
             </Link>
           ))}
@@ -158,7 +168,15 @@ export function TeamDetail() {
           </div>
           <div>
             <p className="eyebrow" style={{ marginBottom: 12 }}>Leads</p>
-            <ul className="leadlist">{t.leads.map((n) => <li key={n}>{n}</li>)}</ul>
+            <ul className="leadlist">
+              {t.leads.map((l) => (
+                <li key={l.name}>
+                  {l.linkedin
+                    ? <a href={l.linkedin} target="_blank" rel="noreferrer">{l.name}</a>
+                    : l.name}
+                </li>
+              ))}
+            </ul>
             <div style={{ marginTop: 28 }}>
               <Link className="btn btn--primary" to="/join">Join us</Link>
             </div>

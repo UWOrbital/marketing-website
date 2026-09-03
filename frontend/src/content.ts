@@ -47,8 +47,8 @@ export const awards = [
 
 export const mission = {
   title: 'Mission',
-  // Nothing renders this now. The Mission hero is the title only.
-  statement: "Our mission is to build a 3U CubeSat and launch it, making it the University of Waterloo's first satellite launched by students.",
+  // The Mission hero sub. One sentence for the goal, one for how it gets paid for.
+  statement: "Our goal is to launch a 3U CubeSat and make it the first University of Waterloo satellite put in orbit by students. CUBICS pays for the launch.",
   sections: [
     {
       heading: 'Competition',
@@ -66,8 +66,6 @@ export const mission = {
     {
       heading: 'Payloads',
       body: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit. Amateur Radio Operators (AROs, also known as ham radio operators) contact the CubeSat, ask for a set of coordinates, and receive the picture on the downlink. This puts amateur radio education first.',
-      body2: 'The team is also working with a company named QEYnet to launch a prototype for an infrared laser beacon that the company is developing in pursuit of a novel approach to post-quantum computing key distribution methods.',
-      link: { label: 'Learn more about QEYnet', href: 'https://www.qeynet.com/' },
       images: [{ src: '/cad-back.png', alt: 'Back view of the V6 CubeSat CAD model' }],
     },
   ],
@@ -110,7 +108,7 @@ export const timeline = [
   {
     date: 'Nov 2026',
     title: 'CUBICS Proposal',
-    body: 'A University of Waterloo faculty member is the applicant. The team writes the Stream 2 proposal and adapts the CSDC-7 satellite to the CUBICS mission. The deadline is November 19, 2026.',
+    body: 'The team writes the Stream 2 proposal and adapts the CSDC-7 satellite to the CUBICS mission. The deadline is November 19, 2026.',
   },
   {
     // The CSA procures the launch 3 to 4 years after the project starts. The
@@ -121,13 +119,32 @@ export const timeline = [
   },
 ]
 
+// The 2 projects that run at the same time. `status` is the one line to edit
+// when something moves. Nothing else on the page has to change.
+// PLACEHOLDER COPY. The projects are real. The wording is not final.
+export const projects = [
+  {
+    name: '3U CubeSat',
+    status: 'Flight model built and tested. Adapting it to the CUBICS mission.',
+    body: 'The satellite that won CSDC-7. It carries an Arducam camera, and it passed vibration and thermal vacuum testing in March 2026. The team now adapts the design to the CUBICS Stream 2 mission and writes the proposal for the November 19, 2026 deadline.',
+  },
+  {
+    name: 'Ground Station',
+    status: 'In development.',
+    body: 'The station on the ground that tracks the satellite and holds the radio link during a pass. A 3U CubeSat in low Earth orbit is in view of Waterloo for about 10 minutes per pass, and there are 4 to 6 usable passes a day. The Software and Firmware teams build the antenna control, the radio link, and the pipeline that decodes and stores what comes down.',
+  },
+]
+
+/** A lead. `linkedin` is optional: no URL means the name renders as plain text. */
+export type Lead = { name: string; linkedin?: string }
+
 export type Team = {
   slug: string
   name: string
   short: string
   icon: string
   image: string
-  leads: string[]
+  leads: Lead[]
   summary: string
   body: string
   body2?: string
@@ -148,7 +165,7 @@ export const teams: Team[] = [
     short: 'Mechanical',
     icon: img('6a67b4_037785b41f854eb1ab5e016de7fffa41~mv2.png'),
     image: img('nsplsh_5a706462372d6f77637077~mv2_d_3737_5605_s_4_2.jpg'),
-    leads: ['Ani A', 'Alan H', 'Brian K'],
+    leads: [{ name: 'Ani A' }, { name: 'Alan H' }, { name: 'Brian K' }],
     summary: 'Designs the frame of the CubeSat and proves it survives launch.',
     body: "The mechanical subsystem is responsible or designing the bus (frame) of the CubeSat, and any other relevant mechanical systems, such as a battery holder. The mechanical team is also responsible for Finite Element Modelling (FEM) of all these components and thermal analysis to ensure the CubeSat can sustain the forces of launch and harsh space environment. The team performs 3D printing, prototyping in the University of Waterloo's Student Machine Shop, and uses tools such as Siemens NX for CAD and analysis.",
     owns: ['Structures'],
@@ -159,7 +176,7 @@ export const teams: Team[] = [
     short: 'Electrical',
     icon: img('6a67b4_9ea2ee6daf394409a394d84b23a85d35~mv2.png'),
     image: img('nsplsh_2c0ddafb7f454dbaa4986585788de733~mv2.jpg'),
-    leads: ['Judy Y', 'Sam B', 'Zack C', 'Ahmed Q'],
+    leads: [{ name: 'Judy Y' }, { name: 'Sam B' }, { name: 'Zack C' }, { name: 'Ahmed Q' }],
     summary: 'Makes the power, and the boards that move it around.',
     body: 'The Electrical subsystem is responsible for power production, distribution, and management. Major components of this subsystem involve the solar panels and batteries. The team is heavily hardware focused, developing PCBs for an MPPT charging circuit, a Battery Management System, in-house solar panels, and more. Learn about board design in Altium and gain hands-on experience with PCB assembly.',
     owns: ['Electrical Power System', 'Communications', 'Attitude Determination and Control'],
@@ -170,7 +187,7 @@ export const teams: Team[] = [
     short: 'GNC',
     icon: img('6a67b4_c60f5458f19846c8a4ba3f57bb29c10e~mv2.png'),
     image: img('nsplsh_6a5738686b425f516d6a38~mv2_d_6000_4000_s_4_2.jpg'),
-    leads: ['Jeff H', 'Panth P'],
+    leads: [{ name: 'Jeff H' }, { name: 'Panth P' }],
     summary: 'Points the satellite where it needs to look.',
     body: 'The GNC subsystem is responsible for orientation control of the satellite within space through actuators such as magnetorquers and reaction wheels, as well as sensors (IMUs, sun sensors, GPS) that determine the location and pointing direction of the satellite. The team develops custom controls algorithms like B-dot, PID, and EKF, designs and builds the main Flight Controller board with Altium, is working on a custom magnetorquer design, and works with industry-standard orbital mechanics simulation software like AGI Systems Tool Kit.',
   },
@@ -180,7 +197,7 @@ export const teams: Team[] = [
     short: 'Firmware',
     icon: img('6a67b4_750b42a407344fee9f4e4853a1ae076f~mv2.png'),
     image: img('6a67b4_9ae2db31169c46e79cc774f7c4fa7647~mv2.jpeg'),
-    leads: ['Kashif B', 'Adityya K', 'Panth P'],
+    leads: [{ name: 'Kashif B' }, { name: 'Adityya K' }, { name: 'Panth P' }],
     summary: 'Writes the low-level code that runs on the satellite itself.',
     body: 'The Firmware team is responsible for writing all of the low-level software that will run on the satellite as well as writing the software for our ground station communications. This involves writing firmware for our RM46 microcontroller for various areas such as Communications, Electrical, Command & Data Handling, GNC, and Payload.',
     owns: ['Command and Data Handling'],
@@ -191,7 +208,7 @@ export const teams: Team[] = [
     short: 'Software',
     icon: img('6a67b4_b86204043f8344d99b2251b91ea18e1c~mv2.png'),
     image: img('b1ce291ed95c483292db01846c10e734.jpg'),
-    leads: ['Cameron L', 'Eddie W', 'Kevin W'],
+    leads: [{ name: 'Cameron L' }, { name: 'Eddie W' }, { name: 'Kevin W' }],
     summary: 'Builds the ground station and the tools people use to talk to the satellite.',
     // PLACEHOLDER COPY. The shape is right and the tools listed are the ones
     // the team uses today. Software leads to confirm the wording and the
@@ -214,7 +231,7 @@ export const teams: Team[] = [
     short: 'Business',
     icon: img('6a67b4_95de1a216b554277befa9c85d13b7b9c~mv2.png'),
     image: img('nsplsh_eaa428c2ac894d1a8c131c5a7562d06a~mv2.jpg'),
-    leads: ['Evan M'],
+    leads: [{ name: 'Evan M' }],
     summary: 'Funds the project and tells people it exists.',
     body: 'The business subteam is responsible for many behind the scenes tasks of UW Orbital. This includes securing funding, reaching out to sponsors, and keeping track of finance and budgeting. The business subteam also manages marketing and brand creation, social media, organizing outreach events, content creation, technical writing, and recruiting students.',
   },
