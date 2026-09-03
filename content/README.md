@@ -1,7 +1,7 @@
 # UW Orbital website content archive
 
 This folder holds the full text of the live Wix site at https://www.uworbital.com.
-It is the source of truth for the rebuild in `frontend/`. No text was summarised or dropped.
+It is the source of truth for the rebuild in the repo root. No text was summarised or dropped.
 
 - **Captured on:** 2026-08-18
 - **Method:** headless Chrome rendered every page, then the DOM was converted to Markdown.
