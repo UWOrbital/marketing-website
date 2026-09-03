@@ -1,113 +1,98 @@
 /* ============================================================
-   Design tokens. Every value in the site comes from this file.
-   If a value is not here, it does not belong in a stylesheet.
+   Neo-grotesque minimalism.
+   The International Typographic Style, applied literally:
+
+   1. One sans-serif. Hierarchy comes from size, weight and
+      position. It never comes from colour.
+   2. A 12 column modular grid. Nothing sits off the grid.
+   3. Flush left, ragged right. Nothing is centred.
+   4. Colour is functional. Signal red marks the one action
+      on a page. It is not decoration.
+   5. White space is the structure. It is not padding.
+   6. Photography is objective. It is not a background.
+
+   Every value in the site comes from this file.
    ============================================================ */
 
 :root {
-  /* ---------- palette ----------
-     The 6 brand colours. Nothing below invents a hue; the derived values are
-     Deep space lifted or lowered in lightness, because a dark interface needs
-     elevation steps and the palette supplies one dark. */
-  --deep-space: #121214;
-  /* Orbit blue and horizon teal are part of the brand palette but are not used
-     by the site. The blue still appears on the page inside the logo artwork,
-     which is where the emblem blue belongs. */
+  /* ---------- colour ----------
+     Paper, ink, and one signal. That is the whole palette.
+     The 6 brand colours stay in the artwork, where they belong. */
+  --paper: #ffffff;
+  --paper-2: #f1f1ef;   /* the one alternate field, for image beds */
+  --ink: #0a0a0a;       /* 20.1:1 on paper */
+  --ink-2: #666668;     /* 5.9:1 on paper. Secondary text. */
+  --ink-3: #9b9b9e;     /* 2.7:1. Rules and marks only, never text. */
+  --rule: #dedddb;      /* the hairline that divides every section */
+  --rule-2: #0a0a0a;    /* the heavy rule, above a display heading */
+  --signal: #c8351f;    /* 5.3:1 on paper. 1 action per page. */
+  --signal-2: #a42916;  /* derived: signal lowered, for hover */
+
+  /* Brand colours. Present in the logo and the icons, not in the layout. */
   --orbit-blue: #5890c0;
-  --signal-red: #c8351f;
-  --starlight-white: #f4f5f7;
   --solar-gold: #e8a83a;
-  --horizon-teal: #2fb5a8;
-
-  /* ---------- colour: surface ----------
-     Deep space is the page. 60% of the layout. */
-  --surface: var(--deep-space);
-  --surface-alt: #1b1b20;   /* derived: deep space lifted. Cards and the alternating band. */
-  --surface-deep: #0a0a0c;  /* derived: deep space lowered. The contrast band. */
-  /* Milled titanium: the only foreground material. A panel is a gradient plus
-     a machined bevel, never a flat fill, because flat fill reads as a div. */
-  --ti-face-hi: #26282c;
-  --ti-face-lo: #17191c;
-  --ti-bevel-top: rgb(255 255 255 / 0.16);
-  --ti-bevel-bottom: rgb(0 0 0 / 0.55);
-  --ti-seam: rgb(255 255 255 / 0.09);
-
-  /* ---------- colour: text ----------
-     Starlight white carries the headings and the body. A heading is the last
-     place an accent hue belongs: at display size a mid-tone accent on a dark
-     ground looks faded, and it reads as an unvisited link.
-       --text          #f4f5f7 on #121214  17.2:1   on #1b1b20  15.7:1
-       --text-muted    #9a9aa2 on #121214   6.7:1   on #1b1b20   6.1:1
-       --text-inverse  #121214 on #f4f5f7  17.2:1 */
-  --text: var(--starlight-white);
-  --text-strong: var(--starlight-white);
-  --text-muted: #9a9aa2;                 /* derived: a neutral, so it never competes */
-  --text-heading: var(--starlight-white);
-  --text-inverse: var(--deep-space);
-
-  /* ---------- colour: border ---------- */
-  --border: #2a2a31;         /* derived: the resting outline */
-  --border-strong: #4a4a54;  /* derived: hover, and the rule above a label */
-
-  /* ---------- colour: role ----------
-     Solar gold is the only accent. It carries interaction and data points
-     alike, so there is one token, not two.
-       accent   solar gold   links, the arrow chip, the active nav item, hover
-                             states, the focus ring, the stat numbers, the
-                             badge rule. Small marks, never a heading.
-       cta      signal red   1 call to action per page. */
-  --accent: var(--solar-gold);
-  --accent-hover: #f7c877;   /* derived: solar gold lifted, for hover on a dark ground */
-  --cta: var(--signal-red);
-  --cta-hover: #a82a17;      /* derived */
 
   /* ---------- type: family ----------
-     One family for headings and body. One for labels. Nothing else. */
-  --font: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  /* Display runs wide: industrial signage is drawn wide, not condensed. */
-  --font-display-wdth: 112;
+     Outfit is a geometric grotesk: single-storey a, circular o,
+     open apertures. It matches the geometry of the logo wordmark. */
+  --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 
   /* ---------- type: size ----------
      6 steps. A size that is not in this list is not used. */
-  --fs-1: 13px;                      /* labels, fine print */
-  --fs-2: 15px;                      /* small body, captions */
-  --fs-3: 17px;                      /* body */
-  --fs-4: 21px;                      /* card title */
-  --fs-5: clamp(26px, 3.4vw, 40px);  /* sub-heading */
-  --fs-6: clamp(38px, 6vw, 84px);    /* display, capped under the 6rem ceiling at 1440 */
+  --t-display: clamp(3.25rem, 11.5vw, 11rem);   /* the page headline, 1 per page */
+  --t-1: clamp(2rem, 5.2vw, 4rem);              /* section heading */
+  --t-2: clamp(1.375rem, 2.4vw, 1.875rem);      /* sub-heading, lede */
+  --t-3: 1.3125rem;                             /* large body */
+  --t-4: 1.0625rem;                             /* body */
+  --t-5: 0.9375rem;                             /* small body, captions */
+  --t-6: 0.75rem;                               /* label, set in caps */
 
-  /* ---------- type: weight ---------- */
-  --fw-regular: 400;
-  --fw-medium: 500;
-  --fw-bold: 800;
+  /* ---------- type: weight ----------
+     Display runs light. At 176px a light weight reads as confident;
+     a bold weight reads as shouting. */
+  --w-display: 200;
+  --w-light: 300;
+  --w-regular: 400;
+  --w-label: 500;
 
-  /* ---------- type: line height and tracking ---------- */
+  /* ---------- type: line height and tracking ----------
+     Tracking tightens as size grows. That is the whole rule. */
+  --lh-display: 0.86;
+  --lh-heading: 0.98;
   --lh-body: 1.5;
-  --lh-heading: 1.1;
-  --ls-heading: -0.02em;
-  --ls-label: 0.1em;
+  --ls-display: -0.045em;
+  --ls-heading: -0.03em;
+  --ls-body: -0.011em;
+  --ls-label: 0.14em;
 
-  /* ---------- space: 8px scale, 6 steps ---------- */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 16px;
-  --space-4: 24px;
-  --space-5: 40px;
-  --space-6: 72px;
+  /* ---------- grid ----------
+     12 columns at 1000px and up, 6 columns below, 1 column on a phone.
+     The margin is the outer edge. The gutter is between columns. */
+  --cols: 12;
+  --gutter: clamp(16px, 1.5vw, 28px);
+  --margin: clamp(20px, 4.2vw, 64px);
+  --maxw: 1680px;
 
-  /* ---------- radius ----------
-     The house style is square. One token is enough; a second would have no
-     caller. Add --radius-pill when something round needs a CSS shape. */
-  --radius: 0;
+  /* ---------- space ----------
+     8px scale. The top 3 steps are the ones that carry the layout. */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 16px;
+  --s4: 24px;
+  --s5: 40px;
+  --s6: 64px;
+  --s7: clamp(64px, 8vw, 120px);   /* between sections */
+  --s8: clamp(96px, 14vw, 220px);  /* above and below a page headline */
 
   /* ---------- layout constants ----------
-     Not spacing. These are fixed measurements of one element each. */
-  --container: 1440px;
-  --header-h: 72px;
-  --hero-min-h: 380px;
-  --icon-size: 96px;
+     Measurements of one element each. Not steps on a scale. */
+  --header-h: 68px;
+  --logo-h: 34px;
+  --icon: 44px;
+  --radius: 0;   /* the house style is square. There is no second value. */
 
   /* ---------- motion ----------
-     One curve and one duration for every hover. No new motion is added. */
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+     One duration and one curve. Nothing on this site animates on scroll. */
   --dur: 0.18s;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
 }

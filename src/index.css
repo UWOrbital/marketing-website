@@ -1,9 +1,12 @@
 @import './tokens.css';
 
-/* Every value below is a token. The exceptions are the dimensions of one
-   specific element (a logo box, a photo height, an artwork frame). Those are
-   measurements of a thing, not steps on a spacing scale, and they are marked
-   where they appear. */
+/* ============================================================
+   Neo-grotesque minimalism. See tokens.css for the 6 rules.
+
+   The grid is 2fr / 6fr / 4fr, and it does not change between
+   the header of a section, the head of the page, and a row in
+   a list. That repetition is what makes the grid visible.
+   ============================================================ */
 
 /* ---------- base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -13,755 +16,403 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: var(--font);
-  font-size: var(--fs-3);
-  font-weight: var(--fw-regular);
+  font-size: var(--t-4);
+  font-weight: var(--w-regular);
   line-height: var(--lh-body);
-  color: var(--text);
-  background: var(--surface);
+  letter-spacing: var(--ls-body);
+  color: var(--ink);
+  background: var(--paper);
   -webkit-font-smoothing: antialiased;
 }
 
 img { max-width: 100%; display: block; }
-
-a { color: inherit; }
-
-h1, h2 { font-variation-settings: 'wdth' var(--font-display-wdth); }
-
-h1, h2, h3, h4 {
-  margin: 0;
-  font-weight: var(--fw-bold);
-  letter-spacing: var(--ls-heading);
-  line-height: var(--lh-heading);
-  color: var(--text-heading);
-}
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, h4 { margin: 0; font-weight: var(--w-light); line-height: var(--lh-heading); letter-spacing: var(--ls-heading); }
 
 /* One measure for every paragraph on the site. */
-p { margin: 0 0 1em; max-width: 65ch; }
+p { margin: 0 0 1em; max-width: 68ch; }
 p:last-child { margin-bottom: 0; }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-::selection { background: var(--accent); color: var(--text-inverse); }
-html { scrollbar-color: var(--border-strong) var(--surface); caret-color: var(--accent); }
-a { text-underline-offset: 0.18em; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+::selection { background: var(--ink); color: var(--paper); }
+html { scrollbar-color: var(--ink-3) var(--paper); caret-color: var(--signal); }
 
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 100;
-  background: var(--surface-alt); color: var(--text);
-  padding: var(--space-2) var(--space-4);
+  background: var(--ink); color: var(--paper);
+  padding: var(--s2) var(--s4);
 }
 .skip:focus { left: 0; }
 
-/* ---------- layout ---------- */
-.wrap {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 0 var(--space-4);
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
 
-/* Every section has the same top and bottom padding and the same left edge.
-   --tight is kept as a class because a component still passes it, but it no
-   longer changes the padding. */
-.section { padding: var(--space-6) 0; }
-.section--tight { padding: var(--space-6) 0; }
-.section--dark, .section--wash { background: transparent; }
-
-.section-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-5);
+/* ---------- the grid ----------
+   .page sets the column field. Its width excludes the margin, so a border
+   drawn on .page lines up exactly with the text inside it. That is what
+   makes every rule on this site sit on the grid. */
+.page {
+  width: min(var(--maxw), 100% - var(--margin) * 2);
+  margin-inline: auto;
 }
 
-.section-head h2 { font-size: var(--fs-6); }
-.section--center .section-head { justify-content: center; text-align: center; }
-
-.lede { font-size: var(--fs-4); color: var(--text-muted); }
-
-/* ---------- labels ----------
-   One label style for the whole site: small, uppercase, one gray, one
-   tracking, one weight, one family. Every label selector shares this rule.
-   The only per-instance change allowed is the colour on a dark ground. */
-.eyebrow,
-.stat__l,
-.teamcard__more,
-.step__n,
-.sponsor__since,
-.tier__count,
-.badge,
-.footer h4,
-.footer__bottom,
-.figure figcaption,
-.tag {
-  font-family: var(--font);
-  font-size: var(--fs-1);
-  font-weight: var(--fw-medium);
-  letter-spacing: 0;
-  color: var(--text-muted);
-}
-/* On a photo tile the label sits over imagery, so it takes full contrast. */
-.card .eyebrow { color: var(--text); }
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--text);
-}
-/* Sized from the label, not from the spacing scale: it is a glyph. */
-.tag::before {
-  content: '';
-  width: 1em; height: 1em;
-  border: 1.5px solid currentColor;
-}
-
-/* ---------- links & buttons ---------- */
-.arrow-link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-weight: var(--fw-medium);
-  font-size: var(--fs-3);
-  text-decoration: none;
-  color: var(--accent);
-}
-.arrow-link:hover { color: var(--accent-hover); }
-/* Same arrow character and same gap as every other arrow on the site. */
-.arrow-link::after {
-  content: '\2192';
+/* The 3 field grid. Every section, every row, and the footer use it. */
+.page.ph__foot,
+.sec > .page,
+.row,
+.ftr__top {
   display: grid;
-  place-items: center;
-  width: var(--space-4); height: var(--space-4);
-  background: var(--accent);
-  color: var(--text-inverse);
-  font-size: var(--fs-1);
+  grid-template-columns: 2fr 6fr 4fr;
+  gap: var(--gutter);
+}
+@media (max-width: 900px) {
+  .page.ph__foot, .sec > .page, .row, .ftr__top { grid-template-columns: 1fr; gap: var(--s3); }
 }
 
-/* One button family. Every variant keeps the same box, so two buttons that sit
-   next to each other line up: same padding, same 2px border, same text size.
-   Only the fill and the border colour change. */
+/* A rule is drawn to the grid, never to the edge of the window. */
+.rule {
+  width: min(var(--maxw), 100% - var(--margin) * 2);
+  margin: 0 auto;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+.rule--heavy { border-top-color: var(--rule-2); }
+
+.measure { max-width: 62ch; }
+
+/* ---------- type roles ---------- */
+.label {
+  margin-block: 0;
+  font-size: var(--t-6);
+  font-weight: var(--w-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.lede {
+  font-size: var(--t-2);
+  font-weight: var(--w-light);
+  line-height: 1.28;
+  letter-spacing: var(--ls-heading);
+  color: var(--ink);
+  max-width: 42ch;
+}
+
+.sub {
+  font-size: var(--t-3);
+  font-weight: var(--w-label);
+  letter-spacing: var(--ls-body);
+  margin: var(--s6) 0 var(--s3);
+}
+
+ul.plain { list-style: none; margin: 0; padding: 0; }
+ul.plain li { padding: var(--s2) 0; border-top: 1px solid var(--rule); }
+ul.plain li:first-child { border-top: 0; }
+
+/* ---------- links and the one action ---------- */
+.ulink { border-bottom: 1px solid var(--rule); transition: border-color var(--dur) var(--ease); }
+.ulink:hover { border-bottom-color: var(--ink); }
+
+.alink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-size: var(--t-4);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.alink::after { content: '\2192'; }
+.alink:hover { color: var(--signal); border-bottom-color: var(--signal); }
+
+/* Signal red marks the single action on a page. It is the only fill on the
+   site, so a second red button on one page would remove its meaning. */
 .btn {
   display: inline-block;
-  padding: var(--space-2) var(--space-4);
-  border: 2px solid transparent;
+  padding: 13px var(--s4) 12px;
+  border: 1px solid var(--ink);
   border-radius: var(--radius);
-  font-weight: var(--fw-bold);
-  font-size: var(--fs-3);
-  line-height: var(--lh-heading);
-  text-decoration: none;
+  font-size: var(--t-5);
+  font-weight: var(--w-label);
+  letter-spacing: 0.02em;
+  line-height: 1;
   cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.btn--primary { background: var(--cta); border-color: var(--cta); color: var(--starlight-white); }
-.btn--primary:hover { background: var(--cta-hover); border-color: var(--cta-hover); color: var(--starlight-white); }
-.btn--ghost { border-color: currentColor; color: inherit; }
-.btn--ghost:hover { background: var(--text); color: var(--text-inverse); border-color: var(--text); }
-/* The header bar is one --header-h tall. The full-size button does not fit. */
-.btn--sm { padding: var(--space-1) var(--space-3); font-size: var(--fs-2); }
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn--signal { background: var(--signal); border-color: var(--signal); color: var(--paper); }
+.btn--signal:hover { background: var(--signal-2); border-color: var(--signal-2); color: var(--paper); }
+.btn--sm { padding: 9px var(--s3) 8px; font-size: var(--t-6); letter-spacing: var(--ls-label); text-transform: uppercase; }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s5); }
 
 /* ---------- header ---------- */
-.header {
+.hdr {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--surface);
-  color: var(--text);
-  border-bottom: 1px solid var(--border);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
 }
-.header__bar {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  height: var(--header-h);
-}
-.header__logo { display: flex; align-items: center; text-decoration: none; }
-.header__logo img { height: 40px; width: auto; } /* artwork height */
-@media (max-width: 420px) { .header__logo img { height: 30px; } }
-.header__nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  margin-left: auto;
-}
-.header__nav a:not(.btn) {
-  padding: var(--space-2) var(--space-3);
-  font-size: var(--fs-2);
-  font-weight: var(--fw-medium);
-  text-decoration: none;
-  color: var(--text-muted);
-}
-.header__nav a:not(.btn):hover { color: var(--text); background: var(--surface-alt); }
-.header__nav a.is-active { color: var(--text); box-shadow: inset 0 -3px 0 var(--accent); }
-.header__cta { margin-left: var(--space-2); }
+.hdr__bar { display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
+/* The logo artwork carries its own tagline under the wordmark. At this size
+   that line is unreadable, and the footer already sets it in type, so the
+   box crops to the wordmark. 0.64 is where the tagline starts in the file. */
+.hdr__logo { display: block; height: var(--logo-h); overflow: hidden; }
+.hdr__logo img { height: calc(var(--logo-h) / 0.64); width: auto; object-position: 0 0; }
+@media (max-width: 420px) { .hdr__logo { height: 22px; } .hdr__logo img { height: calc(22px / 0.64); } }
 
-.header__toggle {
+.hdr__nav { display: flex; align-items: center; gap: var(--s5); margin-left: auto; }
+.hdr__nav a:not(.btn) {
+  font-size: var(--t-5);
+  color: var(--ink-2);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.hdr__nav a:not(.btn):hover { color: var(--ink); border-bottom-color: var(--rule); }
+.hdr__nav a.is-active { color: var(--ink); border-bottom-color: var(--ink); }
+
+.hdr__toggle {
   display: none;
   margin-left: auto;
   background: none;
-  border: 1px solid var(--border-strong);
-  color: var(--text);
-  padding: var(--space-2) var(--space-3);
-  font: var(--fw-medium) var(--fs-2) var(--font);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  padding: 8px var(--s3);
   cursor: pointer;
+  font-family: inherit;
 }
 
-@media (max-width: 1080px) {
-  .header__toggle { display: block; }
-  .header__nav {
+@media (max-width: 900px) {
+  .hdr__toggle { display: block; }
+  .hdr__nav {
     display: none;
     position: absolute;
     left: 0; right: 0; top: var(--header-h);
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: var(--space-2) var(--space-4) var(--space-4);
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 var(--margin) var(--s4);
   }
-  .header__nav.is-open { display: flex; }
-  .header__nav a:not(.btn) { padding: var(--space-3) 0; border-bottom: 1px solid var(--border); }
-  .header__cta { margin: var(--space-3) 0 0; text-align: center; }
+  .hdr__nav.is-open { display: flex; }
+  .hdr__nav a:not(.btn) { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); font-size: var(--t-3); }
+  .hdr__cta { margin-top: var(--s4); text-align: center; }
 }
 
-/* ---------- panel: milled titanium, the only foreground material ----------
-   A panel is two gradients and a machined bevel. A flat fill reads as a div. */
-.panel {
-  background:
-    linear-gradient(180deg, rgb(255 255 255 / 0.07) 0%, rgb(255 255 255 / 0.02) 18%, rgb(0 0 0 / 0.10) 100%),
-    linear-gradient(96deg, var(--ti-face-hi) 0%, #1e2023 55%, var(--ti-face-lo) 100%);
-  border-top: 1px solid var(--ti-bevel-top);
-  border-bottom: 1px solid var(--ti-bevel-bottom);
-  border-left: 1px solid rgb(255 255 255 / 0.07);
-  border-right: 1px solid rgb(0 0 0 / 0.45);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.08),
-    0 34px 80px rgb(0 0 0 / 0.65);
+/* ---------- page head ----------
+   Display type first, then the heavy rule, then the supporting matter.
+   Nothing is set over a photograph anywhere on this site. */
+.ph { padding-top: var(--s8); }
+.ph__eyebrow { margin-bottom: var(--s5); }
+.ph__t {
+  font-size: var(--t-display);
+  font-weight: var(--w-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  max-width: 15ch;
+  margin-bottom: var(--s7);
 }
+.ph__foot { padding-top: var(--s5); padding-bottom: var(--s7); }
+@media (max-width: 900px) { .ph { padding-top: var(--s6); } }
 
-/* ---------- hero: flight hardware ---------- */
-.hero--flight {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  min-height: min(100vh, 960px);
-  overflow: hidden;
-  background: var(--surface);
+/* Measured facts. Set as a table, under the headline, never above it. */
+.rec { margin: 0; display: grid; gap: var(--s3); align-content: start; }
+.rec > div { display: grid; gap: 2px; padding-top: var(--s2); border-top: 1px solid var(--rule); }
+.rec dt {
+  font-size: var(--t-6);
+  font-weight: var(--w-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
 }
-.hero__field {
-  position: absolute;
-  inset: 0;
-  background: var(--surface) url('/space/field.jpg') center / cover no-repeat;
-}
-/* A wide, soft fall-off with no discernible edge. The field is already near-black
-   (median luminance 3), so this seats the type rather than rescuing contrast, and
-   it dissolves into the ground at the bottom so the section below has no seam. */
-.hero__field::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(120% 90% at 18% 62%, rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.45) 42%, rgb(0 0 0 / 0) 78%),
-    linear-gradient(180deg, rgb(0 0 0 / 0.55) 0%, rgb(0 0 0 / 0) 26%, rgb(0 0 0 / 0) 68%, var(--surface) 100%);
-}
-.hero__flight {
-  position: relative;
-  width: 100%;
-  padding-top: var(--space-6);
-  padding-bottom: var(--space-6);
-}
-.hero__panel { position: relative; z-index: 2; max-width: min(560px, 48%); }
-.hero--flight h1 { font-size: var(--fs-6); color: var(--text); text-wrap: balance; }
-.hero--flight .hero__sub { max-width: 46ch; }
-.hero--flight .hero__actions { margin-top: var(--space-5); }
+.rec dd { margin: 0; font-size: var(--t-4); }
 
-/* Measured facts, under the headline. Never a kicker above it. */
-.record {
-  margin: var(--space-4) 0 0;
-  display: grid;
-  gap: var(--space-1);
-}
-.record > div { display: grid; grid-template-columns: 9ch 1fr; gap: var(--space-3); align-items: baseline; }
-.record dt { color: var(--accent); font-size: var(--fs-2); font-variant-numeric: tabular-nums; }
-.record dd { margin: 0; color: var(--text); font-size: var(--fs-2); }
-
-.hero__assembly {
-  position: absolute;
-  right: -5%;
-  top: 48%;
-  width: 58%;
-  margin: 0;
-  transform: translateY(-52%);
-  z-index: 1;
-  pointer-events: none;
-}
-.hero__assembly img { width: 100%; height: auto; }
-/* The one authored moment: the assembly settles once, from a visible default. */
-@keyframes settle { from { transform: translateY(-2.5%) scale(1.015); } }
-.hero__assembly img { animation: settle 1000ms cubic-bezier(0.16, 1, 0.3, 1); }
-
-@media (max-width: 900px) {
-  .hero--flight { min-height: auto; padding-top: var(--space-6); }
-  .hero__panel { max-width: none; }
-  .hero__assembly {
-    position: static;
-    width: 78%;
-    margin: 0 auto var(--space-4);
-    transform: none;
-  }
-}
-
-/* ---------- hero ---------- */
-.hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-height: var(--hero-min-h);
-  background: var(--surface);
-  color: var(--text);
-  overflow: hidden;
-}
-.hero--tall { min-height: min(62vh, 560px); }
-.hero__img {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0.62;
-}
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgb(0 0 0 / 0.5) 0%, rgb(0 0 0 / 0.35) 45%, rgb(0 0 0 / 0.82) 100%);
-}
-.hero__body {
-  position: relative;
-  width: 100%;
-  padding: var(--space-5) 0;
-}
-.hero h1 {
-  color: var(--text);
-  font-size: var(--fs-6);
-  max-width: 20ch;
-}
-.hero__sub {
-  margin-top: var(--space-3);
-  font-size: var(--fs-3);
-  color: var(--text-muted);
-}
-.hero__actions { margin-top: var(--space-4); display: flex; gap: var(--space-2); flex-wrap: wrap; }
-
-/* The metrics used to sit in a black band under the hero. They now sit inside
-   it, so the earth photo runs behind them instead of stopping above them. */
-.hero__stats {
-  margin-top: var(--space-5);
-  padding-top: var(--space-4);
-  border-top: 1px solid rgb(255 255 255 / 0.22);
-}
-.hero .stat { border-top: 0; padding-top: 0; }
-.hero .stat__l { color: var(--text-muted); }
-@media (max-width: 700px) { .hero__stats { margin-top: var(--space-4); } }
-
-/* ---------- cards ----------
-   Every card shares one padding, one border, one radius, one grid gap. Only
-   the background and the photo treatment differ. */
-.grid { display: grid; gap: var(--space-4); }
-.grid--2 { grid-template-columns: repeat(2, 1fr); }
-.grid--3 { grid-template-columns: repeat(3, 1fr); }
-.grid--4 { grid-template-columns: repeat(4, 1fr); }
-@media (max-width: 1000px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
-
-.box,
-.newscard,
-.card,
-.teamcard,
-.sponsor,
-.step {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-4);
-  background: rgb(255 255 255 / 0.025);
-}
-a.box:hover, .newscard:hover, .teamcard:hover, .sponsor:hover, .step:hover { border-color: var(--border-strong); }
-
-/* Featured news. The old block was a 2fr/1fr/1fr mosaic of photos with the
-   headline reversed out over a dark scrim. That is the nasa.gov house style,
-   so it went. These cards put the photo above the text on a white card, which
-   is a plain editorial row and reads as ours. */
-.newscard {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  text-decoration: none;
-  color: inherit;
-  overflow: hidden;
-}
-.newscard img { width: 100%; height: 170px; object-fit: cover; } /* photo height */
-.newscard__body { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4); }
-.newscard__title { font-size: var(--fs-4); font-weight: var(--fw-bold); line-height: var(--lh-heading); color: var(--text-heading); }
-.newscard:hover .newscard__title { color: var(--accent-hover); }
-
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 220px; /* photo tile height */
-  overflow: hidden;
-  background: var(--surface-deep);
-  color: var(--text);
-  text-decoration: none;
-  isolation: isolate;
-}
-.card__img {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: -2;
-  transition: transform 0.4s ease;
-}
-.card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.62) 0%, rgb(0 0 0 / 0.12) 38%, rgb(0 0 0 / 0.55) 68%, rgb(0 0 0 / 0.92) 100%);
-}
-.card:hover .card__img { transform: scale(1.04); }
-.card__foot { display: flex; flex-direction: column; gap: var(--space-1); }
-.card__title {
-  color: var(--text);
-  font-size: var(--fs-4);
-  font-weight: var(--fw-bold);
-  line-height: var(--lh-heading);
-}
-.card--lg .card__title { font-size: var(--fs-5); }
-.card--sm .card__title { font-size: var(--fs-3); }
-
-/* ---------- prose blocks ---------- */
-.split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-5);
-  align-items: center;
-}
-.split--flip > :first-child { order: 2; }
-/* Centring is right for text beside a picture. It is wrong for two text
-   columns of different heights, because the short one floats to the middle. */
-.split--top { align-items: start; }
-@media (max-width: 860px) {
-  .split { grid-template-columns: 1fr; gap: var(--space-4); }
-  .split--flip > :first-child { order: 0; }
-}
-.split { margin-bottom: var(--space-6); }
-.split:last-child { margin-bottom: 0; }
-.split--solo { grid-template-columns: 1fr; }
-/* Prose beside a short leads rail. Without this the rail takes half the row
-   and the paragraph is squeezed into a narrow column. */
-.split--rail { grid-template-columns: 1.7fr 1fr; }
-@media (max-width: 860px) { .split--rail { grid-template-columns: 1fr; } }
-.split h3 { font-size: var(--fs-5); margin-bottom: var(--space-3); }
-.split .figure img { max-height: 420px; } /* photo height */
-.split p { font-size: var(--fs-3); color: var(--text); }
-
-.figure { margin: 0; }
-.figure img { width: 100%; object-fit: cover; }
-.figure figcaption { margin-top: var(--space-2); }
-
-/* ---------- stats ---------- */
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
-@media (max-width: 700px) { .stats { grid-template-columns: 1fr; } }
-/* The rule above a label is one of the 4 places the accent is allowed. */
-.stat { border-top: 3px solid var(--border-strong); padding-top: var(--space-3); }
-.stat__n { font-size: var(--fs-6); font-weight: var(--fw-bold); line-height: var(--lh-heading); letter-spacing: var(--ls-heading); color: var(--accent); }
-.stat__l { margin-top: var(--space-2); }
-
-/* ---------- team ---------- */
-.teamgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
-@media (max-width: 700px) { .teamgrid { grid-template-columns: 1fr; } }
-.teamcard {
-  display: flex;
-  align-items: stretch;
-  gap: var(--space-4);
-  text-decoration: none;
-  color: inherit;
-}
-.teamcard__body { flex: 1; display: flex; flex-direction: column; }
-.teamcard:hover h3,
-.teamcard:hover .teamcard__summary,
-.teamcard:hover .teamcard__more { color: var(--accent-hover); }
-.teamcard:hover { border-color: var(--accent-hover); }
-/* One icon size and one icon container for the whole site. The black disc and
-   the glyph are baked into the artwork, so the container needs no fill. */
-.teamcard__icon {
-  position: relative;
-  display: block;
-  flex: none;
-  align-self: center;
-  width: var(--icon-size);
-  height: var(--icon-size);
-}
-.teamcard__icon img {
-  position: absolute;
-  inset: 0;
-  width: var(--icon-size);
-  height: var(--icon-size);
+/* ---------- plate: an objective image, full bleed ----------
+   No scrim, no gradient, no type on top. The photograph is evidence. */
+.plate { margin: 0; }
+/* The photographs come from Wix at full source size and are slow. The bed
+   colour holds the space so a loading plate reads as a field, not a hole. */
+.plate img { width: 100%; background: var(--paper-2); }
+/* A cut-out render carries its own white plate. multiply drops that white
+   into the field, so the render sits on the page instead of in a box. */
+.plate--bed { background: var(--paper-2); padding-block: var(--s6); }
+.plate--bed img {
+  width: min(var(--maxw), 100% - var(--margin) * 2);
+  max-height: 62vh;
   object-fit: contain;
+  margin-inline: auto;
+  mix-blend-mode: multiply;
 }
-/* The hover icon sits on top of the black one and fades in. The black one
-   never fades out, so there is nothing to see through while it crossfades.
-   ponytail: hue-rotate recolours the red artwork to gold. Drop the filter and
-   rename the files when there is a real gold icon set. */
-.teamcard__icon-hover {
-  opacity: 0;
-  filter: hue-rotate(55deg) saturate(0.85) brightness(2);
-  transition: opacity var(--dur) var(--ease);
-}
-.teamcard:hover .teamcard__icon-hover { opacity: 1; }
-.teamcard h3 { font-size: var(--fs-4); }
-.teamcard h3 + .teamcard__summary { margin-top: var(--space-2); }
-.teamcard__summary { font-size: var(--fs-2); color: var(--text-muted); margin: 0 0 var(--space-3); }
-.teamcard__more { margin-top: auto; align-self: flex-end; }
+.plate figcaption { padding-top: var(--s3); }
+.plate--btn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
 
-.leadlist, .owns { margin: 0; padding: 0; list-style: none; }
-.leadlist li {
-  font-size: var(--fs-4);
-  font-weight: var(--fw-medium);
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--border);
+/* ---------- section ---------- */
+.sec { padding-bottom: var(--s7); }
+.sec > .page {
+  border-top: 1px solid var(--rule);
+  padding-top: var(--s5);
+  row-gap: var(--s6);
+  align-items: baseline;
 }
-.owns li {
-  font-size: var(--fs-3);
-  padding: var(--space-2) 0 var(--space-2) var(--space-3);
-  border-left: 3px solid var(--border-strong);
-  margin-bottom: var(--space-2);
-  color: var(--text);
+.sec--alt { background: var(--paper-2); padding-top: var(--s7); }
+.sec--alt > .page { border-top: 0; padding-top: 0; }
+
+.sec__t { font-size: var(--t-1); font-weight: var(--w-light); max-width: 20ch; }
+.sec__a { justify-self: end; text-align: right; }
+/* The body starts in field 2 and runs to the edge, so a paragraph sits under
+   its own heading and a grid of tiles still gets the full width. */
+.sec__body { grid-column: 2 / -1; align-self: start; }
+@media (max-width: 900px) {
+  .sec > .page { row-gap: var(--s4); }
+  .sec__a { justify-self: start; text-align: left; }
+  .sec__body { grid-column: 1; margin-top: var(--s3); }
 }
+
+/* ---------- rows: the one list on this site ----------
+   Subteams, the timeline, projects, the steps to join, and contact are all
+   this component. A row is a hairline, a lead column, and the text. */
+.rows { counter-reset: row; border-bottom: 1px solid var(--rule); }
+.row {
+  counter-increment: row;
+  align-items: start;
+  padding-block: var(--s5);
+  border-top: 1px solid var(--rule);
+}
+.row--link { transition: background var(--dur) var(--ease); }
+.row--link:hover { background: var(--paper-2); }
+
+.row__lead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s4);
+  font-size: var(--t-6);
+  font-weight: var(--w-label);
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.row__n { display: none; }
+.rows--num .row__n { display: block; }
+.rows--num .row__n::before { content: counter(row, decimal-leading-zero); }
+
+.row__t { font-size: var(--t-2); font-weight: var(--w-light); }
+.row__b { margin: var(--s2) 0 0; color: var(--ink-2); max-width: 56ch; }
+.row__end { font-size: var(--t-2); color: var(--ink-3); transition: color var(--dur) var(--ease); }
+.row--link:hover .row__end { color: var(--signal); }
+@media (min-width: 901px) { .row__end { justify-self: end; } }
+
+/* The subteam mark. A black disc with white line art, so it holds on paper. */
+.mark { position: relative; display: block; width: var(--icon); height: var(--icon); flex: none; }
+.mark img { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity var(--dur) var(--ease); }
+.mark__hover { opacity: 0; }
+.row--link:hover .mark__hover { opacity: 1; }
+.row--link:hover .mark__base { opacity: 0; }
+
+/* ---------- asymmetric pairs ---------- */
+.duo { display: grid; grid-template-columns: 6fr 5fr; gap: var(--gutter) var(--s6); align-items: start; }
+.duo--rail { grid-template-columns: 7fr 4fr; }
+@media (max-width: 900px) { .duo, .duo--rail { grid-template-columns: 1fr; gap: var(--s6); } }
+
+.rail { padding-top: var(--s2); }
+.rail .label { margin-bottom: var(--s3); }
+
+.split { display: grid; grid-template-columns: 5fr 6fr; gap: var(--s6); align-items: start; }
+.split--flip .split__text { order: 2; }
+.split--solo { grid-template-columns: 1fr; }
+.split__h { font-size: var(--t-2); margin-bottom: var(--s3); }
+.split__text p { color: var(--ink-2); }
+.split__fig { margin: 0; background: var(--paper-2); }
+/* Every image in a split is a cut-out CAD render with a white plate.
+   multiply drops that white, the same way the hero plate does. */
+.split__fig img { width: 100%; mix-blend-mode: multiply; }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: var(--s5); } .split--flip .split__text { order: 0; } }
+
+/* ---------- tiles: an image with the caption under it ---------- */
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+@media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .tiles { grid-template-columns: 1fr; } }
+
+.tile { display: block; }
+.tile__img { display: block; overflow: hidden; background: var(--paper-2); }
+.tile__img img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 0.4s var(--ease); }
+.tile:hover .tile__img img { transform: scale(1.03); }
+.tile__meta { display: block; padding-top: var(--s3); }
+.tile__t { display: block; font-size: var(--t-2); font-weight: var(--w-light); letter-spacing: var(--ls-heading); padding-top: 2px; }
+
+/* ---------- results ----------
+   Set as type. The year and the word carry more than an ornament does. */
+.awards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); align-content: start; }
+.award { border-top: 1px solid var(--rule-2); padding-top: var(--s3); }
+.award__year {
+  font-size: var(--t-6); font-weight: var(--w-label);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  color: var(--ink-2); font-variant-numeric: tabular-nums;
+}
+.award__comp {
+  font-size: var(--t-1);
+  font-weight: var(--w-display);
+  letter-spacing: var(--ls-display);
+  line-height: 1.05;
+  margin-top: var(--s3);
+}
+.award__result { font-size: var(--t-3); margin-top: var(--s2); }
 
 /* ---------- sponsors ---------- */
-.tier { margin-bottom: var(--space-6); }
-.tier__head {
-  display: flex; align-items: center; gap: var(--space-3);
-  border-bottom: 2px solid var(--border-strong);
-  padding-bottom: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-.tier__head h3 { font-size: var(--fs-5); }
-.tier__count { margin-left: auto; }
-
-.sponsorgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
-@media (max-width: 900px) { .sponsorgrid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .sponsorgrid { grid-template-columns: 1fr; } }
-.sponsor {
-  display: flex; flex-direction: column;
-  text-decoration: none;
-}
+.sponsors { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--s6) var(--gutter); }
+.sponsor { display: block; }
 .sponsor__logo {
-  height: 56px; /* logo box height */
   display: grid; place-items: center;
-  margin-bottom: var(--space-3);
+  background: var(--paper-2);
+  height: 132px; /* artwork box: one height for every logo, whatever its shape */
+  padding: var(--s4);
+  overflow: hidden;
+  margin-bottom: var(--s3);
 }
-.sponsor__logo img { max-height: 56px; width: auto; object-fit: contain; }
-.sponsor h4 { font-size: var(--fs-3); margin-bottom: var(--space-1); }
-.sponsor__since { margin-bottom: var(--space-2); }
-.sponsor p { font-size: var(--fs-2); color: var(--text-muted); line-height: var(--lh-body); }
-
-/* ---------- list rows (blog, press) ----------
-   Parked. No route renders these today. Kept so the pages can come back. */
-.rows { border-top: 1px solid var(--border); }
-.row {
-  display: grid;
-  grid-template-columns: 200px 1fr auto; /* thumbnail width */
-  gap: var(--space-4);
-  align-items: center;
-  padding: var(--space-4) 0;
-  border-bottom: 1px solid var(--border);
-  text-decoration: none;
-}
-.row:hover .row__title { color: var(--accent-hover); }
-.row img { width: 200px; height: 120px; object-fit: cover; } /* thumbnail */
-.row__title { font-size: var(--fs-5); font-weight: var(--fw-bold); line-height: var(--lh-heading); color: var(--text-heading); }
-.row__dek { margin-top: var(--space-2); color: var(--text-muted); font-size: var(--fs-3); }
-.row__go { font-size: var(--fs-4); color: var(--accent); }
-@media (max-width: 760px) {
-  .row { grid-template-columns: 1fr; gap: var(--space-3); }
-  .row img { width: 100%; height: 180px; }
-  .row__go { display: none; }
-}
-
-/* ---------- steps ---------- */
-.steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
-@media (max-width: 700px) { .steps { grid-template-columns: 1fr; } }
-.step {
-  display: block;
-  text-decoration: none;
-}
-.step h3 { margin-top: var(--space-2); font-size: var(--fs-4); }
+.sponsor__logo img { max-height: 100%; max-width: 100%; width: auto; height: auto; mix-blend-mode: multiply; }
+.sponsor__name { display: block; font-size: var(--t-4); font-weight: var(--w-label); }
+.sponsor__since { display: block; margin-top: var(--s1); }
+.sponsor__blurb { display: block; margin-top: var(--s2); font-size: var(--t-5); color: var(--ink-2); }
+.sponsor:hover .sponsor__name { color: var(--signal); }
 
 /* ---------- gallery ---------- */
-.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
-@media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
-.gallery img { width: 100%; height: 200px; object-fit: cover; } /* photo height */
-.gallery__lead { width: 100%; max-height: 520px; object-fit: cover; } /* photo height */
+.gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--gutter); }
+.gal__item { padding: 0; border: 0; background: var(--paper-2); cursor: zoom-in; overflow: hidden; }
+.gal__item img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.4s var(--ease); }
+.gal__item:hover img { transform: scale(1.04); }
 
-/* Each photo is a button, not a bare image, so the keyboard reaches it and
-   Enter opens it. */
-.gallery__item {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: zoom-in;
-}
-.gallery__item img { transition: opacity var(--dur) var(--ease); }
-.gallery__item:hover img { opacity: 0.82; }
+.lightbox { border: 0; padding: 0; background: none; max-width: 92vw; max-height: 92vh; }
+.lightbox::backdrop { background: rgb(10 10 10 / 0.92); }
+.lightbox img { max-width: 92vw; max-height: 92vh; width: auto; object-fit: contain; }
 
-/* ponytail: native <dialog>. Esc, the backdrop, and the focus trap are free. */
-.lightbox {
-  max-width: 92vw;
-  max-height: 92vh;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: zoom-out;
-  overflow: hidden;
-}
-.lightbox::backdrop { background: rgb(0 0 0 / 0.86); }
-.lightbox img { max-width: 92vw; max-height: 92vh; width: auto; height: auto; object-fit: contain; }
+/* ---------- footer ----------
+   The one solid field on the site. It closes the page. */
+.ftr { background: var(--ink); color: var(--paper); }
+.ftr__top { padding-top: var(--s7); padding-bottom: var(--s7); }
+/* Cropped to the wordmark, the same way the header logo is. */
+.ftr__brand a.ftr__logo, .ftr__logo { display: block; height: 30px; overflow: hidden; }
+.ftr__logo img { height: calc(30px / 0.64); width: auto; object-position: 0 0; }
+.ftr__tag { margin: var(--s4) 0 0; max-width: 30ch; color: var(--ink-3); }
+.ftr__mail { display: inline-block; margin-top: var(--s4); border-bottom-color: var(--ink-2); }
+.ftr__mail:hover { border-bottom-color: var(--paper); }
+.ftr .label { color: var(--ink-3); margin-bottom: var(--s3); }
+.ftr ul.plain { max-width: 22ch; }
+.ftr ul.plain li { border-top-color: rgb(255 255 255 / 0.12); }
+.ftr ul.plain a { color: var(--paper); transition: color var(--dur) var(--ease); }
+.ftr ul.plain a:hover { color: var(--ink-3); }
 
-/* ---------- footer ---------- */
-.footer { background: var(--surface); color: var(--text-muted); padding: var(--space-6) 0 var(--space-5); border-top: 1px solid var(--border); }
-.footer a:not(.btn) { color: var(--text-muted); text-decoration: none; }
-.footer a:not(.btn):hover { color: var(--text); }
-.footer__top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--space-5); }
-@media (max-width: 800px) { .footer__top { grid-template-columns: 1fr; gap: var(--space-4); } }
-.footer h4 { color: var(--text); margin-bottom: var(--space-3); }
-.footer ul { list-style: none; margin: 0; padding: 0; }
-.footer li { padding: var(--space-1) 0; font-size: var(--fs-2); }
-.footer__logo { height: 52px; width: auto; } /* artwork height */
-.footer__bottom {
-  margin-top: var(--space-5); padding-top: var(--space-4);
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap;
-}
-
-/* ---------- award badge ---------- */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-1) var(--space-3);
-  /* Solar gold marks a highlight. */
-  border-left: 3px solid var(--accent);
-  background: rgb(0 0 0 / 0.45);
-  color: var(--text);
-}
-
-/* ---------- timeline ---------- */
-.timeline { border-top: 1px solid var(--border); }
-/* A reading column, but it starts on the container left edge like everything
-   else. It is not centred. */
-.timeline--center { max-width: 900px; }
-.tl {
+.ftr__bottom {
   display: grid;
-  grid-template-columns: 160px 1fr; /* date column */
-  gap: var(--space-4);
-  padding: var(--space-4) 0;
-  border-bottom: 1px solid var(--border);
-  position: relative;
+  grid-template-columns: 2fr 10fr;
+  gap: var(--gutter);
+  padding: var(--s4) 0 var(--s6);
+  border-top: 1px solid rgb(255 255 255 / 0.12);
 }
-@media (max-width: 700px) { .tl { grid-template-columns: 1fr; gap: var(--space-2); } }
-.tl__date {
-  font-size: var(--fs-2);
-  font-weight: var(--fw-medium);
-  color: var(--text-strong);
-  padding-top: var(--space-1);
-}
-.tl h3 { font-size: var(--fs-4); margin-bottom: var(--space-2); }
-.tl p { color: var(--text-muted); }
-
-/* ---------- competition award badge ---------- */
-.awards {
-  display: flex;
-  gap: var(--space-5);
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.award {
-  position: relative;
-  margin: 0;
-  width: 250px; /* laurel artwork width */
-  aspect-ratio: 1;
-  flex: none;
-}
-.award__wreath { position: absolute; inset: 0; width: 100%; height: 100%; }
-.award__text {
-  position: absolute;
-  inset: 20%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  text-align: center;
-  font-family: var(--font);
-  color: var(--text);
-  line-height: var(--lh-heading);
-}
-.award__comp { font-size: var(--fs-4); font-weight: var(--fw-bold); white-space: nowrap; }
-.award__result { font-size: var(--fs-3); font-weight: var(--fw-medium); text-transform: uppercase; white-space: nowrap; }
-.award__year { font-size: var(--fs-1); font-weight: var(--fw-regular); letter-spacing: var(--ls-label); }
-@media (max-width: 560px) {
-  .awards { gap: var(--space-4); }
-  .award { width: 190px; }
-}
-
-/* ---------- hover motion ----------
-   The hover states above were instant. This block only adds the transition
-   to them, plus a small lift on buttons. No new hover state is invented here.
-   ponytail: one block, not a transition line on every rule. */
-
-.btn {
-  transition:
-    background-color var(--dur) var(--ease),
-    color var(--dur) var(--ease),
-    border-color var(--dur) var(--ease),
-    transform var(--dur) var(--ease),
-    box-shadow var(--dur) var(--ease);
-}
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgb(0 0 0 / 0.22);
-}
-/* Press returns the button to the rest position faster than it rose. */
-.btn:active {
-  transform: translateY(0);
-  box-shadow: none;
-  transition-duration: 0.06s;
-}
-
-.header__nav a { transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease); }
-.arrow-link::after { transition: transform var(--dur) var(--ease); }
-.arrow-link:hover::after { transform: translateX(4px); }
-
-a.box, .teamcard, .sponsor, .step { transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
-a.box:hover, .teamcard:hover, .sponsor:hover, .step:hover { box-shadow: 0 4px 14px rgb(0 0 0 / 0.07); }
-
-.teamcard h3, .teamcard__summary, .teamcard__more, .row__title, .newscard__title { transition: color var(--dur) var(--ease); }
-.row__go { transition: transform var(--dur) var(--ease); }
-.row:hover .row__go { transform: translateX(4px); }
-
-
-/* Respect the system setting. Hover still changes colour, it just does not move. */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  .btn:hover { transform: none; }
-}
+.ftr__credit { font-size: var(--t-6); line-height: 1.5; color: var(--ink-3); max-width: 90ch; }
+@media (max-width: 900px) { .ftr__bottom { grid-template-columns: 1fr; gap: var(--s3); } }
