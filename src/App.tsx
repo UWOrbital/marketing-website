@@ -44,8 +44,8 @@ function Footer() {
         <div className="footer__top">
           <div>
             <img className="footer__logo" src="/logo-light.png" alt={site.name} />
-            <p style={{ maxWidth: '34ch', marginTop: 16 }}>{site.tagline}</p>
-            <a className="btn btn--primary" style={{ marginTop: 18 }} href={`mailto:${site.email}`}>{site.email}</a>
+            <p style={{ maxWidth: '34ch', marginTop: 'var(--space-3)' }}>{site.tagline}</p>
+            <a className="btn btn--ghost" style={{ marginTop: 'var(--space-3)' }} href={`mailto:${site.email}`}>{site.email}</a>
           </div>
           <div>
             <h4>Explore</h4>
@@ -67,7 +67,11 @@ function Footer() {
         </div>
         <div className="footer__bottom">
           <span>University of Waterloo Satellite Design Team</span>
-          <span />
+          <span className="footer__credit">
+            Background: NASA, ESA, G. Illingworth and D. Magee (University of California, Santa Cruz),
+            K. Whitaker (University of Connecticut), R. Bouwens (Leiden University),
+            P. Oesch (University of Geneva), and the Hubble Legacy Field team. CC BY 4.0.
+          </span>
         </div>
       </div>
     </footer>

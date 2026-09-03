@@ -4,7 +4,7 @@ import {
   site, heroImages, awards, mission, timeline, projects, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
-import { ArrowLink, Award, Card, Hero, Section, Split, Stat } from './ui'
+import { ArrowLink, Award, Card, Hero, Section, Split } from './ui'
 
 // The 3 subteams the landing page shows. Software replaced GNC here.
 // The order follows `teams`, which already lists these 3 in this order.
@@ -14,21 +14,17 @@ export function Home() {
   return (
     <>
       <Hero
-        tall
         image={heroImages.home}
+        assembly="/cad-exploded-cut.png"
         title={site.headline}
         sub="We are building a 3U CubeSat and launching it, to make it the University of Waterloo's first satellite launched by students."
-        badge={site.award}
-        stats={
-          <div className="stats">
-            <Stat n={String(teams.length)} label="Subteams" />
-            <Stat n="3U" label="CubeSat in development" />
-            <Stat n="1st" label="CSDC-7, 2026" />
-          </div>
-        }
+        record={[
+          { label: 'Mar 2026', value: 'Vibration and thermal vacuum, passed' },
+          { label: 'Jun 2026', value: `${awards[0].competition}, first place` },
+        ]}
       >
-        <Link className="btn btn--primary" to="/mission">Our Mission</Link>
-        <Link className="btn btn--ghost" to="/join">Join the Team</Link>
+        <Link className="btn btn--primary" to="/join">Join the Team</Link>
+        <Link className="btn btn--ghost" to="/mission">Our Mission</Link>
       </Hero>
 
       <Section wash title="Our Subteams" action={<ArrowLink to="/team">Meet the team</ArrowLink>}>
@@ -42,13 +38,13 @@ export function Home() {
       <Section dark>
         <div className="split">
           <div>
-            <p className="eyebrow" style={{ marginBottom: 16 }}>Next: CUBICS 2026</p>
-            <h2 style={{ fontSize: 'clamp(30px, 4vw, 48px)' }}>Winners of CSDC-7. Now we fly it.</h2>
-            <p className="lede" style={{ marginTop: 20 }}>
+            <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>Next: CUBICS 2026</p>
+            <h2 style={{ fontSize: 'var(--fs-6)' }}>Winners of CSDC-7. Now we fly it.</h2>
+            <p className="lede" style={{ marginTop: 'var(--space-4)' }}>
               UW Orbital won CSDC-6 in 2023 and CSDC-7 in 2026. The team now competes for CUBICS,
               the Canadian Space Agency program that funds development and buys the launch.
             </p>
-            <div style={{ marginTop: 28 }}><ArrowLink to="/mission">Read our mission</ArrowLink></div>
+            <div style={{ marginTop: 'var(--space-4)' }}><ArrowLink to="/mission">Read our mission</ArrowLink></div>
           </div>
           <div className="awards">
             {awards.map((a) => <Award key={a.competition} {...a} />)}
@@ -82,10 +78,10 @@ export function Mission() {
       <Section title="Projects" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
         <div className="grid grid--2">
           {projects.map((p) => (
-            <div className="box" style={{ padding: 26 }} key={p.name}>
-              <p className="eyebrow" style={{ marginBottom: 8 }}>{p.status}</p>
+            <div className="box" key={p.name}>
+              <p className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>{p.status}</p>
               <h3>{p.name}</h3>
-              <p style={{ marginTop: 12 }}>{p.body}</p>
+              <p style={{ marginTop: 'var(--space-2)' }}>{p.body}</p>
             </div>
           ))}
         </div>
@@ -118,7 +114,7 @@ export function Team() {
       <Section tight>
         <div className="stat" style={{ maxWidth: 420 }}>
           <div className="stat__l">{teamLead.role}</div>
-          <div style={{ fontSize: 32, fontWeight: 800, marginTop: 6 }}>{teamLead.name}</div>
+          <div style={{ fontSize: 'var(--fs-5)', fontWeight: 'var(--fw-bold)', marginTop: 'var(--space-1)' }}>{teamLead.name}</div>
         </div>
       </Section>
 
@@ -130,11 +126,11 @@ export function Team() {
                 <img className="teamcard__icon-base" src={`/icons/${t.slug}.png`} alt="" loading="lazy" />
                 <img className="teamcard__icon-hover" src={`/icons/${t.slug}-accent.png`} alt="" loading="lazy" />
               </span>
-              <h3>{t.name}</h3>
-              <p className="teamcard__summary">{t.summary}</p>
-              <p className="eyebrow" style={{ marginBottom: 6 }}>Leads</p>
-              <ul>{t.leads.map((l) => <li key={l.name}>{l.name}</li>)}</ul>
-              <span className="teamcard__more">Read more →</span>
+              <div className="teamcard__body">
+                <h3>{t.name}</h3>
+                <p className="teamcard__summary">{t.summary}</p>
+                <span className="teamcard__more">Read more →</span>
+              </div>
             </Link>
           ))}
         </div>
@@ -156,18 +152,18 @@ export function TeamDetail() {
       <Section>
         <div className="split split--top split--rail">
           <div>
-            <h3>Mission</h3>
+            <h3>About</h3>
             <p>{t.body}</p>
             {t.body2 && <p>{t.body2}</p>}
             {t.stack && (
               <>
-                <h3 style={{ marginTop: 36, marginBottom: 14 }}>Tech stack</h3>
+                <h3 style={{ marginTop: 'var(--space-5)', marginBottom: 'var(--space-3)' }}>Tech stack</h3>
                 <ul className="owns">{t.stack.map((s) => <li key={s}>{s}</li>)}</ul>
               </>
             )}
           </div>
           <div>
-            <p className="eyebrow" style={{ marginBottom: 12 }}>Leads</p>
+            <p className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>Leads</p>
             <ul className="leadlist">
               {t.leads.map((l) => (
                 <li key={l.name}>
@@ -177,7 +173,7 @@ export function TeamDetail() {
                 </li>
               ))}
             </ul>
-            <div style={{ marginTop: 28 }}>
+            <div style={{ marginTop: 'var(--space-4)' }}>
               <Link className="btn btn--primary" to="/join">Join us</Link>
             </div>
           </div>
@@ -202,14 +198,14 @@ export function Sponsors() {
       <Section>
         <div className="split" style={{ marginBottom: 0 }}>
           <div>
-            <h3 style={{ fontSize: 'clamp(26px, 3.4vw, 40px)', marginBottom: 16 }}>Why sponsor us?</h3>
+            <h3 style={{ fontSize: 'var(--fs-5)', marginBottom: 'var(--space-3)' }}>Why sponsor us?</h3>
             <p>{sponsorIntro}</p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
             <a className="btn btn--primary" href={sponsorPackage} target="_blank" rel="noreferrer">Sponsorship Package</a>
             <a
               className="btn btn--ghost"
-              style={{ borderColor: 'var(--black)', color: 'var(--black)' }}
+              style={{ borderColor: 'var(--border-strong)', color: 'var(--text-strong)' }}
               href={`mailto:${site.email}?subject=${encodeURIComponent('[Our Company] - Sponsoring UW Orbital')}`}
             >
               Become a Sponsor
@@ -259,7 +255,7 @@ export function Join() {
             </a>
           ))}
         </div>
-        <div style={{ marginTop: 32 }}>
+        <div style={{ marginTop: 'var(--space-5)' }}>
           <ArrowLink to="/team">Learn more about our subteams</ArrowLink>
         </div>
       </Section>
@@ -267,12 +263,12 @@ export function Join() {
         <div className="grid grid--4">
           <a className="step" href={`mailto:${site.email}`}>
             <span className="step__n">Email</span>
-            <h3 style={{ fontSize: 19 }}>{site.email}</h3>
+            <h3 style={{ fontSize: 'var(--fs-4)' }}>{site.email}</h3>
           </a>
           {site.social.map((s) => (
             <a className="step" key={s.label} href={s.href} target="_blank" rel="noreferrer">
               <span className="step__n">{s.label}</span>
-              <h3 style={{ fontSize: 19 }}>{s.handle}</h3>
+              <h3 style={{ fontSize: 'var(--fs-4)' }}>{s.handle}</h3>
             </a>
           ))}
         </div>
@@ -306,7 +302,7 @@ export function Gallery() {
     <>
       <Hero image={heroImages.team} title="Gallery" />
       <Section>
-        <button className="gallery__item" style={{ marginBottom: 20 }} onClick={() => setOpen(lead)}>
+        <button className="gallery__item" style={{ marginBottom: 'var(--space-4)' }} onClick={() => setOpen(lead)}>
           <img src={lead} alt="The UW Orbital team outside the Waterloo sign" className="gallery__lead" />
         </button>
         <div className="gallery">
@@ -316,7 +312,7 @@ export function Gallery() {
             </button>
           ))}
         </div>
-        <div style={{ marginTop: 40 }}>
+        <div style={{ marginTop: 'var(--space-5)' }}>
           <ArrowLink to="/team">Meet the subteams</ArrowLink>
         </div>
       </Section>
@@ -329,7 +325,7 @@ export function NotFound() {
   return (
     <Section title="Page not found">
       <p className="lede">That page is not part of this site.</p>
-      <div style={{ marginTop: 24 }}><ArrowLink to="/mission">Go to our mission page</ArrowLink></div>
+      <div style={{ marginTop: 'var(--space-4)' }}><ArrowLink to="/mission">Go to our mission page</ArrowLink></div>
     </Section>
   )
 }

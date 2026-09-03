@@ -1,0 +1,113 @@
+/* ============================================================
+   Design tokens. Every value in the site comes from this file.
+   If a value is not here, it does not belong in a stylesheet.
+   ============================================================ */
+
+:root {
+  /* ---------- palette ----------
+     The 6 brand colours. Nothing below invents a hue; the derived values are
+     Deep space lifted or lowered in lightness, because a dark interface needs
+     elevation steps and the palette supplies one dark. */
+  --deep-space: #121214;
+  /* Orbit blue and horizon teal are part of the brand palette but are not used
+     by the site. The blue still appears on the page inside the logo artwork,
+     which is where the emblem blue belongs. */
+  --orbit-blue: #5890c0;
+  --signal-red: #c8351f;
+  --starlight-white: #f4f5f7;
+  --solar-gold: #e8a83a;
+  --horizon-teal: #2fb5a8;
+
+  /* ---------- colour: surface ----------
+     Deep space is the page. 60% of the layout. */
+  --surface: var(--deep-space);
+  --surface-alt: #1b1b20;   /* derived: deep space lifted. Cards and the alternating band. */
+  --surface-deep: #0a0a0c;  /* derived: deep space lowered. The contrast band. */
+  /* Milled titanium: the only foreground material. A panel is a gradient plus
+     a machined bevel, never a flat fill, because flat fill reads as a div. */
+  --ti-face-hi: #26282c;
+  --ti-face-lo: #17191c;
+  --ti-bevel-top: rgb(255 255 255 / 0.16);
+  --ti-bevel-bottom: rgb(0 0 0 / 0.55);
+  --ti-seam: rgb(255 255 255 / 0.09);
+
+  /* ---------- colour: text ----------
+     Starlight white carries the headings and the body. A heading is the last
+     place an accent hue belongs: at display size a mid-tone accent on a dark
+     ground looks faded, and it reads as an unvisited link.
+       --text          #f4f5f7 on #121214  17.2:1   on #1b1b20  15.7:1
+       --text-muted    #9a9aa2 on #121214   6.7:1   on #1b1b20   6.1:1
+       --text-inverse  #121214 on #f4f5f7  17.2:1 */
+  --text: var(--starlight-white);
+  --text-strong: var(--starlight-white);
+  --text-muted: #9a9aa2;                 /* derived: a neutral, so it never competes */
+  --text-heading: var(--starlight-white);
+  --text-inverse: var(--deep-space);
+
+  /* ---------- colour: border ---------- */
+  --border: #2a2a31;         /* derived: the resting outline */
+  --border-strong: #4a4a54;  /* derived: hover, and the rule above a label */
+
+  /* ---------- colour: role ----------
+     Solar gold is the only accent. It carries interaction and data points
+     alike, so there is one token, not two.
+       accent   solar gold   links, the arrow chip, the active nav item, hover
+                             states, the focus ring, the stat numbers, the
+                             badge rule. Small marks, never a heading.
+       cta      signal red   1 call to action per page. */
+  --accent: var(--solar-gold);
+  --accent-hover: #f7c877;   /* derived: solar gold lifted, for hover on a dark ground */
+  --cta: var(--signal-red);
+  --cta-hover: #a82a17;      /* derived */
+
+  /* ---------- type: family ----------
+     One family for headings and body. One for labels. Nothing else. */
+  --font: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  /* Display runs wide: industrial signage is drawn wide, not condensed. */
+  --font-display-wdth: 112;
+
+  /* ---------- type: size ----------
+     6 steps. A size that is not in this list is not used. */
+  --fs-1: 13px;                      /* labels, fine print */
+  --fs-2: 15px;                      /* small body, captions */
+  --fs-3: 17px;                      /* body */
+  --fs-4: 21px;                      /* card title */
+  --fs-5: clamp(26px, 3.4vw, 40px);  /* sub-heading */
+  --fs-6: clamp(38px, 6vw, 84px);    /* display, capped under the 6rem ceiling at 1440 */
+
+  /* ---------- type: weight ---------- */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 800;
+
+  /* ---------- type: line height and tracking ---------- */
+  --lh-body: 1.5;
+  --lh-heading: 1.1;
+  --ls-heading: -0.02em;
+  --ls-label: 0.1em;
+
+  /* ---------- space: 8px scale, 6 steps ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 72px;
+
+  /* ---------- radius ----------
+     The house style is square. One token is enough; a second would have no
+     caller. Add --radius-pill when something round needs a CSS shape. */
+  --radius: 0;
+
+  /* ---------- layout constants ----------
+     Not spacing. These are fixed measurements of one element each. */
+  --container: 1440px;
+  --header-h: 72px;
+  --hero-min-h: 380px;
+  --icon-size: 96px;
+
+  /* ---------- motion ----------
+     One curve and one duration for every hover. No new motion is added. */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.18s;
+}

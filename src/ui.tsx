@@ -1,8 +1,14 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-export function Hero({ image, title, sub, tall, badge, stats, children }: {
+export type Record = { label: string; value: string }
+
+export function Hero({ image, assembly, record, title, sub, tall, badge, stats, children }: {
   image: string
+  /** Cut-out render. Its presence switches the hero to the flight composition. */
+  assembly?: string
+  /** Measured facts, set under the headline. Never above it. */
+  record?: Record[]
   title: string
   sub?: string
   tall?: boolean
@@ -11,6 +17,34 @@ export function Hero({ image, title, sub, tall, badge, stats, children }: {
   stats?: ReactNode
   children?: ReactNode
 }) {
+  if (assembly) {
+    return (
+      <section className="hero hero--flight">
+        <div className="hero__field" />
+        <div className="wrap hero__flight">
+          <div className="hero__panel">
+            <h1>{title}</h1>
+            {sub && <p className="hero__sub">{sub}</p>}
+            {record && (
+              <dl className="record">
+                {record.map((r) => (
+                  <div key={r.label}>
+                    <dt>{r.label}</dt>
+                    <dd>{r.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {children && <div className="hero__actions">{children}</div>}
+          </div>
+          <figure className="hero__assembly">
+            <img src={assembly} alt="Exploded view of the UW Orbital 3U CubeSat assembly" />
+          </figure>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className={tall ? 'hero hero--tall' : 'hero'}>
       <img className="hero__img" src={image} alt="" />
@@ -18,7 +52,7 @@ export function Hero({ image, title, sub, tall, badge, stats, children }: {
       <div className="hero__body">
         <div className="wrap">
           {badge && (
-            <p style={{ marginBottom: 20 }}>
+            <p style={{ marginBottom: 'var(--space-4)' }}>
               <span className="badge">{badge}</span>
             </p>
           )}
