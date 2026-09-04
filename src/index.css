@@ -287,7 +287,7 @@ ul.plain li:first-child { border-top: 0; }
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  opacity: 0.7;
+  opacity: var(--field-peak, 0.7);
   pointer-events: none;
 }
 @supports (animation-timeline: scroll()) {
@@ -297,7 +297,7 @@ ul.plain li:first-child { border-top: 0; }
     animation-range: 0 var(--field-clear, 190vh);
   }
 }
-@keyframes field-fade { 0%, 45% { opacity: 0.7; } 100% { opacity: 0; } }
+@keyframes field-fade { 0%, 45% { opacity: var(--field-peak, 0.7); } 100% { opacity: 0; } }
 @keyframes field-drift {
   from { transform: scale(1.06) translateY(0); }
   to   { transform: scale(1.06) translateY(-3.5%); }
@@ -315,7 +315,9 @@ ul.plain li:first-child { border-top: 0; }
    Team's phone number is the harsh one, because its head is a short block
    there rather than a full viewport, so the text arrives while the headline
    is still on screen. Giving Team the stage would buy the range back. */
-.field--mission { --field-clear: 155vh; }
+/* Mission runs the field at well under the landing page's strength: it is
+   a page to read, not a statement to land on. */
+.field--mission { --field-clear: 155vh; --field-peak: 0.42; }
 .field--team { --field-clear: 155vh; }
 @media (max-width: 900px) {
   .field--mission { --field-clear: 112vh; }
