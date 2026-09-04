@@ -368,9 +368,9 @@ ul.plain li:first-child { border-top: 0; }
 @media (max-width: 560px) { .tiles { grid-template-columns: 1fr; } }
 
 .tile { display: block; }
-.tile__img { display: block; overflow: hidden; background: var(--ground-deep); }
-.tile__img img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 0.4s var(--ease); }
-.tile:hover .tile__img img { transform: scale(1.03); }
+.tile__img { display: block; background: var(--ground-deep); }
+/* The photograph does not move on hover. The title carries the state. */
+.tile__img img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .tile__t {
   display: flex;
   align-items: baseline;
