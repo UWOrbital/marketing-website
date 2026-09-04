@@ -166,32 +166,15 @@ ul.plain li:first-child { border-top: 0; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s5); }
 
 /* ---------- header ---------- */
-/* The bar itself never paints, so there is no edge and no rule anywhere on
-   the site. What sits under it is a scrim: the ground at full strength
-   through the bar's own height, then feathered away to nothing over the
-   next 120px. It has to be near-opaque where the type is, not a light wash:
-   over the near-white sponsor sheets, grey nav text needs the ground at
-   about 0.97 to clear 4.5:1, and anything softer only looks like it helps.
-   Below the type it falls off, so the sky still runs to the window edge
-   rather than stopping at a line. */
+/* The bar is invisible. It paints nothing and puts nothing behind it, so
+   whatever the page is showing runs to the top edge of the window at every
+   scroll position. The open mobile menu still takes a ground, because a
+   dropdown needs one. */
 .hdr {
   position: sticky;
   top: 0;
   z-index: 50;
   background: transparent;
-}
-.hdr::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 188px;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(180deg,
-    rgb(var(--ground-rgb) / 0.97) 0,
-    rgb(var(--ground-rgb) / 0.96) 62px,
-    rgb(var(--ground-rgb) / 0.55) 112px,
-    rgb(var(--ground-rgb) / 0) 100%);
 }
 .hdr__bar { display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
 /* The logo artwork carries its own tagline under the wordmark. At this size
