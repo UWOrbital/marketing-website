@@ -223,6 +223,19 @@ ul.plain li:first-child { border-top: 0; }
    Display type first, then the heavy rule, then the supporting matter.
    Nothing is set over a photograph anywhere on this site. */
 .ph { padding-top: var(--s8); }
+
+/* The landing statement holds the whole first viewport. The rule and every
+   fact below it start under the fold, so arrival is one sentence and the
+   rest is found by scrolling. svh, not vh, so a phone's address bar does not
+   push the rule into view. */
+.ph--stage { padding-top: 0; }
+.ph--stage .ph__title {
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+}
+.ph--stage .ph__t { margin-bottom: 0; }
 .ph__t {
   font-size: var(--t-display);
   font-weight: var(--w-display);

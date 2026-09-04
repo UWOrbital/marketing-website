@@ -35,16 +35,19 @@ export function ArrowLink({ to, href, children }: { to?: string; href?: string; 
 /** The page headline. 1 per page, always the first thing on it.
  *  Display type, then a heavy rule, then the supporting matter set in the
  *  grid below it. Nothing sits on top of a photograph. */
-export function PageHead({ title, lede, record, actions }: {
+export function PageHead({ title, lede, record, actions, stage }: {
   title: string
   lede?: string
   /** Measured facts. Under the headline, never above it. */
   record?: Record[]
   actions?: ReactNode
+  /** Holds the headline in the whole first viewport, so nothing else is in
+   *  view on arrival. The landing page only. */
+  stage?: boolean
 }) {
   return (
-    <header className="ph">
-      <div className="page">
+    <header className={stage ? 'ph ph--stage' : 'ph'}>
+      <div className="page ph__title">
         <h1 className="ph__t">{title}</h1>
       </div>
       <hr className="rule rule--heavy" />

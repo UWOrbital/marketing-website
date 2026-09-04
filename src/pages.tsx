@@ -14,6 +14,7 @@ export function Home() {
   return (
     <>
       <PageHead
+        stage
         title={site.headline}
         lede="We are building a 3U CubeSat and launching it, to make it the University of Waterloo's first satellite launched by students."
         record={[
