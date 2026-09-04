@@ -66,7 +66,7 @@ export function Mission() {
   return (
     <>
       <div className="field field--settle" aria-hidden="true" />
-      <PageHead title={mission.title} lede={mission.statement} />
+      <PageHead fill title={mission.title} lede={mission.statement} />
       <Plate src={heroImages.mission} alt="" ratio="21 / 8" />
 
       {mission.sections.map((s, i) => (

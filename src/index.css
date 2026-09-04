@@ -154,6 +154,8 @@ ul.plain li:first-child { border-top: 0; }
   letter-spacing: 0.02em;
   line-height: 1;
   cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 .btn:hover { background: var(--text); color: var(--ground); }
@@ -164,6 +166,11 @@ ul.plain li:first-child { border-top: 0; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s5); }
 
 /* ---------- header ---------- */
+/* The bar rides the photograph until the reader moves. At rest it is
+   nothing, so the sky runs to the top edge of the window with no band
+   across it; once the page scrolls it takes the ground and its rule so the
+   nav stays legible over whatever is passing behind. Without a scroll
+   timeline it is simply opaque, which is the safe state. */
 .hdr {
   position: sticky;
   top: 0;
@@ -171,11 +178,23 @@ ul.plain li:first-child { border-top: 0; }
   background: var(--ground);
   border-bottom: 1px solid var(--rule);
 }
+@supports (animation-timeline: scroll()) {
+  .hdr {
+    animation: hdr-solid linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 110px;
+  }
+  @keyframes hdr-solid {
+    from { background-color: transparent; border-bottom-color: transparent; }
+    to   { background-color: var(--ground); border-bottom-color: var(--rule); }
+  }
+}
 .hdr__bar { display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
 /* The logo artwork carries its own tagline under the wordmark. At this size
    that line is unreadable, and the footer already sets it in type, so the
    box crops to the wordmark. 0.64 is where the tagline starts in the file. */
 .hdr__logo { display: block; height: var(--logo-h); overflow: hidden; }
+.hdr__logo { -webkit-user-select: none; user-select: none; }
 .hdr__logo img { height: calc(var(--logo-h) / 0.64); width: auto; object-position: 0 0; }
 @media (max-width: 420px) { .hdr__logo { height: 22px; } .hdr__logo img { height: calc(22px / 0.64); } }
 
@@ -236,6 +255,20 @@ ul.plain li:first-child { border-top: 0; }
   min-height: calc(100svh - var(--header-h));
 }
 .ph--stage .ph__t { margin-bottom: 0; }
+
+/* Mission fills the first viewport with its whole head, so the Earth plate
+   under it starts below the fold: on arrival there is type and sky and
+   nothing else. Unlike the landing stage this keeps the statement in view,
+   because on Mission the statement is the point of the page. */
+.ph--fill {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 0;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+}
+.ph--fill .ph__foot { padding-bottom: 0; }
 .ph__t {
   font-size: var(--t-display);
   font-weight: var(--w-display);

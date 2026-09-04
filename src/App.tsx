@@ -12,7 +12,7 @@ function Header() {
     <header className="hdr">
       <div className="page hdr__bar">
         <Link className="hdr__logo" to="/">
-          <img src="/logo-light.png" alt={site.name} />
+          <img src="/logo-light.png" alt={site.name} draggable={false} />
         </Link>
 
         <button
@@ -42,7 +42,7 @@ function Footer() {
     <footer className="ftr">
       <div className="page ftr__top">
         <div className="ftr__brand">
-          <span className="ftr__logo"><img src="/logo-light.png" alt={site.name} /></span>
+          <span className="ftr__logo"><img src="/logo-light.png" alt={site.name} draggable={false} /></span>
           <p className="ftr__tag">{site.tagline}</p>
           <a className="ulink ftr__mail" href={`mailto:${site.email}`}>{site.email}</a>
         </div>
