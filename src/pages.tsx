@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
-  site, heroImages, awards, mission, timeline, projects, teams, teamLead, galleryImages,
+  site, heroImages, awards, mission, timeline, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
 import { Arrow, ArrowLink, Award, Btn, PageHead, Plate, Row, Rows, Section, Split, Tile } from './ui'
@@ -83,13 +83,7 @@ export function Mission() {
         </div>
       </Section>
 
-      <Section title="Projects" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
-        <Rows>
-          {projects.map((p) => <Row key={p.name} lead={p.status} title={p.name} body={p.body} />)}
-        </Rows>
-      </Section>
-
-      <Section title="Project timeline" alt>
+      <Section title="Timeline" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>} alt>
         <Rows>
           {timeline.map((t) => <Row key={t.title} lead={t.date} title={t.title} body={t.body} />)}
         </Rows>

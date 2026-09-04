@@ -114,7 +114,7 @@ export function Section({ title, action, alt, children }: {
 }
 
 /** The list primitive. Every list on this site is this component: subteams,
- *  the timeline, projects, results, the steps to join, and contact.
+ *  the timeline, the steps to join, contact, and the subteam list.
  *  One row is a hairline, a lead column, and the text. */
 export function Rows({ numbered, children }: { numbered?: boolean; children: ReactNode }) {
   return <div className={numbered ? 'rows rows--num' : 'rows'}>{children}</div>

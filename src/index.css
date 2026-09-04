@@ -402,13 +402,11 @@ ul.plain li:first-child { border-top: 0; }
 .split--solo { grid-template-columns: 1fr; }
 .split__h { font-size: var(--t-2); margin-bottom: var(--s3); }
 .split__text p { color: var(--text-2); }
-/* Two classes of image, two treatments, and the artwork decides which.
-   A photograph runs full bleed on the ground. A CAD figure was drawn for a
-   white ground and its subject is often black anodised panels, which are
-   invisible on deep space, so a captioned figure keeps the sheet it was
-   drawn on. The hero assembly is the exception the rule allows: it is the
-   page's subject rather than a figure, and it is light enough to float. */
-.split__fig { margin: 0; background: var(--plate); }
+/* Every CAD render carries real transparency, so it sits on the ground with
+   nothing behind it, the same as the hero assembly. Only third-party logo
+   artwork keeps a sheet, because that arrives on a white background and
+   cannot be knocked out. */
+.split__fig { margin: 0; }
 /* The 3 renders are 1613x882 and 1765x1280. One reserved box at the wider
    ratio holds every one of them, so a figure never collapses while it loads
    and the page never shifts under the reader. */

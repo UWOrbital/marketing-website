@@ -136,7 +136,10 @@ export const timeline = [
 // The 2 projects that run at the same time. `status` is the one line to edit
 // when something moves. Nothing else on the page has to change.
 // PLACEHOLDER COPY. The projects are real. The wording is not final.
-export const projects = [
+// Parked. The Projects section was removed from the Mission page for now.
+// Restore it by rendering these 2 rows back into Mission, above the timeline,
+// and give the section back its "Meet the subteams" action.
+export const projectsParked = [
   {
     name: '3U CubeSat',
     status: 'Flight model built and tested. Adapting it to the CUBICS mission.',
