@@ -326,25 +326,23 @@ ul.plain li:first-child { border-top: 0; }
   from { transform: scale(1.06) translateY(0); }
   to   { transform: scale(1.06) translateY(-3.5%); }
 }
-/* Mission is a reading page, so its field never clears: it dims to a ground
-   the whole page then sits on. Same layer, same fixed parallax, same
-   dissolve, but it settles instead of leaving.
+/* Mission clears to the opaque ground the same way the landing page does,
+   just sooner: its head is one viewport, the Earth plate is the next two
+   thirds of one, and the first paragraph lands at about 1.8 viewports. The
+   field is gone by 1.6, so no body text ever sits over a star. */
+.field--mission { animation-range: 0 160vh; }
+/* On a phone the plate is a 164px band rather than a 610px one, so the
+   first paragraph arrives about a third of a viewport sooner and the field
+   has to be gone by then. */
+@media (max-width: 900px) { .field--mission { animation-range: 0 118vh; } }
 
-   It stays the Hubble field, which is near-black. A bright nebula cannot go
-   here: small secondary text over a galaxy glow drops under 4.5:1, and no
-   opacity low enough to fix that leaves the photograph worth having. */
-.field--settle { animation-range: 0 140vh; }
-@supports (animation-timeline: scroll()) {
-  .field--settle { animation-name: field-settle, field-drift; }
-}
-@keyframes field-settle { from { opacity: 0.7; } to { opacity: 0.24; } }
-
-/* Reduced motion keeps the fields and drops every scroll-linked change: a
-   ground that moves and dissolves under the reader is exactly what the
-   preference is asking not to do. */
+/* Reduced motion drops every scroll-linked change: a ground that moves and
+   dissolves under the reader is what the preference is asking not to do.
+   The field then has to hold one value for the whole page instead of
+   clearing before the text, so it sits far back. At 0.22 the sky is texture
+   and a star point cannot take a paragraph under contrast. */
 @media (prefers-reduced-motion: reduce) {
-  .field { animation: none; opacity: 0.45; }
-  .field--settle { animation: none; opacity: 0.28; }
+  .field { animation: none; opacity: 0.22; }
 }
 
 /* ---------- plate: an objective image, full bleed ----------
@@ -460,7 +458,9 @@ ul.plain li:first-child { border-top: 0; }
 /* The 3 renders are 1613x882 and 1765x1280. One reserved box at the wider
    ratio holds every one of them, so a figure never collapses while it loads
    and the page never shifts under the reader. */
-.split__fig img { width: 100%; aspect-ratio: 1613 / 882; object-fit: contain; }
+/* Same baked floor shadow the hero assembly carries, clipped the same way.
+   contain fits these by height, so the inset takes the image's own bottom. */
+.split__fig img { width: 100%; aspect-ratio: 1613 / 882; object-fit: contain; clip-path: inset(0 0 5% 0); }
 @media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: var(--s5); } .split--flip .split__text { order: 0; } }
 
 /* ---------- tiles: an image with the caption under it ---------- */

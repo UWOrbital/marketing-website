@@ -65,7 +65,7 @@ export function Home() {
 export function Mission() {
   return (
     <>
-      <div className="field field--settle" aria-hidden="true" />
+      <div className="field field--mission" aria-hidden="true" />
       <PageHead fill title={mission.title} lede={mission.statement} />
       <Plate src={heroImages.mission} alt="" ratio="21 / 8" />
 
@@ -84,7 +84,7 @@ export function Mission() {
         </div>
       </Section>
 
-      <Section title="Timeline" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
+      <Section title="Timeline" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>} alt>
         <Rows>
           {timeline.map((t) => <Row key={t.title} lead={t.date} title={t.title} body={t.body} />)}
         </Rows>
