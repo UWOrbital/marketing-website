@@ -315,10 +315,10 @@ ul.plain li:first-child { border-top: 0; }
    Team's phone number is the harsh one, because its head is a short block
    there rather than a full viewport, so the text arrives while the headline
    is still on screen. Giving Team the stage would buy the range back. */
-/* Mission runs the field at well under the landing page's strength, but on
-   the same run: it lingers through the fold and the record, which is set in
-   white for that reason, and is gone before the first grey paragraph. */
-.field--mission { --field-clear: 190vh; --field-peak: 0.42; }
+/* Mission runs the field at the landing page's strength and on its run: it
+   lingers through the fold and the record, which is set in white for that
+   reason, and is gone before the first grey paragraph. */
+.field--mission { --field-clear: 190vh; }
 .field--team { --field-clear: 155vh; }
 @media (max-width: 900px) {
   .field--mission { --field-clear: 190vh; }
