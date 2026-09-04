@@ -35,7 +35,7 @@ export function ArrowLink({ to, href, children }: { to?: string; href?: string; 
 /** The page headline. 1 per page, always the first thing on it.
  *  Display type, then a heavy rule, then the supporting matter set in the
  *  grid below it. The only photograph behind type is the landing field. */
-export function PageHead({ title, lede, record, actions, stage, fill }: {
+export function PageHead({ title, lede, record, actions, stage }: {
   title: string
   lede?: string
   /** Measured facts. Under the headline, never above it. */
@@ -44,12 +44,9 @@ export function PageHead({ title, lede, record, actions, stage, fill }: {
   /** Holds the headline in the whole first viewport, so nothing else is in
    *  view on arrival. The landing page only. */
   stage?: boolean
-  /** Fills the first viewport with the whole head, headline and statement
-   *  together, so the plate under it starts below the fold. */
-  fill?: boolean
 }) {
   return (
-    <header className={['ph', stage && 'ph--stage', fill && 'ph--fill'].filter(Boolean).join(' ')}>
+    <header className={stage ? 'ph ph--stage' : 'ph'}>
       <div className="page ph__title">
         <h1 className="ph__t">{title}</h1>
       </div>
@@ -119,8 +116,9 @@ export function Section({ title, action, alt, children }: {
 /** The list primitive. Every list on this site is this component: subteams,
  *  the timeline, the steps to join, contact, and the subteam list.
  *  One row is a hairline, a lead column, and the text. */
-export function Rows({ numbered, children }: { numbered?: boolean; children: ReactNode }) {
-  return <div className={numbered ? 'rows rows--num' : 'rows'}>{children}</div>
+export function Rows({ numbered, lit, children }: { numbered?: boolean; lit?: boolean; children: ReactNode }) {
+  /** `lit` sets the rows in white for a list that sits on the sky. */
+  return <div className={['rows', numbered && 'rows--num', lit && 'rows--lit'].filter(Boolean).join(' ')}>{children}</div>
 }
 
 export function Row({ lead, title, body, end, to, href, children }: {

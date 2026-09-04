@@ -253,20 +253,6 @@ ul.plain li:first-child { border-top: 0; }
 }
 .ph--stage .ph__t { margin-bottom: 0; }
 
-/* Mission fills the first viewport with its whole head, so what is under it
-   starts below the fold: on arrival there is type and sky and nothing else.
-   Unlike the landing stage this keeps the statement in view, because on
-   Mission the statement is the point of the page. */
-.ph--fill {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 0;
-  min-height: calc(100vh - var(--header-h));
-  min-height: calc(100svh - var(--header-h));
-}
-.ph--fill .ph__foot { padding-bottom: 0; }
-
 .ph__foot { padding-top: var(--s5); padding-bottom: var(--s7); }
 @media (max-width: 900px) { .ph { padding-top: var(--s6); } }
 
@@ -329,13 +315,13 @@ ul.plain li:first-child { border-top: 0; }
    Team's phone number is the harsh one, because its head is a short block
    there rather than a full viewport, so the text arrives while the headline
    is still on screen. Giving Team the stage would buy the range back. */
-/* Mission runs the field at well under the landing page's strength, and
-   only behind the head: it is gone at the fold, so the record and everything
-   under it sit on solid ground. */
-.field--mission { --field-clear: 75vh; --field-peak: 0.42; }
+/* Mission runs the field at well under the landing page's strength, but on
+   the same run: it lingers through the fold and the record, which is set in
+   white for that reason, and is gone before the first grey paragraph. */
+.field--mission { --field-clear: 190vh; --field-peak: 0.42; }
 .field--team { --field-clear: 155vh; }
 @media (max-width: 900px) {
-  .field--mission { --field-clear: 75vh; }
+  .field--mission { --field-clear: 190vh; }
   .field--team { --field-clear: 72vh; }
 }
 
@@ -428,6 +414,8 @@ ul.plain li:first-child { border-top: 0; }
   color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
+/* A list that sits on the sky: white, so it needs no clearing under it. */
+.rows--lit .row__lead, .rows--lit .row__b { color: var(--text); }
 .row__n { display: none; }
 .rows--num .row__n { display: block; }
 .rows--num .row__n::before { content: counter(row, decimal-leading-zero); }

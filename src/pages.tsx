@@ -67,12 +67,13 @@ export function Mission() {
   return (
     <>
       <div className="field field--mission" aria-hidden="true" />
-      <PageHead fill title={mission.title} lede={mission.statement} />
+      <PageHead stage title={mission.title} lede={mission.statement} />
 
-      {/* The record, first: what a sponsor came for, in one screen. The
+      {/* The record, first: what a sponsor came for, in one screen. It sits
+          on the dissolving sky like Home's foot does, so its text is lit. The
           sections below carry the full paragraphs for whoever keeps reading. */}
       <Section title="The record">
-        <Rows>
+        <Rows lit>
           <Row lead="Satellite" title={satellite.title} body={satellite.lead} />
           <Row lead="Competition" title={competition.title} body={competition.lead}>
             <div className="awards awards--inline">

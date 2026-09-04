@@ -21,11 +21,11 @@ Copy is settled. The record shows one sentence per station, word for word, from 
 
 THESIS: The facts first, the depth after. A sponsor gets the record in one screen; the full sections follow for whoever keeps reading. Refuses the pinned slideshow and the panning plate, both tried and withdrawn.
 
-OWN-WORLD: Deep-space ground, Outfit at light weight, starlight white, signal red only as the button. The Hubble field behind the head and gone at the fold. Photographs full bleed, CAD renders floating, hairlines between sections. No panels, no eyebrows.
+OWN-WORLD: Deep-space ground, Outfit at light weight, starlight white, signal red only as the button. The Hubble field behind the head, on the landing page's run, gone before the first grey paragraph. Photographs full bleed, CAD renders floating, hairlines between sections. No panels, no eyebrows.
 
 STORY: A sponsor reads three facts and both wins, then can act. A reader who continues gets the Earth from orbit, the three renders with their paragraphs, and the timeline.
 
-FIRST VIEWPORT: "Mission" and its statement fill one screen on the field. Under the fold: the record, then the plate.
+FIRST VIEWPORT: "Mission" alone on the field, one screen, the headline centred where Home's is and the rule at the fold. Under the fold: the statement, the record set in white on the dissolving sky, then the plate.
 
 FORM: The page as it stood at f5746bb, plus the record. Chosen by the user over the dealt sky (seed 8726107b) after seeing it built.
 
