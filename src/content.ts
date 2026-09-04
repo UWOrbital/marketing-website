@@ -145,7 +145,7 @@ export type Station = { slug: string; title: string; lead?: string; image: strin
 export const missionStations: Station[] = [
   {
     slug: 'satellite',
-    title: 'A 3U CubeSat.',
+    title: '3U CubeSat',
     // timeline, Mar 2026, second sentence
     lead: 'The CubeSat went through vibration and thermal vacuum testing to simulate the forces of launch, and it passed.',
     image: '/cad-exploded-cut.png',
@@ -154,7 +154,7 @@ export const missionStations: Station[] = [
   },
   {
     slug: 'competition',
-    title: 'Won it twice.',
+    title: 'CSDC-6 and CSDC-7, first place',
     // mission.sections[0].body2, last two sentences
     lead: 'UW Orbital applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
     image: '/space/webb-pillars.jpg',
@@ -162,7 +162,7 @@ export const missionStations: Station[] = [
   },
   {
     slug: 'payload',
-    title: 'It photographs the Earth.',
+    title: 'Arducam camera',
     // mission.sections[2].body, first two sentences
     lead: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit.',
     image: heroImages.mission,
@@ -170,7 +170,7 @@ export const missionStations: Station[] = [
   },
   {
     slug: 'timeline',
-    title: 'Kickoff to launch.',
+    title: 'Timeline',
     image: '/space/webb-first-deep-field.jpg',
     alt: "Webb's First Deep Field",
   },

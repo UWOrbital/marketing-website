@@ -34,7 +34,7 @@ export function Home() {
         bed
         src="/cad-exploded-cut.png"
         alt="Exploded view of the UW Orbital 3U CubeSat assembly"
-        caption="V6 flight assembly, exploded — structure, avionics stack, deployable solar panels"
+        caption="V6 flight assembly, exploded view"
       />
 
       <Section title="Subteams" action={<ArrowLink to="/team">Meet the team</ArrowLink>}>
@@ -69,10 +69,10 @@ export function Mission() {
       <div className="field field--mission" aria-hidden="true" />
       <PageHead stage title={mission.title} lede={mission.statement} />
 
-      {/* The record, first: what a sponsor came for, in one screen. It sits
+      {/* The overview, first: what a sponsor came for, in one screen. It sits
           on the dissolving sky like Home's foot does, so its text is lit. The
           sections below carry the full paragraphs for whoever keeps reading. */}
-      <Section title="The record">
+      <Section title="Overview">
         <Rows lit>
           <Row lead="Satellite" title={satellite.title} body={satellite.lead} />
           <Row lead="Competition" title={competition.title} body={competition.lead}>
@@ -109,8 +109,8 @@ export function Team() {
     <>
       <div className="field field--team" aria-hidden="true" />
       <PageHead
-        title="Six subteams. One satellite."
-        lede="Every part of the CubeSat is designed, built and tested by students. Each subteam owns its hardware from the first sketch to the vibration table."
+        title="Team"
+        lede="Six subteams design, build and test the CubeSat."
         record={[{ label: teamLead.role, value: teamLead.name }]}
         actions={<Btn signal to="/join">Join the team</Btn>}
       />
@@ -192,7 +192,7 @@ export function Sponsors() {
   return (
     <>
       <PageHead
-        title="Back the first Waterloo satellite."
+        title="Sponsors"
         lede={sponsorIntro}
         actions={<>
           <Btn signal href={sponsorPackage}>Sponsorship package</Btn>
@@ -280,7 +280,7 @@ export function Gallery() {
   const [open, setOpen] = useState<string | null>(null)
   return (
     <>
-      <PageHead title="The build, as it happened." />
+      <PageHead title="Gallery" />
       <button className="plate plate--btn" onClick={() => setOpen(lead)}>
         <img src={lead} alt="The UW Orbital team outside the Waterloo sign" />
       </button>
@@ -302,12 +302,12 @@ export function Gallery() {
 export function NotFound() {
   return (
     <>
-      <PageHead title="Page not found." lede="That page is not part of this site." />
-      <Section title="Try these instead">
+      <PageHead title="Page not found" lede="That page is not part of this site." />
+      <Section title="Other pages">
         <Rows>
-          <Row to="/mission" title="Mission" body="What we are building, and who pays for the launch." end={<Arrow />} />
-          <Row to="/team" title="Team" body="The 6 subteams and the people who lead them." end={<Arrow />} />
-          <Row to="/join" title="Join us" body="Two steps to start building." end={<Arrow />} />
+          <Row to="/mission" title="Mission" end={<Arrow />} />
+          <Row to="/team" title="Team" end={<Arrow />} />
+          <Row to="/join" title="Join us" end={<Arrow />} />
         </Rows>
       </Section>
     </>
