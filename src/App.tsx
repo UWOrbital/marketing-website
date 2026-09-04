@@ -45,6 +45,9 @@ function Footer() {
           <span className="ftr__logo"><img src="/logo-light.png" alt={site.name} draggable={false} /></span>
           <p className="ftr__tag">{site.tagline}</p>
           <a className="ulink ftr__mail" href={`mailto:${site.email}`}>{site.email}</a>
+          {/* The mission patch: the one emblem on the site that is an emblem by
+              design, so it sits where every mission site puts its patch. */}
+          <img className="ftr__patch" src="/patch.png" alt="UW Orbital mission patch" width="512" height="504" loading="lazy" />
         </div>
         <div>
           <p className="label">Explore</p>

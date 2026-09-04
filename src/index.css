@@ -544,6 +544,7 @@ ul.plain li:first-child { border-top: 0; }
 .ftr__logo img { height: calc(30px / 0.72); width: auto; object-position: 0 0; }
 .ftr__tag { margin: var(--s4) 0 0; max-width: 30ch; color: var(--text-2); }
 .ftr__mail { display: inline-block; margin-top: var(--s4); border-bottom-color: var(--text-2); }
+.ftr__patch { display: block; width: 88px; height: auto; margin-top: var(--s5); }  /* artwork size: a patch, not a scale step */
 .ftr__mail:hover { border-bottom-color: var(--text); }
 .ftr .label { color: var(--text-2); margin-bottom: var(--s3); }
 .ftr__top ul.plain { max-width: 22ch; }
