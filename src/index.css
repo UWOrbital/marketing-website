@@ -309,20 +309,23 @@ ul.plain li:first-child { border-top: 0; }
    failure this avoids; the broad field is near-black and secondary text
    clears 6.4:1 against it even at full strength.
 
-     Mission  first paragraph 1953px desktop, 1426px phone
-     Team     first paragraph 1869px desktop, 1079px phone
+     Mission  first grey paragraph 2887px desktop, 2441px phone
+     Team     first grey row       2000px desktop, 1450px phone
 
-   Team's phone number is the harsh one, because its head is a short block
-   there rather than a full viewport, so the text arrives while the headline
-   is still on screen. Giving Team the stage would buy the range back. */
+   Re-measure these whenever a head or a lede above them changes length:
+   a one-line lede instead of two moved Team's rows up 200px once and left
+   the field at 0.16 behind them.
+
+   Both lead pages and Team are on the stage now, so all three have a full
+   viewport of head before anything else and the field gets its run. */
 /* Mission runs the field at the landing page's strength and on its run: it
    lingers through the fold and the record, which is set in white for that
    reason, and is gone before the first grey paragraph. */
 .field--mission { --field-clear: 190vh; }
-.field--team { --field-clear: 155vh; }
+.field--team { --field-clear: 170vh; }
 @media (max-width: 900px) {
   .field--mission { --field-clear: 190vh; }
-  .field--team { --field-clear: 72vh; }
+  .field--team { --field-clear: 120vh; }
 }
 
 /* Reduced motion drops every scroll-linked change: a ground that moves and

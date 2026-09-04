@@ -109,6 +109,7 @@ export function Team() {
     <>
       <div className="field field--team" aria-hidden="true" />
       <PageHead
+        stage
         title="Team"
         lede="Six subteams design, build and test the CubeSat."
         record={[{ label: teamLead.role, value: teamLead.name }]}
