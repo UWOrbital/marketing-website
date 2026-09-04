@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
-  site, heroImages, awards, mission, timeline, teams, teamLead, galleryImages,
+  site, heroImages, awards, mission, missionStations, timeline, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
-import { Arrow, ArrowLink, Award, Btn, PageHead, Plate, Row, Rows, Section, Split, Tile } from './ui'
+import { Arrow, ArrowLink, Award, Btn, PageHead, Plate, Row, Rows, Section, Tile } from './ui'
 
 // The 3 subteams the landing page shows. Software replaced GNC here.
 // The order follows `teams`, which already lists these 3 in this order.
@@ -67,28 +67,42 @@ export function Mission() {
     <>
       <div className="field field--mission" aria-hidden="true" />
       <PageHead stage title={mission.title} lede={mission.statement} />
-      <Plate src={heroImages.mission} alt="" ratio="21 / 8" />
 
-      {mission.sections.map((s, i) => (
-        <Section key={s.heading} title={s.heading}>
-          <Split image={s.images[0]?.src} alt={s.images[0]?.alt} flip={i % 2 === 1}>
-            {s.body && <p>{s.body}</p>}
-            {s.body2 && <p>{s.body2}</p>}
-          </Split>
-        </Section>
-      ))}
-
-      <Section title="Competition results">
-        <div className="awards">
-          {awards.map((a) => <Award key={a.competition} {...a} />)}
+      {/* Scroll is time along the mission. The stage holds the viewport
+          while the reader scrolls, and the four stations pass through it in
+          place. Without a view timeline they stack as ordinary sections. */}
+      <section className="stage-track" aria-label="The mission, in four parts">
+        <div className="stage">
+          {missionStations.map((s, i) => (
+            <article className={`station station--${i + 1}`} key={s.slug}>
+              <div className="page station__grid">
+                <div className="station__text">
+                  <h2 className="station__t">{s.title}</h2>
+                  {s.slug === 'competition' && (
+                    <div className="awards station__awards">
+                      {awards.map((a) => <Award key={a.competition} {...a} />)}
+                    </div>
+                  )}
+                  {s.lead && <p className="lede">{s.lead}</p>}
+                  {s.slug === 'timeline' && (
+                    <>
+                      <ol className="tl">
+                        {timeline.map((t) => (
+                          <li key={t.title}><span className="label">{t.date}</span><span>{t.title}</span></li>
+                        ))}
+                      </ol>
+                      <div className="actions"><ArrowLink to="/team">Meet the subteams</ArrowLink></div>
+                    </>
+                  )}
+                </div>
+                <figure className={s.float ? 'station__fig station__fig--float' : 'station__fig station__fig--photo'}>
+                  <img src={s.image} alt={s.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+                </figure>
+              </div>
+            </article>
+          ))}
         </div>
-      </Section>
-
-      <Section title="Timeline" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
-        <Rows>
-          {timeline.map((t) => <Row key={t.title} lead={t.date} title={t.title} body={t.body} />)}
-        </Rows>
-      </Section>
+      </section>
     </>
   )
 }

@@ -315,12 +315,13 @@ ul.plain li:first-child { border-top: 0; }
    Team's phone number is the harsh one, because its head is a short block
    there rather than a full viewport, so the text arrives while the headline
    is still on screen. Giving Team the stage would buy the range back. */
-/* Mission runs the field at well under the landing page's strength: it is
-   a page to read, not a statement to land on. */
-.field--mission { --field-clear: 155vh; --field-peak: 0.42; }
+/* Mission runs the field at well under the landing page's strength, and
+   clears it while the first station is up: the assembly floats out of the
+   sky, and the sky is gone before the nebulae arrive. */
+.field--mission { --field-clear: 185vh; --field-peak: 0.42; }
 .field--team { --field-clear: 155vh; }
 @media (max-width: 900px) {
-  .field--mission { --field-clear: 112vh; }
+  .field--mission { --field-clear: 185vh; }
   .field--team { --field-clear: 72vh; }
 }
 
@@ -332,6 +333,118 @@ ul.plain li:first-child { border-top: 0; }
 @media (prefers-reduced-motion: reduce) {
   .field { animation: none; opacity: 0.22; }
 }
+
+
+/* ---------- the pinned stage ----------
+   Scroll is time along the mission. The stage holds the viewport while the
+   reader scrolls 1.6 screens, and the four stations cross-fade through it
+   in place: the satellite, the competition, the payload, the timeline.
+
+   Every station keeps its type on the ground and its photograph to the
+   right, masked into the ground along its left edge, so a bright nebula is
+   never behind a paragraph and there is no panel edge anywhere. The
+   satellite is the one exception: its render is transparent, so it floats.
+
+   The base is four ordinary full-height sections, one after another, which
+   is the page as it reads on paper. The pin is layered on only where the
+   browser has a view timeline and the reader has not asked for reduced
+   motion. Both fallbacks are the same page, just unrolled. */
+.stage-track { position: relative; }
+.station { display: grid; align-items: center; min-height: 100svh; }
+.station__grid {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: var(--s6);
+  align-items: center;
+  padding-block: var(--s6);
+}
+.station__t { font-size: var(--t-1); font-weight: var(--w-light); margin-bottom: var(--s4); text-wrap: balance; }
+.station__text .lede { max-width: 36ch; }
+.station__awards { margin-bottom: var(--s5); }
+.station__fig { margin: 0; }
+.station__fig img { display: block; width: 100%; }
+.station__fig--photo { height: 72svh; }
+.station__fig--photo img {
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 38%);
+  mask-image: linear-gradient(to right, transparent, #000 38%);
+}
+.station__fig--float img { max-height: 72svh; object-fit: contain; clip-path: inset(0 0 6.5% 0); }
+
+/* The timeline, compact: date and title, no body. */
+.tl { list-style: none; margin: var(--s4) 0 0; padding: 0; }
+.tl li {
+  display: grid;
+  grid-template-columns: 9ch 1fr;
+  gap: var(--s3);
+  align-items: baseline;
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--rule);
+}
+.tl li:last-child { border-bottom: 1px solid var(--rule); }
+
+@media (max-width: 900px) {
+  /* The bar is transparent, so the photograph has to start under it, not
+     behind it; and eight timeline rows plus a photograph have to fit one
+     phone screen with room to spare, so the rows tighten and the
+     photograph gives up a few percent. */
+  .station__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s4);
+    padding-top: calc(var(--header-h) + var(--s3));
+    padding-bottom: var(--s4);
+  }
+  .station__fig { order: -1; }
+  .station__fig--photo { height: 32svh; }
+  .tl li { padding: var(--s1) 0; }
+  .station__fig--photo img {
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  }
+  .station__fig--float img { max-height: 34svh; }
+}
+
+/* The pin needs the stacked phone layout to fit one screen. Eight timeline
+   rows over a photograph do at 800px and do not at 740px, so a short phone
+   unrolls; side by side, a laptop at 780px has room to spare. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and ((min-width: 901px) or (min-height: 800px)) {
+    .stage-track { height: 260vh; height: 260svh; view-timeline-name: --stage; }
+    .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+    .station {
+      position: absolute;
+      inset: 0;
+      min-height: 0;
+      animation-timeline: --stage;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+    /* Each station owns a slice of the pinned scroll, and neighbouring
+       slices overlap by 6%, which is the cross-fade. */
+    .station--1 { animation-name: station-first; animation-range: contain 0% contain 30%; }
+    .station--2 { animation-name: station-mid;   animation-range: contain 24% contain 56%; }
+    .station--3 { animation-name: station-mid;   animation-range: contain 50% contain 82%; }
+    .station--4 { animation-name: station-last;  animation-range: contain 76% contain 100%; }
+    /* The assembly rises out of the field as the stage arrives. */
+    .station--1 .station__fig img {
+      animation: rise linear both;
+      animation-timeline: --stage;
+      animation-range: entry 40% contain 10%;
+    }
+    /* The timeline draws its list down as the reader scrolls through it. */
+    .station--4 .tl {
+      animation: draw linear both;
+      animation-timeline: --stage;
+      animation-range: contain 78% contain 90%;
+    }
+  }
+}
+@keyframes station-first { 0%, 78% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
+@keyframes station-mid   { 0% { opacity: 0; visibility: hidden; } 22%, 78% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
+@keyframes station-last  { 0% { opacity: 0; visibility: hidden; } 22%, 100% { opacity: 1; visibility: visible; } }
+@keyframes rise { from { transform: translateY(9%); } to { transform: translateY(0); } }
+@keyframes draw { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 
 /* ---------- plate: an objective image, full bleed ----------
    No scrim, no gradient, no type on top. The photograph is evidence. */

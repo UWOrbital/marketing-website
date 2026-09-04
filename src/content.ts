@@ -136,6 +136,46 @@ export const timeline = [
 // The 2 projects that run at the same time. `status` is the one line to edit
 // when something moves. Nothing else on the page has to change.
 // PLACEHOLDER COPY. The projects are real. The wording is not final.
+/** The Mission page's pinned stage: four stations the reader scrolls through
+ *  in place. Each lead is one sentence, word for word, from the paragraph it
+ *  names. The full paragraphs stay in `mission.sections` and `timeline`; the
+ *  Sep 2026 decision was to show the lead sentence only. */
+export type Station = { slug: string; title: string; lead?: string; image: string; alt: string; float?: boolean }
+
+export const missionStations: Station[] = [
+  {
+    slug: 'satellite',
+    title: 'A 3U CubeSat.',
+    // timeline, Mar 2026, second sentence
+    lead: 'The CubeSat went through vibration and thermal vacuum testing to simulate the forces of launch, and it passed.',
+    image: '/cad-exploded-cut.png',
+    alt: 'Exploded view of the UW Orbital 3U CubeSat assembly',
+    float: true,
+  },
+  {
+    slug: 'competition',
+    title: 'Won it twice.',
+    // mission.sections[0].body2, last two sentences
+    lead: 'UW Orbital applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
+    image: '/space/webb-pillars.jpg',
+    alt: 'Pillars of Creation, imaged by Webb',
+  },
+  {
+    slug: 'payload',
+    title: 'It photographs the Earth.',
+    // mission.sections[2].body, first two sentences
+    lead: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit.',
+    image: heroImages.mission,
+    alt: 'The Earth seen from low orbit',
+  },
+  {
+    slug: 'timeline',
+    title: 'Kickoff to launch.',
+    image: '/space/webb-first-deep-field.jpg',
+    alt: "Webb's First Deep Field",
+  },
+]
+
 // Parked. The Projects section was removed from the Mission page for now.
 // Restore it by rendering these 2 rows back into Mission, above the timeline,
 // and give the section back its "Meet the subteams" action.
