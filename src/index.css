@@ -57,13 +57,23 @@ html { scrollbar-color: var(--ink-3) var(--paper); caret-color: var(--signal); }
   margin-inline: auto;
 }
 
-/* The 3 field grid. Every section, every row, and the footer use it. */
-.page.ph__foot,
-.sec > .page,
+/* The 3 field grid: a lead column, the content, a trailing column. A row and
+   the footer fill all 3, so the lead column earns the indent it creates. */
 .row,
 .ftr__top {
   display: grid;
   grid-template-columns: 2fr 6fr 4fr;
+  gap: var(--gutter);
+}
+
+/* Content and its action. A section heading has nothing to put in a lead
+   column, and an empty one reads as a page centred badly rather than as
+   structure, so the heading, the lede and the body all take the page's own
+   left edge. Only the action and the record hang in the right field. */
+.page.ph__foot,
+.sec > .page {
+  display: grid;
+  grid-template-columns: 8fr 4fr;
   gap: var(--gutter);
 }
 @media (max-width: 900px) {
@@ -273,15 +283,15 @@ ul.plain li:first-child { border-top: 0; }
 .sec--alt { background: var(--paper-2); padding-top: var(--s7); }
 .sec--alt > .page { border-top: 0; padding-top: 0; }
 
-.sec__t { font-size: var(--t-1); font-weight: var(--w-light); max-width: 20ch; }
+/* 26ch keeps "CSDC-7" whole; at 20ch the line broke after its hyphen. */
+.sec__t { font-size: var(--t-1); font-weight: var(--w-light); max-width: 26ch; text-wrap: balance; }
 .sec__a { justify-self: end; text-align: right; }
-/* The body starts in field 2 and runs to the edge, so a paragraph sits under
-   its own heading and a grid of tiles still gets the full width. */
-.sec__body { grid-column: 2 / -1; align-self: start; }
+/* The body runs the full width, under its own heading. */
+.sec__body { grid-column: 1 / -1; align-self: start; }
 @media (max-width: 900px) {
   .sec > .page { row-gap: var(--s4); }
   .sec__a { justify-self: start; text-align: left; }
-  .sec__body { grid-column: 1; margin-top: var(--s3); }
+  .sec__body { margin-top: var(--s3); }
 }
 
 /* ---------- rows: the one list on this site ----------

@@ -50,8 +50,6 @@ export function PageHead({ title, lede, record, actions }: {
       <hr className="rule rule--heavy" />
       {(lede || record || actions) && (
         <div className="page ph__foot">
-          {/* Column 1 stays empty. White space is the structure here. */}
-          <div />
           <div className="ph__body">
             {lede && <p className="lede">{lede}</p>}
             {actions && <div className="actions">{actions}</div>}
@@ -102,10 +100,8 @@ export function Section({ title, action, alt, children }: {
 }) {
   return (
     <section className={alt ? 'sec sec--alt' : 'sec'}>
-      {/* The heading sits in field 2 and the action in field 3. Field 1 is
-          empty on purpose: the indent is what makes the grid legible. */}
+      {/* Heading left, action right, body across both. */}
       <div className="page">
-        <span />
         {title ? <h2 className="sec__t">{title}</h2> : <span />}
         <div className="sec__a">{action}</div>
         <div className="sec__body">{children}</div>
