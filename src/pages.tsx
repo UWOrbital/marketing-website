@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
-  site, heroImages, awards, mission, missionStations, timeline, teams, teamLead, galleryImages,
+  site, heroImages, awards, mission, missionStations, skyPlate, timeline, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
 import { Arrow, ArrowLink, Award, Btn, PageHead, Plate, Row, Rows, Section, Tile } from './ui'
@@ -63,44 +63,53 @@ export function Home() {
 }
 
 export function Mission() {
+  const [satellite, competition, payload] = missionStations
+  const tl = (
+    <ol className="tl">
+      {timeline.map((t) => (
+        <li key={t.title}><span className="label">{t.date}</span><span>{t.title}</span></li>
+      ))}
+    </ol>
+  )
   return (
     <>
       <div className="field field--mission" aria-hidden="true" />
       <PageHead stage title={mission.title} lede={mission.statement} />
 
-      {/* Scroll is time along the mission. The stage holds the viewport
-          while the reader scrolls, and the four stations pass through it in
-          place. Without a view timeline they stack as ordinary sections. */}
-      <section className="stage-track" aria-label="The mission, in four parts">
-        <div className="stage">
-          {missionStations.map((s, i) => (
-            <article className={`station station--${i + 1}`} key={s.slug}>
-              <div className="page station__grid">
-                <div className="station__text">
-                  <h2 className="station__t">{s.title}</h2>
-                  {s.slug === 'competition' && (
-                    <div className="awards station__awards">
-                      {awards.map((a) => <Award key={a.competition} {...a} />)}
-                    </div>
-                  )}
-                  {s.lead && <p className="lede">{s.lead}</p>}
-                  {s.slug === 'timeline' && (
-                    <>
-                      <ol className="tl">
-                        {timeline.map((t) => (
-                          <li key={t.title}><span className="label">{t.date}</span><span>{t.title}</span></li>
-                        ))}
-                      </ol>
-                      <div className="actions"><ArrowLink to="/team">Meet the subteams</ArrowLink></div>
-                    </>
-                  )}
+      {/* The record, first: what a sponsor came for, in one screen. */}
+      <Section title="The record" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
+        <Rows>
+          <Row lead="Satellite" title={satellite.title} body={satellite.lead} />
+          <Row lead="Competition" title={competition.title} body={competition.lead}>
+            <div className="awards awards--inline">
+              {awards.map((a) => <Award key={a.competition} {...a} />)}
+            </div>
+          </Row>
+          <Row lead="Payload" title={payload.title} body={payload.lead} />
+          <Row lead="Timeline" title={missionStations[3].title}>{tl}</Row>
+        </Rows>
+      </Section>
+
+      {/* The sky: the same mission, read off a Webb plate. Scroll pans the
+          plate and each station's mark appears as its point comes into
+          frame. Without a view timeline it is a poster at page width. */}
+      <section className="sky-track" aria-label="The mission, on the sky">
+        <div className="sky">
+          <div className="sky__plate">
+            <img src={skyPlate.src} alt={skyPlate.alt} width={skyPlate.w} height={skyPlate.h} loading="lazy" />
+            {missionStations.map((s, i) => (
+              <div className={`spot spot--${i + 1}`} key={s.slug} style={{ left: `${s.at.x}%`, top: `${s.at.y}%` }}>
+                {s.float
+                  ? <img className="spot__obj" src={s.image} alt={s.alt} loading="lazy" />
+                  : <span className="spot__ring" aria-hidden="true" />}
+                <div className="spot__label">
+                  <h3>{s.title}</h3>
+                  {s.lead && <p>{s.lead}</p>}
+                  {s.slug === 'timeline' && tl}
                 </div>
-                <figure className={s.float ? 'station__fig station__fig--float' : 'station__fig station__fig--photo'}>
-                  <img src={s.image} alt={s.alt} loading={i === 0 ? 'eager' : 'lazy'} />
-                </figure>
               </div>
-            </article>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
     </>

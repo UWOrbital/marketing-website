@@ -2,12 +2,12 @@
 version: 1
 slug: "src-pages-tsx"
 primary_target: "src/pages.tsx"
-related_targets: ["src/index.css","src/tokens.css","src/ui.tsx"]
+related_targets: ["src/index.css","src/tokens.css","src/ui.tsx","src/content.ts"]
 ---
 
 ## Scope
 
-The UW Orbital marketing site. Visitor mode: **Persuade**. Home is the lead surface; Mission, Team, Subteam, Gallery, Sponsors and Join inherit the world.
+The UW Orbital marketing site. Visitor mode: **Persuade**. Home is the lead surface; Mission, Team, Subteam, Gallery, Sponsors and Join inherit the world. This brief's contract is for Mission.
 
 ## Audience and job
 
@@ -15,26 +15,26 @@ Two co-primary audiences (PRODUCT.md). A Waterloo student deciding whether to jo
 
 ## Constraints
 
-Copy is settled and is not rewritten. Palette is pinned by the team. Orbit blue stays out of the interface. Dark ground stays. No member roster exists.
+Copy is settled: each Mission station shows one sentence, word for word, from the paragraph it names (Sep 2026 decision). Palette is pinned. Orbit blue stays out of the interface. Dark ground stays. No member roster exists. Every Webb and Hubble image carries its CC BY 4.0 credit in the footer.
 
 ## Direction contract
 
-THESIS: The object is the argument: the page is assembled from the satellite's own materials, so visitors read hardware, not a page about it. Refuses the Earth-photo hero, the stat row, the logo wall.
+THESIS: A sponsor gets the facts on the first scroll; whoever keeps scrolling reads the mission off the sky itself, as labelled objects on a Webb plate. Refuses the alternating image-and-text stack and the pinned slideshow.
 
-OWN-WORLD: Deep-space photographic ground. Milled titanium and hard-anodised panels are the only surfaces, divided by hairline machined seams. Gold marks measurement and links; signal red is the single action. No eyebrows.
+OWN-WORLD: Deep-space ground, Outfit at light weight, starlight white, signal red only as the button. The Hubble field behind the headline. One Pandora's Cluster plate, 5000px, panned by scroll. Hairline leaders and 1px rings. No panels, no eyebrows.
 
-STORY: A student sees hardware that exists and finds the way in. A sponsor sees qualified flight hardware and a team that documents it.
+STORY: A sponsor reads four facts and both wins in one screen and can act. A student keeps scrolling and finds the satellite floating in a galaxy cluster, the mission written across the sky.
 
-FIRST VIEWPORT: Starfield fills the frame. A titanium panel lands hard-left carrying the headline and one measured claim: passed vibration and thermal vacuum, March 2026. The exploded assembly floats right at two-thirds height. Join sits alone below the panel edge.
+FIRST VIEWPORT: "Mission" alone on the field, one screen. Under the fold: the record, four rows, then the sky.
 
-FORM: Flight Hardware, candidate 1 of 7 on the grounded list, chosen by the user over assigned candidate 3 (Qualification Report). Seed 3f03bf9b.
+FORM: The sky, annotated. Candidate 5 of 7, dealt with 3 and 1; chosen by the user with a steer: facts first, sky after. Seed 8726107b.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Signature interaction and motion grammar
 
-One authored moment, code-led in place of a comp: the exploded assembly resolves. On load the CubeSat's parts sit separated as in the CAD explosion and settle together along one axis, exponential ease-out from an already-visible default, once, respecting reduced motion. Nothing else on the page animates on entry; every other transition is a response to hover, focus, or navigation.
+Scroll pans the plate. The sky holds the window while the reader scrolls, and a 160vw Pandora's Cluster travels corner to corner behind it on a view timeline; each station's mark reveals as its point comes into frame and stays. The satellite's mark is the exploded assembly itself. Without a view timeline, under reduced motion, or on a short phone, the plate is a static poster at page width with all four marks shown. Nothing else on the page animates on entry.
 
 ## Unresolved
 
-Starfield asset licence and credit line pending from the image-sourcing pass. Subteam icon discs are circular PNGs that predate this world.
+None. The starfield credit is printed; the subteam icon discs stay.
