@@ -166,23 +166,43 @@ ul.plain li:first-child { border-top: 0; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s5); }
 
 /* ---------- header ---------- */
-/* The bar never paints. Whatever is behind it runs to the top edge of the
-   window at every scroll position, so the page has no band across it. The
-   open mobile menu still takes a ground, because a dropdown needs one. */
+/* The bar itself never paints, so there is no edge and no rule anywhere on
+   the site. What sits under it is a scrim: the ground at full strength
+   through the bar's own height, then feathered away to nothing over the
+   next 120px. It has to be near-opaque where the type is, not a light wash:
+   over the near-white sponsor sheets, grey nav text needs the ground at
+   about 0.97 to clear 4.5:1, and anything softer only looks like it helps.
+   Below the type it falls off, so the sky still runs to the window edge
+   rather than stopping at a line. */
 .hdr {
   position: sticky;
   top: 0;
   z-index: 50;
   background: transparent;
 }
+.hdr::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 188px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgb(var(--ground-rgb) / 0.97) 0,
+    rgb(var(--ground-rgb) / 0.96) 62px,
+    rgb(var(--ground-rgb) / 0.55) 112px,
+    rgb(var(--ground-rgb) / 0) 100%);
+}
 .hdr__bar { display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
 /* The logo artwork carries its own tagline under the wordmark. At this size
    that line is unreadable, and the footer already sets it in type, so the
-   box crops to the wordmark. 0.64 is where the tagline starts in the file. */
+   box crops to the wordmark. Scanned off the file: ink runs rows 18-223 of
+   312, then the tagline at 237-271. 0.72 clears the wordmark with 12px to
+   spare; 0.64 was cutting the bottom off the letters. */
 .hdr__logo { display: block; height: var(--logo-h); overflow: hidden; }
 .hdr__logo { -webkit-user-select: none; user-select: none; }
-.hdr__logo img { height: calc(var(--logo-h) / 0.64); width: auto; object-position: 0 0; }
-@media (max-width: 420px) { .hdr__logo { height: 22px; } .hdr__logo img { height: calc(22px / 0.64); } }
+.hdr__logo img { height: calc(var(--logo-h) / 0.72); width: auto; object-position: 0 0; }
+@media (max-width: 420px) { .hdr__logo { height: 22px; } .hdr__logo img { height: calc(22px / 0.72); } }
 
 .hdr__nav { display: flex; align-items: center; gap: var(--s5); margin-left: auto; }
 .hdr__nav a:not(.btn) {
@@ -527,7 +547,7 @@ ul.plain li:first-child { border-top: 0; }
 .ftr__top { padding-top: var(--s7); padding-bottom: var(--s7); }
 /* Cropped to the wordmark, the same way the header logo is. */
 .ftr__brand a.ftr__logo, .ftr__logo { display: block; height: 30px; overflow: hidden; }
-.ftr__logo img { height: calc(30px / 0.64); width: auto; object-position: 0 0; }
+.ftr__logo img { height: calc(30px / 0.72); width: auto; object-position: 0 0; }
 .ftr__tag { margin: var(--s4) 0 0; max-width: 30ch; color: var(--text-2); }
 .ftr__mail { display: inline-block; margin-top: var(--s4); border-bottom-color: var(--text-2); }
 .ftr__mail:hover { border-bottom-color: var(--text); }
