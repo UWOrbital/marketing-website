@@ -30,7 +30,7 @@ function Header() {
               {n.label}
             </NavLink>
           ))}
-          <Link className="btn btn--sm hdr__cta" to="/join">Join us</Link>
+          <Link className="btn btn--signal btn--sm hdr__cta" to="/join">Join us</Link>
         </nav>
       </div>
     </header>

@@ -274,7 +274,10 @@ ul.plain li:first-child { border-top: 0; }
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: url('/space/field.jpg') center / cover no-repeat;
+  background-image: url('/space/field.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   opacity: 0.7;
   pointer-events: none;
 }
@@ -290,11 +293,25 @@ ul.plain li:first-child { border-top: 0; }
   from { transform: scale(1.06) translateY(0); }
   to   { transform: scale(1.06) translateY(-3.5%); }
 }
-/* Reduced motion keeps the field and drops every scroll-linked change: a
+/* Mission is a reading page, so its field never clears: it dims to a ground
+   the whole page then sits on. Same layer, same fixed parallax, same
+   dissolve, but it settles instead of leaving.
+
+   It stays the Hubble field, which is near-black. A bright nebula cannot go
+   here: small secondary text over a galaxy glow drops under 4.5:1, and no
+   opacity low enough to fix that leaves the photograph worth having. */
+.field--settle { animation-range: 0 140vh; }
+@supports (animation-timeline: scroll()) {
+  .field--settle { animation-name: field-settle, field-drift; }
+}
+@keyframes field-settle { from { opacity: 0.7; } to { opacity: 0.24; } }
+
+/* Reduced motion keeps the fields and drops every scroll-linked change: a
    ground that moves and dissolves under the reader is exactly what the
    preference is asking not to do. */
 @media (prefers-reduced-motion: reduce) {
   .field { animation: none; opacity: 0.45; }
+  .field--settle { animation: none; opacity: 0.28; }
 }
 
 /* ---------- plate: an objective image, full bleed ----------
