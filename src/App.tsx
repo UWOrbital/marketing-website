@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import { nav, site } from './content'
+import { imageCredits, nav, site } from './content'
 import { Gallery, Home, Join, Mission, NotFound, Sponsors, Team, TeamDetail } from './pages'
 
 function Header() {
@@ -66,11 +66,14 @@ function Footer() {
       </div>
       <div className="page ftr__bottom">
         <span className="label">University of Waterloo Satellite Design Team</span>
-        <span className="ftr__credit">
-          Background: NASA, ESA, G. Illingworth and D. Magee (University of California, Santa Cruz),
-          K. Whitaker (University of Connecticut), R. Bouwens (Leiden University),
-          P. Oesch (University of Geneva), and the Hubble Legacy Field team. CC BY 4.0.
-        </span>
+        <div className="ftr__credit">
+          <p>Subteam images: ESA/Webb, NASA and CSA. Released under CC BY 4.0.</p>
+          <ul className="plain ftr__credits">
+            {imageCredits.map((c) => (
+              <li key={c.title}><i>{c.title}</i> — {c.credit}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </footer>
   )

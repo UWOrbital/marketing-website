@@ -4,7 +4,7 @@ import {
   site, heroImages, awards, mission, timeline, projects, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
-import { ArrowLink, Award, Btn, PageHead, Plate, Row, Rows, Section, Split, Tile } from './ui'
+import { Arrow, ArrowLink, Award, Btn, PageHead, Plate, Row, Rows, Section, Split, Tile } from './ui'
 
 // The 3 subteams the landing page shows. Software replaced GNC here.
 // The order follows `teams`, which already lists these 3 in this order.
@@ -14,7 +14,6 @@ export function Home() {
   return (
     <>
       <PageHead
-        eyebrow={site.tagline}
         title={site.headline}
         lede="We are building a 3U CubeSat and launching it, to make it the University of Waterloo's first satellite launched by students."
         record={[
@@ -34,15 +33,15 @@ export function Home() {
         caption="V6 flight assembly, exploded — structure, avionics stack, deployable solar panels"
       />
 
-      <Section n="01" title="Subteams" action={<ArrowLink to="/team">Meet the team</ArrowLink>}>
+      <Section title="Subteams" action={<ArrowLink to="/team">Meet the team</ArrowLink>}>
         <div className="tiles">
           {teams.filter((t) => FEATURED_TEAMS.includes(t.slug)).map((t) => (
-            <Tile key={t.slug} to={`/team/${t.slug}`} image={t.image} meta="Subteam" title={t.name} />
+            <Tile key={t.slug} to={`/team/${t.slug}`} image={t.image} title={t.name} />
           ))}
         </div>
       </Section>
 
-      <Section n="02" title="Winners of CSDC-6 and CSDC-7. Now we fly it." action={<ArrowLink to="/mission">Read our mission</ArrowLink>}>
+      <Section title="Winners of CSDC-6 and CSDC-7. Now we fly it." action={<ArrowLink to="/mission">Read our mission</ArrowLink>}>
         <div className="duo">
           <div className="measure">
             <p className="lede">
@@ -62,11 +61,11 @@ export function Home() {
 export function Mission() {
   return (
     <>
-      <PageHead eyebrow="Mission" title={mission.title} lede={mission.statement} />
+      <PageHead title={mission.title} lede={mission.statement} />
       <Plate src={heroImages.mission} alt="" ratio="21 / 8" />
 
       {mission.sections.map((s, i) => (
-        <Section key={s.heading} n={`0${i + 1}`} title={s.heading}>
+        <Section key={s.heading} title={s.heading}>
           <Split image={s.images[0]?.src} alt={s.images[0]?.alt} flip={i % 2 === 1}>
             {s.body && <p>{s.body}</p>}
             {s.body2 && <p>{s.body2}</p>}
@@ -74,19 +73,19 @@ export function Mission() {
         </Section>
       ))}
 
-      <Section n="04" title="Competition results">
+      <Section title="Competition results">
         <div className="awards">
           {awards.map((a) => <Award key={a.competition} {...a} />)}
         </div>
       </Section>
 
-      <Section n="05" title="Projects" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
+      <Section title="Projects" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
         <Rows>
           {projects.map((p) => <Row key={p.name} lead={p.status} title={p.name} body={p.body} />)}
         </Rows>
       </Section>
 
-      <Section n="06" title="Project timeline" alt>
+      <Section title="Project timeline" alt>
         <Rows>
           {timeline.map((t) => <Row key={t.title} lead={t.date} title={t.title} body={t.body} />)}
         </Rows>
@@ -99,7 +98,6 @@ export function Team() {
   return (
     <>
       <PageHead
-        eyebrow="Team"
         title="Six subteams. One satellite."
         lede="Every part of the CubeSat is designed, built and tested by students. Each subteam owns its hardware from the first sketch to the vibration table."
         record={[{ label: teamLead.role, value: teamLead.name }]}
@@ -107,8 +105,8 @@ export function Team() {
       />
       <Plate src={heroImages.team} alt="" ratio="21 / 8" />
 
-      <Section n="01" title="Subteams">
-        <Rows numbered>
+      <Section title="Subteams">
+        <Rows>
           {teams.map((t) => (
             <Row
               key={t.slug}
@@ -121,7 +119,7 @@ export function Team() {
               }
               title={t.name}
               body={t.summary}
-              end="→"
+              end={<Arrow />}
             />
           ))}
         </Rows>
@@ -137,10 +135,10 @@ export function TeamDetail() {
   const others = teams.filter((x) => x.slug !== t.slug)
   return (
     <>
-      <PageHead eyebrow="Subteam" title={t.name} lede={t.summary} />
+      <PageHead title={t.name} lede={t.summary} />
       <Plate src={t.image} alt="" ratio="21 / 8" />
 
-      <Section n="01" title="About">
+      <Section title="About">
         <div className="duo duo--rail">
           <div className="measure">
             <p>{t.body}</p>
@@ -168,10 +166,10 @@ export function TeamDetail() {
         </div>
       </Section>
 
-      <Section n="02" title="Other subteams" alt>
+      <Section title="Other subteams" alt>
         <div className="tiles">
           {others.map((o) => (
-            <Tile key={o.slug} to={`/team/${o.slug}`} image={o.image} meta="Subteam" title={o.name} />
+            <Tile key={o.slug} to={`/team/${o.slug}`} image={o.image} title={o.name} />
           ))}
         </div>
       </Section>
@@ -183,7 +181,6 @@ export function Sponsors() {
   return (
     <>
       <PageHead
-        eyebrow="Sponsors"
         title="Back the first Waterloo satellite."
         lede={sponsorIntro}
         actions={<>
@@ -195,13 +192,12 @@ export function Sponsors() {
       />
       <Plate src={heroImages.sponsors} alt="" ratio="21 / 8" />
 
-      {tiers.map((tier, i) => {
+      {tiers.map((tier) => {
         const list = sponsors.filter((s) => s.tier === tier)
         if (!list.length) return null
         return (
           <Section
             key={tier}
-            n={`0${i + 1}`}
             title={tier}
             action={<span className="label">{list.length} {list.length === 1 ? 'sponsor' : 'sponsors'}</span>}
           >
@@ -226,24 +222,23 @@ export function Join() {
   return (
     <>
       <PageHead
-        eyebrow="Join us"
         title="Build hardware that leaves the planet."
         lede={join.why}
         actions={<Btn signal href={site.discord}>Join our Discord</Btn>}
       />
       <Plate src={heroImages.join} alt="" ratio="21 / 8" />
 
-      <Section n="01" title="How to join" action={<ArrowLink to="/team">Learn about our subteams</ArrowLink>}>
+      <Section title="How to join" action={<ArrowLink to="/team">Learn about our subteams</ArrowLink>}>
         <Rows numbered>
-          {join.steps.map((s) => <Row key={s.n} href={s.href} title={s.title} end="→" />)}
+          {join.steps.map((s) => <Row key={s.n} href={s.href} title={s.title} end={<Arrow />} />)}
         </Rows>
       </Section>
 
-      <Section n="02" title="Contact us" alt>
+      <Section title="Contact us" alt>
         <Rows>
-          <Row href={`mailto:${site.email}`} lead="Email" title={site.email} end="→" />
+          <Row href={`mailto:${site.email}`} lead="Email" title={site.email} end={<Arrow />} />
           {site.social.map((s) => (
-            <Row key={s.label} href={s.href} lead={s.label} title={s.handle} end="→" />
+            <Row key={s.label} href={s.href} lead={s.label} title={s.handle} end={<Arrow />} />
           ))}
         </Rows>
       </Section>
@@ -274,12 +269,12 @@ export function Gallery() {
   const [open, setOpen] = useState<string | null>(null)
   return (
     <>
-      <PageHead eyebrow="Gallery" title="The build, as it happened." />
+      <PageHead title="The build, as it happened." />
       <button className="plate plate--btn" onClick={() => setOpen(lead)}>
         <img src={lead} alt="The UW Orbital team outside the Waterloo sign" />
       </button>
 
-      <Section n="01" title="Photographs" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
+      <Section title="Photographs" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
         <div className="gal">
           {rest.map((src) => (
             <button className="gal__item" key={src} onClick={() => setOpen(src)}>
@@ -296,12 +291,12 @@ export function Gallery() {
 export function NotFound() {
   return (
     <>
-      <PageHead eyebrow="404" title="Page not found." lede="That page is not part of this site." />
-      <Section n="01" title="Try these instead">
+      <PageHead title="Page not found." lede="That page is not part of this site." />
+      <Section title="Try these instead">
         <Rows>
-          <Row to="/mission" title="Mission" body="What we are building, and who pays for the launch." end="→" />
-          <Row to="/team" title="Team" body="The 6 subteams and the people who lead them." end="→" />
-          <Row to="/join" title="Join us" body="Two steps to start building." end="→" />
+          <Row to="/mission" title="Mission" body="What we are building, and who pays for the launch." end={<Arrow />} />
+          <Row to="/team" title="Team" body="The 6 subteams and the people who lead them." end={<Arrow />} />
+          <Row to="/join" title="Join us" body="Two steps to start building." end={<Arrow />} />
         </Rows>
       </Section>
     </>

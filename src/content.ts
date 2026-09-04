@@ -40,6 +40,19 @@ export const heroImages = {
 
 // Competition results. Newest first. The laurel frame is drawn by <Award>,
 // so a new result needs a row here and no new artwork.
+/** ESA/Webb releases its images under CC BY 4.0. The licence requires the full
+ *  credit, wording unaltered, in a clear and readable place, so the footer
+ *  prints one line per image that the site actually shows. The full source
+ *  record for each file is in public/space/CREDITS.md. */
+export const imageCredits = [
+  { title: 'Pillars of Creation (MIRI)', credit: 'NASA, ESA, CSA, STScI, J. DePasquale (STScI), A. Pagan (STScI)' },
+  { title: 'Helix Nebula (NIRCam)', credit: 'NASA, ESA, CSA, STScI, A. Pagan (STScI)' },
+  { title: "Pandora's Cluster (Abell 2744)", credit: 'NASA, ESA, CSA, I. Labbe (Swinburne University of Technology), R. Bezanson (University of Pittsburgh), A. Pagan (STScI)' },
+  { title: 'Centaurus A (MIRI)', credit: 'NASA, ESA, CSA, STScI. Image Processing: A. Pagan (STScI), J. Depasquale (STScI), M. Garcia Marin (ESA Office at STScI)' },
+  { title: "Webb's First Deep Field (SMACS 0723)", credit: 'NASA, ESA, CSA, and STScI' },
+  { title: 'Lion Nebula (NIRCam + MIRI)', credit: 'NASA, ESA, CSA, STScI. Image Processing: A. Pagan (STScI).' },
+]
+
 export const awards = [
   { competition: 'CSDC-7', result: 'Winner', year: '2026' },
   { competition: 'CSDC-6', result: 'Winner', year: '2023' },
@@ -164,7 +177,7 @@ export const teams: Team[] = [
     name: 'Mechanical',
     short: 'Mechanical',
     icon: img('6a67b4_037785b41f854eb1ab5e016de7fffa41~mv2.png'),
-    image: img('nsplsh_5a706462372d6f77637077~mv2_d_3737_5605_s_4_2.jpg'),
+    image: '/space/webb-pillars.jpg',
     leads: [{ name: 'Ani A' }, { name: 'Alan H' }, { name: 'Brian K' }],
     summary: 'Designs the frame of the CubeSat and proves it survives launch.',
     body: "The mechanical subsystem is responsible or designing the bus (frame) of the CubeSat, and any other relevant mechanical systems, such as a battery holder. The mechanical team is also responsible for Finite Element Modelling (FEM) of all these components and thermal analysis to ensure the CubeSat can sustain the forces of launch and harsh space environment. The team performs 3D printing, prototyping in the University of Waterloo's Student Machine Shop, and uses tools such as Siemens NX for CAD and analysis.",
@@ -175,7 +188,7 @@ export const teams: Team[] = [
     name: 'Electrical',
     short: 'Electrical',
     icon: img('6a67b4_9ea2ee6daf394409a394d84b23a85d35~mv2.png'),
-    image: img('nsplsh_2c0ddafb7f454dbaa4986585788de733~mv2.jpg'),
+    image: '/space/webb-helix.jpg',
     leads: [{ name: 'Judy Y' }, { name: 'Sam B' }, { name: 'Zack C' }, { name: 'Ahmed Q' }],
     summary: 'Makes the power, and the boards that move it around.',
     body: 'The Electrical subsystem is responsible for power production, distribution, and management. Major components of this subsystem involve the solar panels and batteries. The team is heavily hardware focused, developing PCBs for an MPPT charging circuit, a Battery Management System, in-house solar panels, and more. Learn about board design in Altium and gain hands-on experience with PCB assembly.',
@@ -186,7 +199,7 @@ export const teams: Team[] = [
     name: 'Guidance, Navigation and Controls',
     short: 'GNC',
     icon: img('6a67b4_c60f5458f19846c8a4ba3f57bb29c10e~mv2.png'),
-    image: img('nsplsh_6a5738686b425f516d6a38~mv2_d_6000_4000_s_4_2.jpg'),
+    image: '/space/webb-pandoras-cluster.jpg',
     leads: [{ name: 'Jeff H' }, { name: 'Panth P' }],
     summary: 'Points the satellite where it needs to look.',
     body: 'The GNC subsystem is responsible for orientation control of the satellite within space through actuators such as magnetorquers and reaction wheels, as well as sensors (IMUs, sun sensors, GPS) that determine the location and pointing direction of the satellite. The team develops custom controls algorithms like B-dot, PID, and EKF, designs and builds the main Flight Controller board with Altium, is working on a custom magnetorquer design, and works with industry-standard orbital mechanics simulation software like AGI Systems Tool Kit.',
@@ -196,7 +209,7 @@ export const teams: Team[] = [
     name: 'Firmware',
     short: 'Firmware',
     icon: img('6a67b4_750b42a407344fee9f4e4853a1ae076f~mv2.png'),
-    image: img('6a67b4_9ae2db31169c46e79cc774f7c4fa7647~mv2.jpeg'),
+    image: '/space/webb-centaurus-a.jpg',
     leads: [{ name: 'Kashif B' }, { name: 'Adityya K' }, { name: 'Panth P' }],
     summary: 'Writes the low-level code that runs on the satellite itself.',
     body: 'The Firmware team is responsible for writing all of the low-level software that will run on the satellite as well as writing the software for our ground station communications. This involves writing firmware for our RM46 microcontroller for various areas such as Communications, Electrical, Command & Data Handling, GNC, and Payload.',
@@ -207,7 +220,7 @@ export const teams: Team[] = [
     name: 'Software',
     short: 'Software',
     icon: img('6a67b4_b86204043f8344d99b2251b91ea18e1c~mv2.png'),
-    image: img('b1ce291ed95c483292db01846c10e734.jpg'),
+    image: '/space/webb-first-deep-field.jpg',
     leads: [{ name: 'Cameron L' }, { name: 'Eddie W' }, { name: 'Kevin W' }],
     summary: 'Builds the ground station and the tools people use to talk to the satellite.',
     // PLACEHOLDER COPY. The shape is right and the tools listed are the ones
@@ -230,7 +243,7 @@ export const teams: Team[] = [
     name: 'Business',
     short: 'Business',
     icon: img('6a67b4_95de1a216b554277befa9c85d13b7b9c~mv2.png'),
-    image: img('nsplsh_eaa428c2ac894d1a8c131c5a7562d06a~mv2.jpg'),
+    image: '/space/webb-lion-nebula.jpg',
     leads: [{ name: 'Evan M' }],
     summary: 'Funds the project and tells people it exists.',
     body: 'The business subteam is responsible for many behind the scenes tasks of UW Orbital. This includes securing funding, reaching out to sponsors, and keeping track of finance and budgeting. The business subteam also manages marketing and brand creation, social media, organizing outreach events, content creation, technical writing, and recruiting students.',

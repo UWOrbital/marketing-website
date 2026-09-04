@@ -15,16 +15,27 @@ export function Btn({ to, href, signal, children }: {
   return <a className={cls} href={href} target={href?.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{children}</a>
 }
 
+/** The site's one icon: drawn, square-terminalled, and sized off the type it
+ *  sits beside. A Unicode arrow is a glyph from whatever font loaded, not a mark
+ *  that belongs to this drawing. */
+export function Arrow() {
+  return (
+    <svg className="arrow" viewBox="0 0 18 10" fill="none" aria-hidden="true" focusable="false">
+      <path d="M0 5h16M12.2 1.2 16 5l-3.8 3.8" stroke="currentColor" strokeWidth="1.2" />
+    </svg>
+  )
+}
+
 export function ArrowLink({ to, href, children }: { to?: string; href?: string; children: ReactNode }) {
-  if (to) return <Link className="alink" to={to}>{children}</Link>
-  return <a className="alink" href={href} target="_blank" rel="noreferrer">{children}</a>
+  const inner = <>{children}<Arrow /></>
+  if (to) return <Link className="alink" to={to}>{inner}</Link>
+  return <a className="alink" href={href} target="_blank" rel="noreferrer">{inner}</a>
 }
 
 /** The page headline. 1 per page, always the first thing on it.
  *  Display type, then a heavy rule, then the supporting matter set in the
  *  grid below it. Nothing sits on top of a photograph. */
-export function PageHead({ eyebrow, title, lede, record, actions }: {
-  eyebrow?: string
+export function PageHead({ title, lede, record, actions }: {
   title: string
   lede?: string
   /** Measured facts. Under the headline, never above it. */
@@ -34,7 +45,6 @@ export function PageHead({ eyebrow, title, lede, record, actions }: {
   return (
     <header className="ph">
       <div className="page">
-        {eyebrow && <p className="label ph__eyebrow">{eyebrow}</p>}
         <h1 className="ph__t">{title}</h1>
       </div>
       <hr className="rule rule--heavy" />
@@ -83,8 +93,7 @@ export function Plate({ src, alt, caption, bed, ratio }: {
 
 /** A numbered section. The number sits in the left column, the heading in the
  *  next, the action at the right edge. The rule above it is the boundary. */
-export function Section({ n, title, action, alt, children }: {
-  n?: string
+export function Section({ title, action, alt, children }: {
   title?: string
   action?: ReactNode
   /** Sets the section on the alternate field. */
@@ -93,10 +102,10 @@ export function Section({ n, title, action, alt, children }: {
 }) {
   return (
     <section className={alt ? 'sec sec--alt' : 'sec'}>
-      {/* The number, the heading and the action are the 3 fields of the grid.
-          The body starts at field 2, so it lines up under the heading. */}
+      {/* The heading sits in field 2 and the action in field 3. Field 1 is
+          empty on purpose: the indent is what makes the grid legible. */}
       <div className="page">
-        <span className="label sec__n">{n}</span>
+        <span />
         {title ? <h2 className="sec__t">{title}</h2> : <span />}
         <div className="sec__a">{action}</div>
         <div className="sec__body">{children}</div>
@@ -184,18 +193,16 @@ export function Award({ competition, result, year }: {
 }
 
 /** An image tile. The caption sits under the photograph, never over it. */
-export function Tile({ to, href, image, meta, title }: {
+export function Tile({ to, href, image, title }: {
   to?: string
   href?: string
   image: string
-  meta?: string
   title: string
 }) {
   const inner = (
     <>
       <span className="tile__img"><img src={image} alt="" loading="lazy" /></span>
-      <span className="label tile__meta">{meta}</span>
-      <span className="tile__t">{title}</span>
+      <span className="tile__t">{title}<Arrow /></span>
     </>
   )
   if (to) return <Link className="tile" to={to}>{inner}</Link>

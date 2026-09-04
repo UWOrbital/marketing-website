@@ -119,14 +119,18 @@ ul.plain li:first-child { border-top: 0; }
 .alink {
   display: inline-flex;
   align-items: baseline;
-  gap: var(--s2);
+  gap: var(--s3);
   font-size: var(--t-4);
   border-bottom: 1px solid var(--ink);
-  padding-bottom: 2px;
+  padding-bottom: 3px;
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.alink::after { content: '\2192'; }
 .alink:hover { color: var(--signal); border-bottom-color: var(--signal); }
+
+/* The arrow is drawn at one size and one stroke everywhere it appears. It
+   travels on hover, which is the only thing on this site that moves on hover. */
+.arrow { width: 18px; height: 10px; flex: none; transform: translateY(-1px); transition: transform var(--dur) var(--ease); }
+.alink:hover .arrow, .row--link:hover .arrow, .tile:hover .arrow { transform: translate(4px, -1px); }
 
 /* Signal red marks the single action on a page. It is the only fill on the
    site, so a second red button on one page would remove its meaning. */
@@ -209,7 +213,6 @@ ul.plain li:first-child { border-top: 0; }
    Display type first, then the heavy rule, then the supporting matter.
    Nothing is set over a photograph anywhere on this site. */
 .ph { padding-top: var(--s8); }
-.ph__eyebrow { margin-bottom: var(--s5); }
 .ph__t {
   font-size: var(--t-display);
   font-weight: var(--w-display);
@@ -240,6 +243,10 @@ ul.plain li:first-child { border-top: 0; }
 /* The photographs come from Wix at full source size and are slow. The bed
    colour holds the space so a loading plate reads as a field, not a hole. */
 .plate img { width: 100%; background: var(--paper-2); }
+/* The one authored moment on the site. The assembly arrives already visible
+   and settles once, along one axis. prefers-reduced-motion cancels it above. */
+@keyframes settle { from { transform: translateY(-2.2%) scale(1.014); opacity: 0.72; } }
+
 /* A cut-out render carries its own white plate. multiply drops that white
    into the field, so the render sits on the page instead of in a box. */
 .plate--bed { background: var(--paper-2); padding-block: var(--s6); }
@@ -248,7 +255,9 @@ ul.plain li:first-child { border-top: 0; }
   max-height: 62vh;
   object-fit: contain;
   margin-inline: auto;
+  background: none;
   mix-blend-mode: multiply;
+  animation: settle 1100ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .plate figcaption { padding-top: var(--s3); }
 .plate--btn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
@@ -304,7 +313,7 @@ ul.plain li:first-child { border-top: 0; }
 
 .row__t { font-size: var(--t-2); font-weight: var(--w-light); }
 .row__b { margin: var(--s2) 0 0; color: var(--ink-2); max-width: 56ch; }
-.row__end { font-size: var(--t-2); color: var(--ink-3); transition: color var(--dur) var(--ease); }
+.row__end { color: var(--ink-3); transition: color var(--dur) var(--ease); }
 .row--link:hover .row__end { color: var(--signal); }
 @media (min-width: 901px) { .row__end { justify-self: end; } }
 
@@ -340,11 +349,22 @@ ul.plain li:first-child { border-top: 0; }
 @media (max-width: 560px) { .tiles { grid-template-columns: 1fr; } }
 
 .tile { display: block; }
-.tile__img { display: block; overflow: hidden; background: var(--paper-2); }
+.tile__img { display: block; overflow: hidden; background: var(--ink); }
 .tile__img img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 0.4s var(--ease); }
 .tile:hover .tile__img img { transform: scale(1.03); }
-.tile__meta { display: block; padding-top: var(--s3); }
-.tile__t { display: block; font-size: var(--t-2); font-weight: var(--w-light); letter-spacing: var(--ls-heading); padding-top: 2px; }
+.tile__t {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  font-size: var(--t-2);
+  font-weight: var(--w-light);
+  letter-spacing: var(--ls-heading);
+  padding-top: var(--s3);
+  color: var(--ink);
+  transition: color var(--dur) var(--ease);
+}
+.tile:hover .tile__t { color: var(--signal); }
 
 /* ---------- results ----------
    Set as type. The year and the word carry more than an ornament does. */
@@ -402,10 +422,10 @@ ul.plain li:first-child { border-top: 0; }
 .ftr__mail { display: inline-block; margin-top: var(--s4); border-bottom-color: var(--ink-2); }
 .ftr__mail:hover { border-bottom-color: var(--paper); }
 .ftr .label { color: var(--ink-3); margin-bottom: var(--s3); }
-.ftr ul.plain { max-width: 22ch; }
-.ftr ul.plain li { border-top-color: rgb(255 255 255 / 0.12); }
-.ftr ul.plain a { color: var(--paper); transition: color var(--dur) var(--ease); }
-.ftr ul.plain a:hover { color: var(--ink-3); }
+.ftr__top ul.plain { max-width: 22ch; }
+.ftr__top ul.plain li { border-top-color: rgb(255 255 255 / 0.12); }
+.ftr__top ul.plain a { color: var(--paper); transition: color var(--dur) var(--ease); }
+.ftr__top ul.plain a:hover { color: var(--ink-3); }
 
 .ftr__bottom {
   display: grid;
@@ -414,5 +434,12 @@ ul.plain li:first-child { border-top: 0; }
   padding: var(--s4) 0 var(--s6);
   border-top: 1px solid rgb(255 255 255 / 0.12);
 }
-.ftr__credit { font-size: var(--t-6); line-height: 1.5; color: var(--ink-3); max-width: 90ch; }
+/* The colophon. CC BY 4.0 wants the full credit readable, so it is set at the
+   label size in the light grey, not hidden at 10px in the dark grey. */
+.ftr__credit { font-size: var(--t-6); line-height: 1.5; color: var(--ink-3); max-width: 92ch; }
+.ftr__credit p { margin-bottom: var(--s2); max-width: none; }
+.ftr__credits { columns: 2; column-gap: var(--s6); }
+.ftr ul.ftr__credits li { padding: 0 0 var(--s2); border-top: 0; break-inside: avoid; }
+@media (max-width: 900px) { .ftr__credits { columns: 1; } }
+.ftr__credits i { font-style: normal; color: var(--paper); }
 @media (max-width: 900px) { .ftr__bottom { grid-template-columns: 1fr; gap: var(--s3); } }
