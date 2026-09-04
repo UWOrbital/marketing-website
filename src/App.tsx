@@ -67,7 +67,7 @@ function Footer() {
       <div className="page ftr__bottom">
         <span className="label">University of Waterloo Satellite Design Team</span>
         <div className="ftr__credit">
-          <p>Subteam images: ESA/Webb, NASA and CSA. Released under CC BY 4.0.</p>
+          <p>Imagery: ESA/Webb and ESA/Hubble, NASA and CSA. Released under CC BY 4.0.</p>
           <ul className="plain ftr__credits">
             {imageCredits.map((c) => (
               <li key={c.title}><i>{c.title}</i> — {c.credit}</li>

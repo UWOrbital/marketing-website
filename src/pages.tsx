@@ -13,6 +13,9 @@ const FEATURED_TEAMS = ['mechanical', 'electrical', 'software']
 export function Home() {
   return (
     <>
+      {/* The ground the landing statement stands on. Fixed, so the page
+          travels over it, and it dissolves as the assembly arrives. */}
+      <div className="field" aria-hidden="true" />
       <PageHead
         stage
         title={site.headline}

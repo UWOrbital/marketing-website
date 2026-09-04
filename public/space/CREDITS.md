@@ -24,9 +24,10 @@ directly. Re-download from the page URL below if you need the full resolution.
 | `webb-first-deep-field.jpg` | Software |
 | `webb-lion-nebula.jpg` | Business |
 
-**Not in use:** `hubble-legacy-field.jpg` and `field.jpg` were the ground of the
-previous dark design. Nothing references them now. Delete both if that design is
-not coming back; they add 3.5 MB to the deployed bundle.
+`field.jpg` is a 2400 px crop of `hubble-legacy-field.jpg`. It is the fixed deep
+field behind the landing statement on Home, so its credit is printed with the
+rest. `hubble-legacy-field.jpg` is the 4000 px original and nothing references
+it; keep it as the source for re-cropping, or delete it to save 2.7 MB.
 
 ---
 

@@ -34,7 +34,7 @@ export function ArrowLink({ to, href, children }: { to?: string; href?: string; 
 
 /** The page headline. 1 per page, always the first thing on it.
  *  Display type, then a heavy rule, then the supporting matter set in the
- *  grid below it. Nothing sits on top of a photograph. */
+ *  grid below it. The only photograph behind type is the landing field. */
 export function PageHead({ title, lede, record, actions, stage }: {
   title: string
   lede?: string

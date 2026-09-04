@@ -51,6 +51,7 @@ export const imageCredits = [
   { title: 'Centaurus A (MIRI)', credit: 'NASA, ESA, CSA, STScI. Image Processing: A. Pagan (STScI), J. Depasquale (STScI), M. Garcia Marin (ESA Office at STScI)' },
   { title: "Webb's First Deep Field (SMACS 0723)", credit: 'NASA, ESA, CSA, and STScI' },
   { title: 'Lion Nebula (NIRCam + MIRI)', credit: 'NASA, ESA, CSA, STScI. Image Processing: A. Pagan (STScI).' },
+  { title: 'The Hubble Legacy Field', credit: 'NASA, ESA, G. Illingworth and D. Magee (University of California, Santa Cruz), K. Whitaker (University of Connecticut), R. Bouwens (Leiden University), P. Oesch (University of Geneva), and the Hubble Legacy Field team' },
 ]
 
 export const awards = [
