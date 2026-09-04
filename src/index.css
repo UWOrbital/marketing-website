@@ -231,6 +231,14 @@ ul.plain li:first-child { border-top: 0; }
    Display type first, then the heavy rule, then the supporting matter.
    Nothing is set over a photograph anywhere on this site. */
 .ph { padding-top: var(--s8); }
+.ph__t {
+  font-size: var(--t-display);
+  font-weight: var(--w-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  max-width: 15ch;
+  margin-bottom: var(--s7);
+}
 
 /* The landing statement holds the whole first viewport. The rule and every
    fact below it start under the fold, so arrival is one sentence and the
@@ -245,27 +253,6 @@ ul.plain li:first-child { border-top: 0; }
 }
 .ph--stage .ph__t { margin-bottom: 0; }
 
-/* Mission fills the first viewport with its whole head, so the Earth plate
-   under it starts below the fold: on arrival there is type and sky and
-   nothing else. Unlike the landing stage this keeps the statement in view,
-   because on Mission the statement is the point of the page. */
-.ph--fill {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 0;
-  min-height: calc(100vh - var(--header-h));
-  min-height: calc(100svh - var(--header-h));
-}
-.ph--fill .ph__foot { padding-bottom: 0; }
-.ph__t {
-  font-size: var(--t-display);
-  font-weight: var(--w-display);
-  line-height: var(--lh-display);
-  letter-spacing: var(--ls-display);
-  max-width: 15ch;
-  margin-bottom: var(--s7);
-}
 .ph__foot { padding-top: var(--s5); padding-bottom: var(--s7); }
 @media (max-width: 900px) { .ph { padding-top: var(--s6); } }
 

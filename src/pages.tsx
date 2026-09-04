@@ -66,7 +66,7 @@ export function Mission() {
   return (
     <>
       <div className="field field--mission" aria-hidden="true" />
-      <PageHead fill title={mission.title} lede={mission.statement} />
+      <PageHead stage title={mission.title} lede={mission.statement} />
       <Plate src={heroImages.mission} alt="" ratio="21 / 8" />
 
       {mission.sections.map((s, i) => (
@@ -84,7 +84,7 @@ export function Mission() {
         </div>
       </Section>
 
-      <Section title="Timeline" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>} alt>
+      <Section title="Timeline" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
         <Rows>
           {timeline.map((t) => <Row key={t.title} lead={t.date} title={t.title} body={t.body} />)}
         </Rows>
