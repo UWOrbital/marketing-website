@@ -136,16 +136,11 @@ export const timeline = [
 // The 2 projects that run at the same time. `status` is the one line to edit
 // when something moves. Nothing else on the page has to change.
 // PLACEHOLDER COPY. The projects are real. The wording is not final.
-/** The Mission page's pinned stage: four stations the reader scrolls through
- *  in place. Each lead is one sentence, word for word, from the paragraph it
- *  names. The full paragraphs stay in `mission.sections` and `timeline`; the
- *  Sep 2026 decision was to show the lead sentence only. */
-/** `at` is the station's point on the Pandora's Cluster plate, in percent of
- *  the image. Two constraints picked them: a dark stretch of sky under the
- *  label, and the pan's diagonal. The window travels top-left to bottom-right,
- *  so a point is only ever on screen along that band; the two corners off it
- *  are never seen. Re-pick these if the plate or the pan changes. */
-export type Station = { slug: string; title: string; lead?: string; image: string; alt: string; float?: boolean; at: { x: number; y: number } }
+/** The Mission page's record: the facts a sponsor came for, in one screen,
+ *  before the full sections. Each lead is one sentence, word for word, from
+ *  the paragraph it names (the Sep 2026 decision). The paragraphs themselves
+ *  stay in `mission.sections` and render below the record. */
+export type Station = { slug: string; title: string; lead?: string; image: string; alt: string; float?: boolean }
 
 export const missionStations: Station[] = [
   {
@@ -156,7 +151,6 @@ export const missionStations: Station[] = [
     image: '/cad-exploded-cut.png',
     alt: 'Exploded view of the UW Orbital 3U CubeSat assembly',
     float: true,
-    at: { x: 22, y: 28 },
   },
   {
     slug: 'competition',
@@ -165,7 +159,6 @@ export const missionStations: Station[] = [
     lead: 'UW Orbital applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
     image: '/space/webb-pillars.jpg',
     alt: 'Pillars of Creation, imaged by Webb',
-    at: { x: 44, y: 36 },
   },
   {
     slug: 'payload',
@@ -174,20 +167,14 @@ export const missionStations: Station[] = [
     lead: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit.',
     image: heroImages.mission,
     alt: 'The Earth seen from low orbit',
-    at: { x: 41, y: 59 },
   },
   {
     slug: 'timeline',
     title: 'Kickoff to launch.',
     image: '/space/webb-first-deep-field.jpg',
     alt: "Webb's First Deep Field",
-    at: { x: 41, y: 73 },
   },
 ]
-
-/** The plate the Mission sky pans across. 5000px so the pan has somewhere to
- *  go; the 2000px file is the GNC tile. Credit is in imageCredits. */
-export const skyPlate = { src: '/space/webb-pandoras-cluster-plate.jpg', alt: "Pandora's Cluster (Abell 2744), imaged by Webb", w: 5000, h: 3803 }
 
 // Parked. The Projects section was removed from the Mission page for now.
 // Restore it by rendering these 2 rows back into Mission, above the timeline,

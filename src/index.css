@@ -253,6 +253,20 @@ ul.plain li:first-child { border-top: 0; }
 }
 .ph--stage .ph__t { margin-bottom: 0; }
 
+/* Mission fills the first viewport with its whole head, so what is under it
+   starts below the fold: on arrival there is type and sky and nothing else.
+   Unlike the landing stage this keeps the statement in view, because on
+   Mission the statement is the point of the page. */
+.ph--fill {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 0;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+}
+.ph--fill .ph__foot { padding-bottom: 0; }
+
 .ph__foot { padding-top: var(--s5); padding-bottom: var(--s7); }
 @media (max-width: 900px) { .ph { padding-top: var(--s6); } }
 
@@ -316,12 +330,12 @@ ul.plain li:first-child { border-top: 0; }
    there rather than a full viewport, so the text arrives while the headline
    is still on screen. Giving Team the stage would buy the range back. */
 /* Mission runs the field at well under the landing page's strength, and
-   clears it with the head: the record below sits on solid ground, and the
-   sky further down is its own plate. */
-.field--mission { --field-clear: 128vh; --field-peak: 0.42; }
+   only behind the head: it is gone at the fold, so the record and everything
+   under it sit on solid ground. */
+.field--mission { --field-clear: 75vh; --field-peak: 0.42; }
 .field--team { --field-clear: 155vh; }
 @media (max-width: 900px) {
-  .field--mission { --field-clear: 128vh; }
+  .field--mission { --field-clear: 75vh; }
   .field--team { --field-clear: 72vh; }
 }
 
@@ -335,112 +349,10 @@ ul.plain li:first-child { border-top: 0; }
 }
 
 
-/* ---------- the sky, annotated ----------
-   The record above is the page for a sponsor. This is the page for whoever
-   keeps scrolling: the same four stations, read off a Webb plate the way a
-   finder chart labels galaxies. Scroll pans the plate corner to corner and
-   each station's spot reveals as its point comes into frame, then stays.
-   The satellite's spot is the assembly itself, floating in the cluster.
-
-   Each spot sits on a dark stretch of sky chosen by eye, which is how the
-   label holds contrast without a scrim: the plate is near-black there.
-
-   The base is a poster: the plate at page width with all four spots shown.
-   That is the page without a view timeline, under reduced motion, and on a
-   phone too short to hold a label beside its point. The pan is layered on. */
-.sky-track { position: relative; }
-.sky { position: relative; }
-.sky__plate { position: relative; width: 100%; aspect-ratio: 5000 / 3803; }
-.sky__plate > img { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-.spot { position: absolute; }
-.spot__ring {
-  position: absolute;
-  left: -5px; top: -5px;
-  width: 10px; height: 10px;
-  border: 1px solid var(--text);
-  border-radius: 100%;   /* the one radius on the site: a point is round */
-}
-.spot__obj {
-  position: absolute;
-  width: 24vw;
-  max-width: 420px;
-  left: 0; top: 0;
-  transform: translate(-50%, -50%);
-  clip-path: inset(0 0 6.5% 0);
-}
-.spot__label {
-  position: absolute;
-  left: 34px; top: -6px;
-  width: 32ch;
-  max-width: 62vw;
-}
-/* The leader: a hairline from the ring to the label. */
-.spot__label::before {
-  content: '';
-  position: absolute;
-  left: -30px; top: 12px;
-  width: 24px; height: 1px;
-  background: var(--text);
-}
-.spot--1 .spot__label { left: calc(12vw + 34px); }
-.spot--1 .spot__label::before { width: calc(12vw + 4px); left: calc(-12vw - 10px); }
-.spot__label h3 { font-size: var(--t-2); font-weight: var(--w-light); line-height: 1.1; margin-bottom: var(--s2); }
-.spot__label p { font-size: var(--t-5); color: var(--text); margin: 0; max-width: 32ch; }
-.spot__label .tl { margin-top: var(--s2); }
-.spot__label .tl li { padding: 3px 0; font-size: var(--t-5); grid-template-columns: 8ch 1fr; }
-
 /* Both wins beside the competition row's sentence, at row scale. */
 .awards--inline { margin-top: var(--s4); max-width: 34rem; }
 .awards--inline .award__comp { font-size: var(--t-2); }
 .awards--inline .award__result { font-size: var(--t-5); }
-
-/* The timeline, compact: date and title, no body. */
-.tl { list-style: none; margin: var(--s3) 0 0; padding: 0; max-width: 40rem; }
-.tl li {
-  display: grid;
-  grid-template-columns: 9ch 1fr;
-  gap: var(--s3);
-  align-items: baseline;
-  padding: var(--s2) 0;
-  border-top: 1px solid var(--rule);
-}
-.tl li:last-child { border-bottom: 1px solid var(--rule); }
-
-@media (max-width: 900px) {
-  /* The poster on a phone: the plate, then the four spots as entries. */
-  .spot { position: static; padding: var(--s5) 0 0; }
-  .spot__ring, .spot__label::before { display: none; }
-  .spot__obj { position: static; transform: none; width: 60vw; margin-bottom: var(--s3); }
-  .spot__label { position: static; width: auto; max-width: none; }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) and (min-width: 901px) {
-    .sky-track { height: 280vh; height: 280svh; view-timeline-name: --sky; }
-    .sky { position: sticky; top: 0; height: 100svh; overflow: hidden; }
-    /* 160vw wide, so 121.7vw tall; the pan ends with the far corner of the
-       plate at the far corner of the window. */
-    .sky__plate {
-      position: absolute; left: 0; top: 0;
-      width: 160vw;
-      animation: pan linear both;
-      animation-timeline: --sky;
-      animation-range: contain 0% contain 100%;
-    }
-    .spot { opacity: 0; animation: reveal linear both; animation-timeline: --sky; }
-    /* Each reveals as its point enters the band and then rides the pan
-       until it leaves at the top-left, so the earlier it reveals the longer
-       it is read. Measured windows, plate 160vw at 1600x900:
-         1  in frame  0-39%   2  9-69%   3  34-100%   4  82-100% */
-    .spot--1 { animation-range: contain 3% contain 12%; }
-    .spot--2 { animation-range: contain 18% contain 28%; }
-    .spot--3 { animation-range: contain 46% contain 56%; }
-    .spot--4 { animation-range: contain 74% contain 84%; }
-  }
-}
-@keyframes pan { from { transform: translate(0, 0); } to { transform: translate(-60vw, calc(100svh - 121.7vw)); } }
-@keyframes reveal { to { opacity: 1; } }
 
 /* ---------- plate: an objective image, full bleed ----------
    No scrim, no gradient, no type on top. The photograph is evidence. */

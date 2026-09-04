@@ -15,26 +15,26 @@ Two co-primary audiences (PRODUCT.md). A Waterloo student deciding whether to jo
 
 ## Constraints
 
-Copy is settled: each Mission station shows one sentence, word for word, from the paragraph it names (Sep 2026 decision). Palette is pinned. Orbit blue stays out of the interface. Dark ground stays. No member roster exists. Every Webb and Hubble image carries its CC BY 4.0 credit in the footer.
+Copy is settled. The record shows one sentence per station, word for word, from the paragraph it names; the full paragraphs render below it. Palette is pinned. Orbit blue stays out of the interface. Dark ground stays. No member roster exists. Every Webb and Hubble image carries its CC BY 4.0 credit in the footer.
 
 ## Direction contract
 
-THESIS: A sponsor gets the facts on the first scroll; whoever keeps scrolling reads the mission off the sky itself, as labelled objects on a Webb plate. Refuses the alternating image-and-text stack and the pinned slideshow.
+THESIS: The facts first, the depth after. A sponsor gets the record in one screen; the full sections follow for whoever keeps reading. Refuses the pinned slideshow and the panning plate, both tried and withdrawn.
 
-OWN-WORLD: Deep-space ground, Outfit at light weight, starlight white, signal red only as the button. The Hubble field behind the headline. One Pandora's Cluster plate, 5000px, panned by scroll. Hairline leaders and 1px rings. No panels, no eyebrows.
+OWN-WORLD: Deep-space ground, Outfit at light weight, starlight white, signal red only as the button. The Hubble field behind the head and gone at the fold. Photographs full bleed, CAD renders floating, hairlines between sections. No panels, no eyebrows.
 
-STORY: A sponsor reads four facts and both wins in one screen and can act. A student keeps scrolling and finds the satellite floating in a galaxy cluster, the mission written across the sky.
+STORY: A sponsor reads three facts and both wins, then can act. A reader who continues gets the Earth from orbit, the three renders with their paragraphs, and the timeline.
 
-FIRST VIEWPORT: "Mission" alone on the field, one screen. Under the fold: the record, four rows, then the sky.
+FIRST VIEWPORT: "Mission" and its statement fill one screen on the field. Under the fold: the record, then the plate.
 
-FORM: The sky, annotated. Candidate 5 of 7, dealt with 3 and 1; chosen by the user with a steer: facts first, sky after. Seed 8726107b.
+FORM: The page as it stood at f5746bb, plus the record. Chosen by the user over the dealt sky (seed 8726107b) after seeing it built.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Signature interaction and motion grammar
 
-Scroll pans the plate. The sky holds the window while the reader scrolls, and a 160vw Pandora's Cluster travels corner to corner behind it on a view timeline; each station's mark reveals as its point comes into frame and stays. The satellite's mark is the exploded assembly itself. Without a view timeline, under reduced motion, or on a short phone, the plate is a static poster at page width with all four marks shown. Nothing else on the page animates on entry.
+The field behind the head dissolves on the scroll timeline as the reader leaves it, and the CAD renders float on the ground. Nothing else on the page animates on entry. Motion beyond this is a decision still to be made; "relevant first, fancier later" is the standing instruction.
 
 ## Unresolved
 
-None. The starfield credit is printed; the subteam icon discs stay.
+What the fancier layer is, once the record is settled.

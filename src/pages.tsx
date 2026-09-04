@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
-  site, heroImages, awards, mission, missionStations, skyPlate, timeline, teams, teamLead, galleryImages,
+  site, heroImages, awards, mission, missionStations, timeline, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
-import { Arrow, ArrowLink, Award, Btn, PageHead, Plate, Row, Rows, Section, Tile } from './ui'
+import { Arrow, ArrowLink, Award, Btn, PageHead, Plate, Row, Rows, Section, Split, Tile } from './ui'
 
 // The 3 subteams the landing page shows. Software replaced GNC here.
 // The order follows `teams`, which already lists these 3 in this order.
@@ -64,20 +64,14 @@ export function Home() {
 
 export function Mission() {
   const [satellite, competition, payload] = missionStations
-  const tl = (
-    <ol className="tl">
-      {timeline.map((t) => (
-        <li key={t.title}><span className="label">{t.date}</span><span>{t.title}</span></li>
-      ))}
-    </ol>
-  )
   return (
     <>
       <div className="field field--mission" aria-hidden="true" />
-      <PageHead stage title={mission.title} lede={mission.statement} />
+      <PageHead fill title={mission.title} lede={mission.statement} />
 
-      {/* The record, first: what a sponsor came for, in one screen. */}
-      <Section title="The record" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
+      {/* The record, first: what a sponsor came for, in one screen. The
+          sections below carry the full paragraphs for whoever keeps reading. */}
+      <Section title="The record">
         <Rows>
           <Row lead="Satellite" title={satellite.title} body={satellite.lead} />
           <Row lead="Competition" title={competition.title} body={competition.lead}>
@@ -86,32 +80,25 @@ export function Mission() {
             </div>
           </Row>
           <Row lead="Payload" title={payload.title} body={payload.lead} />
-          <Row lead="Timeline" title={missionStations[3].title}>{tl}</Row>
         </Rows>
       </Section>
 
-      {/* The sky: the same mission, read off a Webb plate. Scroll pans the
-          plate and each station's mark appears as its point comes into
-          frame. Without a view timeline it is a poster at page width. */}
-      <section className="sky-track" aria-label="The mission, on the sky">
-        <div className="sky">
-          <div className="sky__plate">
-            <img src={skyPlate.src} alt={skyPlate.alt} width={skyPlate.w} height={skyPlate.h} loading="lazy" />
-            {missionStations.map((s, i) => (
-              <div className={`spot spot--${i + 1}`} key={s.slug} style={{ left: `${s.at.x}%`, top: `${s.at.y}%` }}>
-                {s.float
-                  ? <img className="spot__obj" src={s.image} alt={s.alt} loading="lazy" />
-                  : <span className="spot__ring" aria-hidden="true" />}
-                <div className="spot__label">
-                  <h3>{s.title}</h3>
-                  {s.lead && <p>{s.lead}</p>}
-                  {s.slug === 'timeline' && tl}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Plate src={heroImages.mission} alt="" ratio="21 / 8" />
+
+      {mission.sections.map((s, i) => (
+        <Section key={s.heading} title={s.heading}>
+          <Split image={s.images[0]?.src} alt={s.images[0]?.alt} flip={i % 2 === 1}>
+            {s.body && <p>{s.body}</p>}
+            {s.body2 && <p>{s.body2}</p>}
+          </Split>
+        </Section>
+      ))}
+
+      <Section title="Timeline" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>} alt>
+        <Rows>
+          {timeline.map((t) => <Row key={t.title} lead={t.date} title={t.title} body={t.body} />)}
+        </Rows>
+      </Section>
     </>
   )
 }
