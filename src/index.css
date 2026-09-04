@@ -166,28 +166,14 @@ ul.plain li:first-child { border-top: 0; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s5); }
 
 /* ---------- header ---------- */
-/* The bar rides the photograph until the reader moves. At rest it is
-   nothing, so the sky runs to the top edge of the window with no band
-   across it; once the page scrolls it takes the ground and its rule so the
-   nav stays legible over whatever is passing behind. Without a scroll
-   timeline it is simply opaque, which is the safe state. */
+/* The bar never paints. Whatever is behind it runs to the top edge of the
+   window at every scroll position, so the page has no band across it. The
+   open mobile menu still takes a ground, because a dropdown needs one. */
 .hdr {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--ground);
-  border-bottom: 1px solid var(--rule);
-}
-@supports (animation-timeline: scroll()) {
-  .hdr {
-    animation: hdr-solid linear both;
-    animation-timeline: scroll(root block);
-    animation-range: 0 110px;
-  }
-  @keyframes hdr-solid {
-    from { background-color: transparent; border-bottom-color: transparent; }
-    to   { background-color: var(--ground); border-bottom-color: var(--rule); }
-  }
+  background: transparent;
 }
 .hdr__bar { display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
 /* The logo artwork carries its own tagline under the wordmark. At this size
