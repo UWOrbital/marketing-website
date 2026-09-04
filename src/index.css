@@ -307,7 +307,7 @@ ul.plain li:first-child { border-top: 0; }
   .field {
     animation: field-fade linear both, field-drift linear both;
     animation-timeline: scroll(root block);
-    animation-range: 0 190vh;
+    animation-range: 0 var(--field-clear, 190vh);
   }
 }
 @keyframes field-fade { 0%, 45% { opacity: 0.7; } 100% { opacity: 0; } }
@@ -315,15 +315,22 @@ ul.plain li:first-child { border-top: 0; }
   from { transform: scale(1.06) translateY(0); }
   to   { transform: scale(1.06) translateY(-3.5%); }
 }
-/* Mission clears to the opaque ground the same way the landing page does,
-   just sooner: its head is one viewport, the Earth plate is the next two
-   thirds of one, and the first paragraph lands at about 1.8 viewports. The
-   field is gone by 1.6, so no body text ever sits over a star. */
-.field--mission { animation-range: 0 160vh; }
-/* On a phone the plate is a 164px band rather than a 610px one, so the
-   first paragraph arrives about a third of a viewport sooner and the field
-   has to be gone by then. */
-@media (max-width: 900px) { .field--mission { animation-range: 0 118vh; } }
+/* Where the field has to be gone by. A page sets this to just under its own
+   first paragraph, because a star behind small secondary text takes it under
+   contrast. Measured per page rather than guessed:
+
+     Mission  first paragraph 1.83vh desktop, 1.36vh phone
+     Team     first paragraph 2.08vh desktop, 1.28vh phone
+
+   A phone always needs the shorter run: the plate between the head and the
+   text is a band a couple of hundred pixels tall there, not most of a
+   viewport. */
+.field--mission { --field-clear: 160vh; }
+.field--team { --field-clear: 180vh; }
+@media (max-width: 900px) {
+  .field--mission { --field-clear: 118vh; }
+  .field--team { --field-clear: 112vh; }
+}
 
 /* Reduced motion drops every scroll-linked change: a ground that moves and
    dissolves under the reader is what the preference is asking not to do.

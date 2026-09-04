@@ -96,6 +96,7 @@ export function Mission() {
 export function Team() {
   return (
     <>
+      <div className="field field--team" aria-hidden="true" />
       <PageHead
         title="Six subteams. One satellite."
         lede="Every part of the CubeSat is designed, built and tested by students. Each subteam owns its hardware from the first sketch to the vibration table."
