@@ -12,7 +12,7 @@ function Header() {
     <header className="hdr">
       <div className="page hdr__bar">
         <Link className="hdr__logo" to="/">
-          <img src="/logo.png" alt={site.name} />
+          <img src="/logo-light.png" alt={site.name} />
         </Link>
 
         <button

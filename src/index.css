@@ -20,8 +20,8 @@ body {
   font-weight: var(--w-regular);
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--text);
+  background: var(--ground);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -33,13 +33,13 @@ h1, h2, h3, h4 { margin: 0; font-weight: var(--w-light); line-height: var(--lh-h
 p { margin: 0 0 1em; max-width: 68ch; }
 p:last-child { margin-bottom: 0; }
 
-:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
-::selection { background: var(--ink); color: var(--paper); }
-html { scrollbar-color: var(--ink-3) var(--paper); caret-color: var(--signal); }
+:focus-visible { outline: 2px solid var(--signal-text); outline-offset: 3px; }
+::selection { background: var(--text); color: var(--ground); }
+html { scrollbar-color: var(--text-3) var(--ground); caret-color: var(--signal-text); }
 
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 100;
-  background: var(--ink); color: var(--paper);
+  background: var(--text); color: var(--ground);
   padding: var(--s2) var(--s4);
 }
 .skip:focus { left: 0; }
@@ -98,7 +98,7 @@ html { scrollbar-color: var(--ink-3) var(--paper); caret-color: var(--signal); }
   font-weight: var(--w-label);
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
 
@@ -107,7 +107,7 @@ html { scrollbar-color: var(--ink-3) var(--paper); caret-color: var(--signal); }
   font-weight: var(--w-light);
   line-height: 1.28;
   letter-spacing: var(--ls-heading);
-  color: var(--ink);
+  color: var(--text);
   max-width: 42ch;
 }
 
@@ -124,18 +124,18 @@ ul.plain li:first-child { border-top: 0; }
 
 /* ---------- links and the one action ---------- */
 .ulink { border-bottom: 1px solid var(--rule); transition: border-color var(--dur) var(--ease); }
-.ulink:hover { border-bottom-color: var(--ink); }
+.ulink:hover { border-bottom-color: var(--text); }
 
 .alink {
   display: inline-flex;
   align-items: baseline;
   gap: var(--s3);
   font-size: var(--t-4);
-  border-bottom: 1px solid var(--ink);
+  border-bottom: 1px solid var(--text);
   padding-bottom: 3px;
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.alink:hover { color: var(--signal); border-bottom-color: var(--signal); }
+.alink:hover { color: var(--signal-text); border-bottom-color: var(--signal-text); }
 
 /* The arrow is drawn at one size and one stroke everywhere it appears. It
    travels on hover, which is the only thing on this site that moves on hover. */
@@ -147,7 +147,7 @@ ul.plain li:first-child { border-top: 0; }
 .btn {
   display: inline-block;
   padding: 13px var(--s4) 12px;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--text);
   border-radius: var(--radius);
   font-size: var(--t-5);
   font-weight: var(--w-label);
@@ -156,9 +156,9 @@ ul.plain li:first-child { border-top: 0; }
   cursor: pointer;
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.btn:hover { background: var(--ink); color: var(--paper); }
-.btn--signal { background: var(--signal); border-color: var(--signal); color: var(--paper); }
-.btn--signal:hover { background: var(--signal-2); border-color: var(--signal-2); color: var(--paper); }
+.btn:hover { background: var(--text); color: var(--ground); }
+.btn--signal { background: var(--signal); border-color: var(--signal); color: var(--starlight-white); }
+.btn--signal:hover { background: var(--signal-2); border-color: var(--signal-2); color: var(--starlight-white); }
 .btn--sm { padding: 9px var(--s3) 8px; font-size: var(--t-6); letter-spacing: var(--ls-label); text-transform: uppercase; }
 
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s5); }
@@ -168,7 +168,7 @@ ul.plain li:first-child { border-top: 0; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--paper);
+  background: var(--ground);
   border-bottom: 1px solid var(--rule);
 }
 .hdr__bar { display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
@@ -182,20 +182,20 @@ ul.plain li:first-child { border-top: 0; }
 .hdr__nav { display: flex; align-items: center; gap: var(--s5); margin-left: auto; }
 .hdr__nav a:not(.btn) {
   font-size: var(--t-5);
-  color: var(--ink-2);
+  color: var(--text-2);
   padding-bottom: 2px;
   border-bottom: 1px solid transparent;
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.hdr__nav a:not(.btn):hover { color: var(--ink); border-bottom-color: var(--rule); }
-.hdr__nav a.is-active { color: var(--ink); border-bottom-color: var(--ink); }
+.hdr__nav a:not(.btn):hover { color: var(--text); border-bottom-color: var(--rule); }
+.hdr__nav a.is-active { color: var(--text); border-bottom-color: var(--text); }
 
 .hdr__toggle {
   display: none;
   margin-left: auto;
   background: none;
-  border: 1px solid var(--ink);
-  color: var(--ink);
+  border: 1px solid var(--text);
+  color: var(--text);
   padding: 8px var(--s3);
   cursor: pointer;
   font-family: inherit;
@@ -210,7 +210,7 @@ ul.plain li:first-child { border-top: 0; }
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: var(--paper);
+    background: var(--ground);
     border-bottom: 1px solid var(--rule);
     padding: 0 var(--margin) var(--s4);
   }
@@ -242,7 +242,7 @@ ul.plain li:first-child { border-top: 0; }
   font-weight: var(--w-label);
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
 .rec dd { margin: 0; font-size: var(--t-4); }
@@ -251,22 +251,23 @@ ul.plain li:first-child { border-top: 0; }
    No scrim, no gradient, no type on top. The photograph is evidence. */
 .plate { margin: 0; }
 /* The photographs come from Wix at full source size and are slow. The bed
-   colour holds the space so a loading plate reads as a field, not a hole. */
-.plate img { width: 100%; background: var(--paper-2); }
+   colour holds the space so a loading plate reads as a field, not a hole.
+   It is lifted off the ground, never the same value as it. */
+.plate img { width: 100%; background: var(--ground-2); }
 /* The one authored moment on the site. The assembly arrives already visible
    and settles once, along one axis. prefers-reduced-motion cancels it above. */
 @keyframes settle { from { transform: translateY(-2.2%) scale(1.014); opacity: 0.72; } }
 
-/* A cut-out render carries its own white plate. multiply drops that white
-   into the field, so the render sits on the page instead of in a box. */
-.plate--bed { background: var(--paper-2); padding-block: var(--s6); }
+/* The CAD renders carry real transparency, so they need no sheet and no
+   blend mode: the assembly sits directly on the ground with nothing behind
+   it. That is what keeps the page free of boxes. */
+.plate--bed { padding-block: var(--s6); }
 .plate--bed img {
   width: min(var(--maxw), 100% - var(--margin) * 2);
   max-height: 62vh;
   object-fit: contain;
   margin-inline: auto;
   background: none;
-  mix-blend-mode: multiply;
   animation: settle 1100ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .plate figcaption { padding-top: var(--s3); }
@@ -280,7 +281,7 @@ ul.plain li:first-child { border-top: 0; }
   row-gap: var(--s6);
   align-items: baseline;
 }
-.sec--alt { background: var(--paper-2); padding-top: var(--s7); }
+.sec--alt { background: var(--ground-2); padding-top: var(--s7); }
 .sec--alt > .page { border-top: 0; padding-top: 0; }
 
 /* 26ch keeps "CSDC-7" whole; at 20ch the line broke after its hyphen. */
@@ -305,7 +306,7 @@ ul.plain li:first-child { border-top: 0; }
   border-top: 1px solid var(--rule);
 }
 .row--link { transition: background var(--dur) var(--ease); }
-.row--link:hover { background: var(--paper-2); }
+.row--link:hover { background: var(--ground-2); }
 
 .row__lead {
   display: flex;
@@ -314,7 +315,7 @@ ul.plain li:first-child { border-top: 0; }
   font-size: var(--t-6);
   font-weight: var(--w-label);
   letter-spacing: 0.06em;
-  color: var(--ink-2);
+  color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
 .row__n { display: none; }
@@ -322,12 +323,13 @@ ul.plain li:first-child { border-top: 0; }
 .rows--num .row__n::before { content: counter(row, decimal-leading-zero); }
 
 .row__t { font-size: var(--t-2); font-weight: var(--w-light); }
-.row__b { margin: var(--s2) 0 0; color: var(--ink-2); max-width: 56ch; }
-.row__end { color: var(--ink-3); transition: color var(--dur) var(--ease); }
-.row--link:hover .row__end { color: var(--signal); }
+.row__b { margin: var(--s2) 0 0; color: var(--text-2); max-width: 56ch; }
+.row__end { color: var(--text-3); transition: color var(--dur) var(--ease); }
+.row--link:hover .row__end { color: var(--signal-text); }
 @media (min-width: 901px) { .row__end { justify-self: end; } }
 
-/* The subteam mark. A black disc with white line art, so it holds on paper. */
+/* The subteam mark. The disc is near-black, so on this ground it disappears
+   and only the white line art reads. */
 .mark { position: relative; display: block; width: var(--icon); height: var(--icon); flex: none; }
 .mark img { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity var(--dur) var(--ease); }
 .mark__hover { opacity: 0; }
@@ -346,11 +348,18 @@ ul.plain li:first-child { border-top: 0; }
 .split--flip .split__text { order: 2; }
 .split--solo { grid-template-columns: 1fr; }
 .split__h { font-size: var(--t-2); margin-bottom: var(--s3); }
-.split__text p { color: var(--ink-2); }
-.split__fig { margin: 0; background: var(--paper-2); }
-/* Every image in a split is a cut-out CAD render with a white plate.
-   multiply drops that white, the same way the hero plate does. */
-.split__fig img { width: 100%; mix-blend-mode: multiply; }
+.split__text p { color: var(--text-2); }
+/* Two classes of image, two treatments, and the artwork decides which.
+   A photograph runs full bleed on the ground. A CAD figure was drawn for a
+   white ground and its subject is often black anodised panels, which are
+   invisible on deep space, so a captioned figure keeps the sheet it was
+   drawn on. The hero assembly is the exception the rule allows: it is the
+   page's subject rather than a figure, and it is light enough to float. */
+.split__fig { margin: 0; background: var(--plate); }
+/* The 3 renders are 1613x882 and 1765x1280. One reserved box at the wider
+   ratio holds every one of them, so a figure never collapses while it loads
+   and the page never shifts under the reader. */
+.split__fig img { width: 100%; aspect-ratio: 1613 / 882; object-fit: contain; }
 @media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: var(--s5); } .split--flip .split__text { order: 0; } }
 
 /* ---------- tiles: an image with the caption under it ---------- */
@@ -359,7 +368,7 @@ ul.plain li:first-child { border-top: 0; }
 @media (max-width: 560px) { .tiles { grid-template-columns: 1fr; } }
 
 .tile { display: block; }
-.tile__img { display: block; overflow: hidden; background: var(--ink); }
+.tile__img { display: block; overflow: hidden; background: var(--ground-deep); }
 .tile__img img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 0.4s var(--ease); }
 .tile:hover .tile__img img { transform: scale(1.03); }
 .tile__t {
@@ -371,10 +380,10 @@ ul.plain li:first-child { border-top: 0; }
   font-weight: var(--w-light);
   letter-spacing: var(--ls-heading);
   padding-top: var(--s3);
-  color: var(--ink);
+  color: var(--text);
   transition: color var(--dur) var(--ease);
 }
-.tile:hover .tile__t { color: var(--signal); }
+.tile:hover .tile__t { color: var(--signal-text); }
 
 /* ---------- results ----------
    Set as type. The year and the word carry more than an ornament does. */
@@ -383,7 +392,7 @@ ul.plain li:first-child { border-top: 0; }
 .award__year {
   font-size: var(--t-6); font-weight: var(--w-label);
   letter-spacing: var(--ls-label); text-transform: uppercase;
-  color: var(--ink-2); font-variant-numeric: tabular-nums;
+  color: var(--text-2); font-variant-numeric: tabular-nums;
 }
 .award__comp {
   font-size: var(--t-1);
@@ -397,23 +406,27 @@ ul.plain li:first-child { border-top: 0; }
 /* ---------- sponsors ---------- */
 .sponsors { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--s6) var(--gutter); }
 .sponsor { display: block; }
+/* Third-party logo artwork keeps a light sheet, because it arrives on a white
+   ground and cannot be knocked out. multiply drops that white into the sheet.
+   The box sizes the image with object-fit rather than max-height: as a grid,
+   the implicit row auto-sized to the image, so a percentage max-height
+   resolved against the image itself and clipped the tall logos. */
 .sponsor__logo {
-  display: grid; place-items: center;
-  background: var(--paper-2);
+  display: block;
+  background: var(--plate);
   height: 132px; /* artwork box: one height for every logo, whatever its shape */
   padding: var(--s4);
-  overflow: hidden;
   margin-bottom: var(--s3);
 }
-.sponsor__logo img { max-height: 100%; max-width: 100%; width: auto; height: auto; mix-blend-mode: multiply; }
+.sponsor__logo img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
 .sponsor__name { display: block; font-size: var(--t-4); font-weight: var(--w-label); }
 .sponsor__since { display: block; margin-top: var(--s1); }
-.sponsor__blurb { display: block; margin-top: var(--s2); font-size: var(--t-5); color: var(--ink-2); }
-.sponsor:hover .sponsor__name { color: var(--signal); }
+.sponsor__blurb { display: block; margin-top: var(--s2); font-size: var(--t-5); color: var(--text-2); }
+.sponsor:hover .sponsor__name { color: var(--signal-text); }
 
 /* ---------- gallery ---------- */
 .gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--gutter); }
-.gal__item { padding: 0; border: 0; background: var(--paper-2); cursor: zoom-in; overflow: hidden; }
+.gal__item { padding: 0; border: 0; background: var(--ground-2); cursor: zoom-in; overflow: hidden; }
 .gal__item img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.4s var(--ease); }
 .gal__item:hover img { transform: scale(1.04); }
 
@@ -423,33 +436,33 @@ ul.plain li:first-child { border-top: 0; }
 
 /* ---------- footer ----------
    The one solid field on the site. It closes the page. */
-.ftr { background: var(--ink); color: var(--paper); }
+.ftr { background: var(--ground-deep); color: var(--text); }
 .ftr__top { padding-top: var(--s7); padding-bottom: var(--s7); }
 /* Cropped to the wordmark, the same way the header logo is. */
 .ftr__brand a.ftr__logo, .ftr__logo { display: block; height: 30px; overflow: hidden; }
 .ftr__logo img { height: calc(30px / 0.64); width: auto; object-position: 0 0; }
-.ftr__tag { margin: var(--s4) 0 0; max-width: 30ch; color: var(--ink-3); }
-.ftr__mail { display: inline-block; margin-top: var(--s4); border-bottom-color: var(--ink-2); }
-.ftr__mail:hover { border-bottom-color: var(--paper); }
-.ftr .label { color: var(--ink-3); margin-bottom: var(--s3); }
+.ftr__tag { margin: var(--s4) 0 0; max-width: 30ch; color: var(--text-2); }
+.ftr__mail { display: inline-block; margin-top: var(--s4); border-bottom-color: var(--text-2); }
+.ftr__mail:hover { border-bottom-color: var(--text); }
+.ftr .label { color: var(--text-2); margin-bottom: var(--s3); }
 .ftr__top ul.plain { max-width: 22ch; }
-.ftr__top ul.plain li { border-top-color: rgb(255 255 255 / 0.12); }
-.ftr__top ul.plain a { color: var(--paper); transition: color var(--dur) var(--ease); }
-.ftr__top ul.plain a:hover { color: var(--ink-3); }
+.ftr__top ul.plain li { border-top-color: var(--rule); }
+.ftr__top ul.plain a { color: var(--text); transition: color var(--dur) var(--ease); }
+.ftr__top ul.plain a:hover { color: var(--text-2); }
 
 .ftr__bottom {
   display: grid;
   grid-template-columns: 2fr 10fr;
   gap: var(--gutter);
   padding: var(--s4) 0 var(--s6);
-  border-top: 1px solid rgb(255 255 255 / 0.12);
+  border-top: 1px solid var(--rule);
 }
 /* The colophon. CC BY 4.0 wants the full credit readable, so it is set at the
    label size in the light grey, not hidden at 10px in the dark grey. */
-.ftr__credit { font-size: var(--t-6); line-height: 1.5; color: var(--ink-3); max-width: 92ch; }
+.ftr__credit { font-size: var(--t-6); line-height: 1.5; color: var(--text-2); max-width: 92ch; }
 .ftr__credit p { margin-bottom: var(--s2); max-width: none; }
 .ftr__credits { columns: 2; column-gap: var(--s6); }
 .ftr ul.ftr__credits li { padding: 0 0 var(--s2); border-top: 0; break-inside: avoid; }
 @media (max-width: 900px) { .ftr__credits { columns: 1; } }
-.ftr__credits i { font-style: normal; color: var(--paper); }
+.ftr__credits i { font-style: normal; color: var(--text); }
 @media (max-width: 900px) { .ftr__bottom { grid-template-columns: 1fr; gap: var(--s3); } }
