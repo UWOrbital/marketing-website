@@ -1,0 +1,131 @@
+/* ============================================================
+   Neo-grotesque minimalism.
+   The International Typographic Style, applied literally:
+
+   1. One sans-serif. Hierarchy comes from size, weight and
+      position. It never comes from colour.
+   2. A 12 column modular grid. Nothing sits off the grid.
+   3. Flush left, ragged right. Nothing is centred.
+   4. Colour is functional. Signal red is the button, and
+      the button is the only fill on the site. A link is
+      underlined text. The ground is deep space, and the
+      photographs are the only other colour on the page.
+   5. White space is the structure. It is not padding.
+   6. Photography is objective. The one photograph type
+      sits on is the deep field behind the landing
+      statement, which is near-black and needs no scrim.
+
+   Every value in the site comes from this file.
+   ============================================================ */
+
+:root {
+  /* ---------- colour ----------
+     Three grounds, named for what the team calls them. Midnight is the
+     deepest, deep space is the page, titanium is the field that lifts off it.
+     Deep space, starlight white and signal red are the team's own values. */
+  --midnight: #0a0b0d;
+  --deep-space: #121214;
+  --titanium: #1c1e22;
+  --starlight-white: #f4f5f7;
+  --signal-red: #c8351f;
+
+  --ground: var(--deep-space);        /* the page */
+  --ground-2: var(--titanium);        /* the alternate field, and image beds */
+  --ground-deep: var(--midnight);     /* the footer, and a loading image */
+  /* Third-party logo artwork arrives on a white background and cannot be
+     knocked out, so it keeps a light sheet. The CAD renders need no sheet:
+     they carry real transparency and sit straight on the ground. */
+  --plate: #e9eaec;
+
+  /* Orbit blue and horizon teal stay out of the interface by the team's
+     decision. The blue is still in the logo artwork, which is where it lives. */
+  --orbit-blue: #5890c0;
+  --solar-gold: #e8a83a;
+  --horizon-teal: #2fb5a8;
+
+  /* ---------- colour: text ----------
+       --text     #f4f5f7 on deep space  17.2:1   on titanium  15.0:1
+       --text-2   #9a9aa2 on deep space   6.7:1   on titanium   6.1:1
+       --text-3   #6a6a72 on deep space   3.5:1 — marks and rules only. It
+                  clears the 3:1 floor for a graphical mark and never carries
+                  text. */
+  --text: var(--starlight-white);
+  --text-2: #9a9aa2;
+  --text-3: #6a6a72;
+
+  /* ---------- colour: rule ---------- */
+  --rule: #26282e;        /* the hairline that divides every section */
+  --rule-2: #7d818a;      /* the heavy rule under a page headline */
+
+  /* ---------- colour: action ----------
+     Signal red is a fill, not a text colour: starlight white on it is 5.3:1,
+     but the red itself on deep space is only 3.6:1. Text that turns red on
+     hover uses the lifted value, which is 6.2:1. */
+  --signal: var(--signal-red);
+  --signal-2: #a42916;
+  --signal-text: #ef6a52;
+
+  /* ---------- type: family ----------
+     Outfit is a geometric grotesk: single-storey a, circular o,
+     open apertures. It matches the geometry of the logo wordmark. */
+  --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  /* ---------- type: size ----------
+     6 steps. A size that is not in this list is not used. */
+  --t-display: clamp(3rem, 10vw, 9rem);         /* the page headline, 1 per page */
+  --t-1: clamp(2rem, 5.2vw, 4rem);              /* section heading */
+  --t-2: clamp(1.375rem, 2.4vw, 1.875rem);      /* sub-heading, lede */
+  --t-3: 1.3125rem;                             /* large body */
+  --t-4: 1.0625rem;                             /* body */
+  --t-5: 0.9375rem;                             /* small body, captions */
+  --t-6: 0.75rem;                               /* label, set in caps */
+
+  /* ---------- type: weight ----------
+     Display runs light. At 176px a light weight reads as confident;
+     a bold weight reads as shouting. */
+  --w-display: 200;
+  --w-light: 300;
+  --w-regular: 400;
+  --w-label: 500;
+
+  /* ---------- type: line height and tracking ----------
+     Tracking tightens as size grows. That is the whole rule. */
+  --lh-display: 0.86;
+  --lh-heading: 0.98;
+  --lh-body: 1.5;
+  --ls-display: -0.045em;
+  --ls-heading: -0.03em;
+  --ls-body: -0.011em;
+  --ls-label: 0.14em;
+
+  /* ---------- grid ----------
+     12 columns at 1000px and up, 6 columns below, 1 column on a phone.
+     The margin is the outer edge. The gutter is between columns. */
+  --cols: 12;
+  --gutter: clamp(16px, 1.5vw, 28px);
+  --margin: clamp(20px, 4.2vw, 64px);
+  --maxw: 1680px;
+
+  /* ---------- space ----------
+     8px scale. The top 3 steps are the ones that carry the layout. */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 16px;
+  --s4: 24px;
+  --s5: 40px;
+  --s6: 64px;
+  --s7: clamp(64px, 8vw, 120px);   /* between sections */
+  --s8: clamp(96px, 14vw, 220px);  /* above and below a page headline */
+
+  /* ---------- layout constants ----------
+     Measurements of one element each. Not steps on a scale. */
+  --header-h: 68px;
+  --logo-h: 34px;
+  --icon: 44px;
+  --radius: 0;   /* the house style is square. There is no second value. */
+
+  /* ---------- motion ----------
+     One duration and one curve. Nothing on this site animates on scroll. */
+  --dur: 0.18s;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}

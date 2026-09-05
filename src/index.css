@@ -1,0 +1,579 @@
+@import './tokens.css';
+
+/* ============================================================
+   Neo-grotesque minimalism. See tokens.css for the 6 rules.
+
+   The grid is 2fr / 6fr / 4fr, and it does not change between
+   the header of a section, the head of the page, and a row in
+   a list. That repetition is what makes the grid visible.
+   ============================================================ */
+
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--t-4);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  color: var(--text);
+  background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, h4 { margin: 0; font-weight: var(--w-light); line-height: var(--lh-heading); letter-spacing: var(--ls-heading); }
+
+/* One measure for every paragraph on the site. */
+p { margin: 0 0 1em; max-width: 68ch; }
+p:last-child { margin-bottom: 0; }
+
+:focus-visible { outline: 2px solid var(--signal-text); outline-offset: 3px; }
+::selection { background: var(--text); color: var(--ground); }
+html { scrollbar-color: var(--text-3) var(--ground); caret-color: var(--signal-text); }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--text); color: var(--ground);
+  padding: var(--s2) var(--s4);
+}
+.skip:focus { left: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* ---------- the grid ----------
+   .page sets the column field. Its width excludes the margin, so a border
+   drawn on .page lines up exactly with the text inside it. That is what
+   makes every rule on this site sit on the grid. */
+.page {
+  width: min(var(--maxw), 100% - var(--margin) * 2);
+  margin-inline: auto;
+}
+
+/* The 3 field grid: a lead column, the content, a trailing column. A row and
+   the footer fill all 3, so the lead column earns the indent it creates. */
+.row,
+.ftr__top {
+  display: grid;
+  grid-template-columns: 2fr 6fr 4fr;
+  gap: var(--gutter);
+}
+
+/* Content and its action. A section heading has nothing to put in a lead
+   column, and an empty one reads as a page centred badly rather than as
+   structure, so the heading, the lede and the body all take the page's own
+   left edge. Only the action and the record hang in the right field. */
+.page.ph__foot,
+.sec > .page {
+  display: grid;
+  grid-template-columns: 8fr 4fr;
+  gap: var(--gutter);
+}
+@media (max-width: 900px) {
+  .page.ph__foot, .sec > .page, .row, .ftr__top { grid-template-columns: 1fr; gap: var(--s3); }
+}
+
+/* A rule is drawn to the grid, never to the edge of the window. */
+.rule {
+  width: min(var(--maxw), 100% - var(--margin) * 2);
+  margin: 0 auto;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+.rule--heavy { border-top-color: var(--rule-2); }
+
+.measure { max-width: 62ch; }
+
+/* ---------- type roles ---------- */
+.label {
+  margin-block: 0;
+  font-size: var(--t-6);
+  font-weight: var(--w-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.lede {
+  font-size: var(--t-2);
+  font-weight: var(--w-light);
+  line-height: 1.28;
+  letter-spacing: var(--ls-heading);
+  color: var(--text);
+  max-width: 42ch;
+}
+
+.sub {
+  font-size: var(--t-3);
+  font-weight: var(--w-label);
+  letter-spacing: var(--ls-body);
+  margin: var(--s6) 0 var(--s3);
+}
+
+ul.plain { list-style: none; margin: 0; padding: 0; }
+ul.plain li { padding: var(--s2) 0; border-top: 1px solid var(--rule); }
+ul.plain li:first-child { border-top: 0; }
+
+/* ---------- links and the one action ---------- */
+.ulink { border-bottom: 1px solid var(--rule); transition: border-color var(--dur) var(--ease); }
+.ulink:hover { border-bottom-color: var(--text); }
+
+.alink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s3);
+  font-size: var(--t-4);
+  border-bottom: 1px solid var(--text);
+  padding-bottom: 3px;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.alink:hover { color: var(--signal-text); border-bottom-color: var(--signal-text); }
+
+/* The arrow is drawn at one size and one stroke everywhere it appears. It
+   travels on hover, which is the only thing on this site that moves on hover. */
+.arrow { width: 18px; height: 10px; flex: none; transform: translateY(-1px); transition: transform var(--dur) var(--ease); }
+.alink:hover .arrow, .row--link:hover .arrow, .tile:hover .arrow { transform: translate(4px, -1px); }
+
+/* Signal red marks the single action on a page. It is the only fill on the
+   site, so a second red button on one page would remove its meaning. */
+.btn {
+  display: inline-block;
+  padding: 13px var(--s4) 12px;
+  border: 1px solid var(--text);
+  border-radius: var(--radius);
+  font-size: var(--t-5);
+  font-weight: var(--w-label);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.btn:hover { background: var(--text); color: var(--ground); }
+.btn--signal { background: var(--signal); border-color: var(--signal); color: var(--starlight-white); }
+.btn--signal:hover { background: var(--signal-2); border-color: var(--signal-2); color: var(--starlight-white); }
+.btn--sm { padding: 9px var(--s3) 8px; font-size: var(--t-6); letter-spacing: var(--ls-label); text-transform: uppercase; }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s5); }
+
+/* ---------- header ---------- */
+/* The bar is invisible. It paints nothing and puts nothing behind it, so
+   whatever the page is showing runs to the top edge of the window at every
+   scroll position. The open mobile menu still takes a ground, because a
+   dropdown needs one. */
+.hdr {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: transparent;
+}
+.hdr__bar { display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
+/* The logo artwork carries its own tagline under the wordmark. At this size
+   that line is unreadable, and the footer already sets it in type, so the
+   box crops to the wordmark. Scanned off the file: ink runs rows 18-223 of
+   312, then the tagline at 237-271. 0.72 clears the wordmark with 12px to
+   spare; 0.64 was cutting the bottom off the letters. */
+.hdr__logo { display: block; height: var(--logo-h); overflow: hidden; }
+.hdr__logo { -webkit-user-select: none; user-select: none; }
+.hdr__logo img { height: calc(var(--logo-h) / 0.72); width: auto; object-position: 0 0; }
+@media (max-width: 420px) { .hdr__logo { height: 22px; } .hdr__logo img { height: calc(22px / 0.72); } }
+
+.hdr__nav { display: flex; align-items: center; gap: var(--s5); margin-left: auto; }
+.hdr__nav a:not(.btn) {
+  font-size: var(--t-5);
+  color: var(--text-2);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.hdr__nav a:not(.btn):hover { color: var(--text); border-bottom-color: var(--rule); }
+.hdr__nav a.is-active { color: var(--text); border-bottom-color: var(--text); }
+
+.hdr__toggle {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--text);
+  color: var(--text);
+  padding: 8px var(--s3);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+@media (max-width: 900px) {
+  .hdr__toggle { display: block; }
+  .hdr__nav {
+    display: none;
+    position: absolute;
+    left: 0; right: 0; top: var(--header-h);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--ground);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 var(--margin) var(--s4);
+  }
+  .hdr__nav.is-open { display: flex; }
+  .hdr__nav a:not(.btn) { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); font-size: var(--t-3); }
+  .hdr__cta { margin-top: var(--s4); text-align: center; }
+}
+
+/* ---------- page head ----------
+   Display type first, then the heavy rule, then the supporting matter.
+   Nothing is set over a photograph anywhere on this site. */
+.ph { padding-top: var(--s8); }
+.ph__t {
+  font-size: var(--t-display);
+  font-weight: var(--w-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  max-width: 15ch;
+  margin-bottom: var(--s7);
+}
+
+/* The landing statement holds the whole first viewport. The rule and every
+   fact below it start under the fold, so arrival is one sentence and the
+   rest is found by scrolling. svh, not vh, so a phone's address bar does not
+   push the rule into view. */
+.ph--stage { padding-top: 0; }
+.ph--stage .ph__title {
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+}
+.ph--stage .ph__t { margin-bottom: 0; }
+
+.ph__foot { padding-top: var(--s5); padding-bottom: var(--s7); }
+@media (max-width: 900px) { .ph { padding-top: var(--s6); } }
+
+/* Measured facts. Set as a table, under the headline, never above it. */
+.rec { margin: 0; display: grid; gap: var(--s3); align-content: start; }
+.rec > div { display: grid; gap: 2px; padding-top: var(--s2); border-top: 1px solid var(--rule); }
+.rec dt {
+  font-size: var(--t-6);
+  font-weight: var(--w-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+.rec dd { margin: 0; font-size: var(--t-4); }
+
+/* ---------- the deep field ----------
+   Distance sets speed. The field is the furthest thing this site can show,
+   13 billion light years out, so it holds still while the page travels over
+   it, and the assembly, the nearest thing, moves with the page. The field
+   then dissolves: that is what hands the page from the sky to the hardware.
+
+   It is the one photograph type sits on, and it needs no scrim because the
+   Hubble Legacy Field is near-black. Everything else is composited: one
+   fixed layer, opacity and transform only, driven by the scroll timeline so
+   it runs off the main thread where the browser has one. */
+.field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: url('/space/field.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: var(--field-peak, 0.7);
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  .field {
+    animation: field-fade linear both, field-drift linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 var(--field-clear, 190vh);
+  }
+}
+@keyframes field-fade { 0%, 45% { opacity: var(--field-peak, 0.7); } 100% { opacity: 0; } }
+@keyframes field-drift {
+  from { transform: scale(1.06) translateY(0); }
+  to   { transform: scale(1.06) translateY(-3.5%); }
+}
+/* Where the field has to be gone by. Text is readable the moment it enters
+   the window, not when it reaches the top, so the clear point is measured
+   against the middle of the screen: below the midline a paragraph is
+   arriving, above it the reader is on it. A star behind a glyph is the
+   failure this avoids; the broad field is near-black and secondary text
+   clears 6.4:1 against it even at full strength.
+
+     Mission   first grey paragraph 2887px desktop, 2441px phone
+     Team      first grey row       2037px desktop, 1653px phone
+     Sponsors  first grey blurb     2219px desktop, 1838px phone
+     Subteams  first grey label     1885px desktop, 1592px phone (tightest)
+     Join, Gallery, 404: past 2.2 screens or none, so Home's 190vh
+
+   Re-measure these whenever a head or a lede above them changes length:
+   a one-line lede instead of two moved Team's rows up 200px once and left
+   the field at 0.16 behind them.
+
+   Both lead pages and Team are on the stage now, so all three have a full
+   viewport of head before anything else and the field gets its run. */
+/* Mission runs the field at the landing page's strength and on its run: it
+   lingers through the fold and the record, which is set in white for that
+   reason, and is gone before the first grey paragraph. */
+.field--mission { --field-clear: 190vh; }
+/* Sponsors, Join, Gallery and the 404 run Home's 190vh: their first grey
+   text is past 2.2 screens, or there is none. The subteam pages share one
+   class and take the tightest of the six, Software being the longest. */
+.field--subteam { --field-clear: 155vh; }
+.field--team { --field-clear: 170vh; }
+@media (max-width: 900px) {
+  .field--mission { --field-clear: 190vh; }
+  .field--sponsors { --field-clear: 165vh; }
+  .field--subteam { --field-clear: 118vh; }
+  .field--team { --field-clear: 120vh; }
+}
+
+/* Reduced motion drops every scroll-linked change: a ground that moves and
+   dissolves under the reader is what the preference is asking not to do.
+   The field then has to hold one value for the whole page instead of
+   clearing before the text, so it sits far back. At 0.22 the sky is texture
+   and a star point cannot take a paragraph under contrast. */
+@media (prefers-reduced-motion: reduce) {
+  .field { animation: none; opacity: 0.22; }
+}
+
+
+/* Both wins beside the competition row's sentence, at row scale. */
+.awards--inline { margin-top: var(--s4); max-width: 34rem; }
+.awards--inline .award__comp { font-size: var(--t-2); }
+.awards--inline .award__result { font-size: var(--t-5); }
+
+/* ---------- plate: an objective image, full bleed ----------
+   No scrim, no gradient, no type on top. The photograph is evidence. */
+.plate { margin: 0; }
+/* The photographs come from Wix at full source size and are slow. The bed
+   colour holds the space so a loading plate reads as a field, not a hole.
+   It is lifted off the ground, never the same value as it. */
+.plate img { width: 100%; background: var(--ground-2); }
+/* The one authored moment on the site. The assembly arrives already visible
+   and settles once, along one axis. prefers-reduced-motion cancels it above. */
+@keyframes settle { from { transform: translateY(-2.2%) scale(1.014); opacity: 0.72; } }
+
+/* The CAD renders carry real transparency, so they need no sheet and no
+   blend mode: the assembly sits directly on the ground with nothing behind
+   it. That is what keeps the page free of boxes. */
+.plate--bed { padding-block: var(--s6); }
+.plate--bed img {
+  width: min(var(--maxw), 100% - var(--margin) * 2);
+  max-height: 62vh;
+  object-fit: contain;
+  margin-inline: auto;
+  background: none;
+  /* The render was drawn on a floor and carries a baked drop shadow at its
+     foot. Nothing in orbit casts one, so the bottom edge is clipped away. */
+  clip-path: inset(0 0 6.5% 0);
+  animation: settle 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.plate figcaption { padding-top: var(--s3); }
+.plate--btn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+
+/* ---------- section ---------- */
+.sec { padding-bottom: var(--s7); }
+.sec > .page {
+  border-top: 1px solid var(--rule);
+  padding-top: var(--s5);
+  row-gap: var(--s6);
+  align-items: baseline;
+}
+.sec--alt { background: var(--ground-2); padding-top: var(--s7); }
+.sec--alt > .page { border-top: 0; padding-top: 0; }
+
+/* 26ch keeps "CSDC-7" whole; at 20ch the line broke after its hyphen. */
+.sec__t { font-size: var(--t-1); font-weight: var(--w-light); max-width: 26ch; text-wrap: balance; }
+.sec__a { justify-self: end; text-align: right; }
+/* The body runs the full width, under its own heading. */
+.sec__body { grid-column: 1 / -1; align-self: start; }
+@media (max-width: 900px) {
+  .sec > .page { row-gap: var(--s4); }
+  .sec__a { justify-self: start; text-align: left; }
+  .sec__body { margin-top: var(--s3); }
+}
+
+/* ---------- rows: the one list on this site ----------
+   Subteams, the timeline, projects, the steps to join, and contact are all
+   this component. A row is a hairline, a lead column, and the text. */
+.rows { counter-reset: row; border-bottom: 1px solid var(--rule); }
+.row {
+  counter-increment: row;
+  align-items: start;
+  padding-block: var(--s5);
+  border-top: 1px solid var(--rule);
+}
+.row--link { transition: background var(--dur) var(--ease); }
+.row--link:hover { background: var(--ground-2); }
+
+.row__lead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s4);
+  font-size: var(--t-6);
+  font-weight: var(--w-label);
+  letter-spacing: 0.06em;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+/* A list that sits on the sky: white, so it needs no clearing under it. */
+.rows--lit .row__lead, .rows--lit .row__b, .rows--lit .award__year { color: var(--text); }
+.row__n { display: none; }
+.rows--num .row__n { display: block; }
+.rows--num .row__n::before { content: counter(row, decimal-leading-zero); }
+
+.row__t { font-size: var(--t-2); font-weight: var(--w-light); }
+.row__b { margin: var(--s2) 0 0; color: var(--text-2); max-width: 56ch; }
+.row__end { color: var(--text-3); transition: color var(--dur) var(--ease); }
+.row--link:hover .row__end { color: var(--signal-text); }
+@media (min-width: 901px) { .row__end { justify-self: end; } }
+
+/* The subteam mark. The disc is near-black, so on this ground it disappears
+   and only the white line art reads. */
+.mark { position: relative; display: block; width: var(--icon); height: var(--icon); flex: none; }
+.mark img { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity var(--dur) var(--ease); }
+.mark__hover { opacity: 0; }
+.row--link:hover .mark__hover { opacity: 1; }
+.row--link:hover .mark__base { opacity: 0; }
+
+/* ---------- asymmetric pairs ---------- */
+.duo { display: grid; grid-template-columns: 6fr 5fr; gap: var(--gutter) var(--s6); align-items: start; }
+.duo--rail { grid-template-columns: 7fr 4fr; }
+@media (max-width: 900px) { .duo, .duo--rail { grid-template-columns: 1fr; gap: var(--s6); } }
+
+.rail { padding-top: var(--s2); }
+.rail .label { margin-bottom: var(--s3); }
+
+.split { display: grid; grid-template-columns: 5fr 6fr; gap: var(--s6); align-items: start; }
+.split--flip .split__text { order: 2; }
+.split--solo { grid-template-columns: 1fr; }
+.split__h { font-size: var(--t-2); margin-bottom: var(--s3); }
+.split__text p { color: var(--text-2); }
+/* Every CAD render carries real transparency, so it sits on the ground with
+   nothing behind it, the same as the hero assembly. Only third-party logo
+   artwork keeps a sheet, because that arrives on a white background and
+   cannot be knocked out. */
+.split__fig { margin: 0; }
+/* The 3 renders are 1613x882 and 1765x1280. One reserved box at the wider
+   ratio holds every one of them, so a figure never collapses while it loads
+   and the page never shifts under the reader. */
+/* Same baked floor shadow the hero assembly carries, clipped the same way.
+   contain fits these by height, so the inset takes the image's own bottom. */
+.split__fig img { width: 100%; aspect-ratio: 1613 / 882; object-fit: contain; clip-path: inset(0 0 5% 0); }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: var(--s5); } .split--flip .split__text { order: 0; } }
+
+/* ---------- tiles: an image with the caption under it ---------- */
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+@media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .tiles { grid-template-columns: 1fr; } }
+
+.tile { display: block; }
+.tile__img { display: block; background: var(--ground-deep); }
+/* The photograph does not move on hover. The title carries the state. */
+.tile__img img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.tile__t {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  font-size: var(--t-2);
+  font-weight: var(--w-light);
+  letter-spacing: var(--ls-heading);
+  padding-top: var(--s3);
+  color: var(--text);
+  transition: color var(--dur) var(--ease);
+}
+.tile:hover .tile__t { color: var(--signal-text); }
+
+/* ---------- results ----------
+   Set as type. The year and the word carry more than an ornament does. */
+.awards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); align-content: start; }
+.award { border-top: 1px solid var(--rule-2); padding-top: var(--s3); }
+.award__year {
+  font-size: var(--t-6); font-weight: var(--w-label);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  color: var(--text-2); font-variant-numeric: tabular-nums;
+}
+.award__comp {
+  font-size: var(--t-1);
+  font-weight: var(--w-display);
+  letter-spacing: var(--ls-display);
+  line-height: 1.05;
+  margin-top: var(--s3);
+}
+.award__result { font-size: var(--t-3); margin-top: var(--s2); }
+
+/* ---------- sponsors ---------- */
+.sponsors { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--s6) var(--gutter); }
+.sponsor { display: block; }
+/* Third-party logo artwork keeps a light sheet, because it arrives on a white
+   ground and cannot be knocked out. multiply drops that white into the sheet.
+   The box sizes the image with object-fit rather than max-height: as a grid,
+   the implicit row auto-sized to the image, so a percentage max-height
+   resolved against the image itself and clipped the tall logos. */
+.sponsor__logo {
+  display: block;
+  background: var(--plate);
+  height: 132px; /* artwork box: one height for every logo, whatever its shape */
+  padding: var(--s4);
+  margin-bottom: var(--s3);
+}
+.sponsor__logo img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.sponsor__name { display: block; font-size: var(--t-4); font-weight: var(--w-label); }
+.sponsor__since { display: block; margin-top: var(--s1); }
+.sponsor__blurb { display: block; margin-top: var(--s2); font-size: var(--t-5); color: var(--text-2); }
+.sponsor:hover .sponsor__name { color: var(--signal-text); }
+
+/* ---------- gallery ---------- */
+.gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--gutter); }
+.gal__item { padding: 0; border: 0; background: var(--ground-2); cursor: zoom-in; overflow: hidden; }
+.gal__item img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.4s var(--ease); }
+.gal__item:hover img { transform: scale(1.04); }
+
+.lightbox { border: 0; padding: 0; background: none; max-width: 92vw; max-height: 92vh; }
+.lightbox::backdrop { background: rgb(10 10 10 / 0.92); }
+.lightbox img { max-width: 92vw; max-height: 92vh; width: auto; object-fit: contain; }
+
+/* ---------- footer ----------
+   The one solid field on the site. It closes the page. */
+.ftr { background: var(--ground-deep); color: var(--text); }
+.ftr__top { padding-top: var(--s7); padding-bottom: var(--s7); }
+/* Cropped to the wordmark, the same way the header logo is. */
+.ftr__brand a.ftr__logo, .ftr__logo { display: block; height: 30px; overflow: hidden; }
+.ftr__logo img { height: calc(30px / 0.72); width: auto; object-position: 0 0; }
+.ftr__tag { margin: var(--s4) 0 0; max-width: 30ch; color: var(--text-2); }
+.ftr__mail { display: inline-block; margin-top: var(--s4); border-bottom-color: var(--text-2); }
+.ftr__patch { display: block; width: 88px; height: auto; margin-top: var(--s5); }  /* artwork size: a patch, not a scale step */
+.ftr__mail:hover { border-bottom-color: var(--text); }
+.ftr .label { color: var(--text-2); margin-bottom: var(--s3); }
+.ftr__top ul.plain { max-width: 22ch; }
+.ftr__top ul.plain li { border-top-color: var(--rule); }
+.ftr__top ul.plain a { color: var(--text); transition: color var(--dur) var(--ease); }
+.ftr__top ul.plain a:hover { color: var(--text-2); }
+
+.ftr__bottom {
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+  gap: var(--gutter);
+  padding: var(--s4) 0 var(--s6);
+  border-top: 1px solid var(--rule);
+}
+/* The colophon. CC BY 4.0 wants the full credit readable, so it is set at the
+   label size in the light grey, not hidden at 10px in the dark grey. */
+.ftr__credit { font-size: var(--t-6); line-height: 1.5; color: var(--text-2); max-width: 92ch; }
+.ftr__credit p { margin-bottom: var(--s2); max-width: none; }
+.ftr__credits { columns: 2; column-gap: var(--s6); }
+.ftr ul.ftr__credits li { padding: 0 0 var(--s2); border-top: 0; break-inside: avoid; }
+@media (max-width: 900px) { .ftr__credits { columns: 1; } }
+.ftr__credits i { font-style: normal; color: var(--text); }
+@media (max-width: 900px) { .ftr__bottom { grid-template-columns: 1fr; gap: var(--s3); } }
