@@ -147,7 +147,8 @@ export function TeamDetail() {
   const others = teams.filter((x) => x.slug !== t.slug)
   return (
     <>
-      <PageHead title={t.name} lede={t.summary} />
+      <div className="field field--subteam" aria-hidden="true" />
+      <PageHead stage title={t.name} lede={t.summary} />
       <Plate src={t.image} alt="" ratio="21 / 8" />
 
       <Section title="About">
@@ -192,7 +193,8 @@ export function TeamDetail() {
 export function Sponsors() {
   return (
     <>
-      <PageHead
+      <div className="field field--sponsors" aria-hidden="true" />
+      <PageHead stage
         title="Sponsors"
         lede={sponsorIntro}
         actions={<>
@@ -233,7 +235,8 @@ export function Sponsors() {
 export function Join() {
   return (
     <>
-      <PageHead
+      <div className="field field--join" aria-hidden="true" />
+      <PageHead stage
         title="Build hardware that leaves the planet."
         lede={join.why}
         actions={<Btn signal href={site.discord}>Join our Discord</Btn>}
@@ -281,7 +284,8 @@ export function Gallery() {
   const [open, setOpen] = useState<string | null>(null)
   return (
     <>
-      <PageHead title="Gallery" />
+      <div className="field field--gallery" aria-hidden="true" />
+      <PageHead stage title="Gallery" />
       <button className="plate plate--btn" onClick={() => setOpen(lead)}>
         <img src={lead} alt="The UW Orbital team outside the Waterloo sign" />
       </button>
@@ -303,7 +307,8 @@ export function Gallery() {
 export function NotFound() {
   return (
     <>
-      <PageHead title="Page not found" lede="That page is not part of this site." />
+      <div className="field field--notfound" aria-hidden="true" />
+      <PageHead stage title="Page not found" lede="That page is not part of this site." />
       <Section title="Other pages">
         <Rows>
           <Row to="/mission" title="Mission" end={<Arrow />} />
