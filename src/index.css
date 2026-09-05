@@ -334,10 +334,6 @@ ul.plain li:first-child { border-top: 0; }
   .field--mission { --field-clear: 190vh; }
   .field--sponsors { --field-clear: 165vh; }
   .field--subteam { --field-clear: 118vh; }
-/* Sponsors, Join, Gallery and the 404 run Home's 190vh: their first grey
-   text is past 2.2 screens, or there is none. The subteam pages share one
-   class and take the tightest of the six, Software being the longest. */
-.field--subteam { --field-clear: 155vh; }
   .field--team { --field-clear: 120vh; }
 }
 
