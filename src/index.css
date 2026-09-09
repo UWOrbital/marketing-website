@@ -166,17 +166,55 @@ ul.plain li:first-child { border-top: 0; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s5); }
 
 /* ---------- header ---------- */
-/* The bar is invisible. It paints nothing and puts nothing behind it, so
-   whatever the page is showing runs to the top edge of the window at every
-   scroll position. The open mobile menu still takes a ground, because a
-   dropdown needs one. */
+/* The bar paints nothing while the reader is on the deep field. That is the
+   one place a transparent header earns its keep, and it is the whole first
+   viewport of every page.
+
+   Past the head it takes the page's own ground. From there on the bar
+   crosses photographs, white sponsor sheets and the page's own display type,
+   and it loses every one of them: grey on the silver Waterloo sign measures
+   1.1:1, and the wordmark on a sponsor sheet 1.2:1. Measured behind the bar,
+   not guessed.
+
+   The wash is `--ground` and one hairline. No blur, no panel, no second
+   colour, so the bar stops being invisible without becoming a container.
+
+   It runs on the same scroll timeline as the field, so it costs no listener
+   and stays off the main thread. The rest state is opaque and the animation
+   clears it, not the reverse: a browser with no scroll timeline then gets
+   the readable bar instead of the broken one. */
 .hdr {
   position: sticky;
   top: 0;
   z-index: 50;
   background: transparent;
 }
-.hdr__bar { display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
+.hdr::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ground);
+  border-bottom: 1px solid var(--rule);
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  .hdr::before {
+    animation: hdr-ground linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 70vh;
+  }
+}
+@keyframes hdr-ground { 0%, 45% { opacity: 0; } 100% { opacity: 1; } }
+/* The open menu takes a ground of its own, so the bar above it needs one too.
+   Without this a seam runs across the starfield between the two. */
+.hdr:has(.hdr__nav.is-open)::before { animation: none; opacity: 1; }
+/* A ground that arrives under the reader is the change the preference asks
+   not to make, so it is simply always there. */
+@media (prefers-reduced-motion: reduce) {
+  .hdr::before { animation: none; opacity: 1; }
+}
+/* Above the wash. Both are children of .hdr, so document order does it. */
+.hdr__bar { position: relative; display: flex; align-items: center; gap: var(--s4); height: var(--header-h); }
 /* The logo artwork carries its own tagline under the wordmark. At this size
    that line is unreadable, and the footer already sets it in type, so the
    box crops to the wordmark. Scanned off the file: ink runs rows 18-223 of
@@ -185,7 +223,7 @@ ul.plain li:first-child { border-top: 0; }
 .hdr__logo { display: block; height: var(--logo-h); overflow: hidden; }
 .hdr__logo { -webkit-user-select: none; user-select: none; }
 .hdr__logo img { height: calc(var(--logo-h) / 0.72); width: auto; object-position: 0 0; }
-@media (max-width: 420px) { .hdr__logo { height: 22px; } .hdr__logo img { height: calc(22px / 0.72); } }
+@media (max-width: 420px) { .hdr__logo { height: 26px; } .hdr__logo img { height: calc(26px / 0.72); } }
 
 .hdr__nav { display: flex; align-items: center; gap: var(--s5); margin-left: auto; }
 .hdr__nav a:not(.btn) {
@@ -346,6 +384,24 @@ ul.plain li:first-child { border-top: 0; }
   .field { animation: none; opacity: 0.22; }
 }
 
+/* ---------- moving between pages ----------
+   The sky is the one thing that does not change when the page does. It is
+   fixed, it is the same field on every route, and dimming it would read as a
+   flicker rather than as a transition. So the fade takes every block of the
+   page except the field, and the reader watches the content change over a
+   sky that holds still. That is the same idea as the fixed field itself.
+
+   The keyframe has a `from` and no `to`, and the rule sets no fill mode, so
+   the natural state of every block is fully opaque. A page that never runs
+   the animation still renders. `settle` on the hero assembly is written the
+   same way, for the same reason.
+
+   Reduced motion is already handled: the global rule at the top of this file
+   cuts every animation to 0.01ms, which lands the page on that opaque
+   natural state immediately. */
+@keyframes page-in { from { opacity: 0; } }
+main > :not(.field) { animation: page-in var(--dur-page) var(--ease); }
+
 
 /* Both wins beside the competition row's sentence, at row scale. */
 .awards--inline { margin-top: var(--s4); max-width: 34rem; }
@@ -366,6 +422,11 @@ ul.plain li:first-child { border-top: 0; }
 /* The CAD renders carry real transparency, so they need no sheet and no
    blend mode: the assembly sits directly on the ground with nothing behind
    it. That is what keeps the page free of boxes. */
+/* Both renders share one grid cell, so they sit on the same box and the
+   hardware stays put through the cross-fade. */
+.plate__stack { display: grid; }
+.plate__stack > img { grid-area: 1 / 1; }
+
 .plate--bed { padding-block: var(--s6); }
 .plate--bed img {
   width: min(var(--maxw), 100% - var(--margin) * 2);
@@ -376,7 +437,51 @@ ul.plain li:first-child { border-top: 0; }
   /* The render was drawn on a floor and carries a baked drop shadow at its
      foot. Nothing in orbit casts one, so the bottom edge is clipped away. */
   clip-path: inset(0 0 6.5% 0);
-  animation: settle 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* `settle` moved from the render to the stack when the second render arrived,
+   so each image keeps its own animation slot for the cross-fade below. */
+.plate--bed .plate__stack { animation: settle 1100ms cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* ---------- the assembly builds itself ----------
+   Two renders of the team's own V6, from the same camera: the parts laid out,
+   and the finished satellite. They cross-fade across the middle third of the
+   figure's pass through the window, so the CubeSat assembles as the reader
+   goes by and is built by the time it leaves.
+
+   It is driven by the figure's own position rather than by the document, so
+   the fade happens where the hardware is and nowhere else.
+
+   The default is the exploded render alone, which is what a browser without
+   view timelines shows, and what the caption describes on its own. Nothing is
+   lost without the motion. */
+.plate__into { opacity: 0; }
+.plate--bed .plate__into { clip-path: inset(0 0 5% 0); }  /* its own baked floor shadow */
+@supports (animation-timeline: view()) {
+  .plate--bed .plate__base,
+  .plate--bed .plate__into {
+    animation: linear both;
+    animation-timeline: view();
+    /* Ends at 55% of the pass, not the middle. The satellite is then whole and
+       still fully in the window, so the reader sees the finished hardware
+       rather than watching it complete on the way out of frame. */
+    animation-range: cover 25% cover 55%;
+  }
+  .plate--bed .plate__base { animation-name: parts-go; }
+  .plate--bed .plate__into { animation-name: sat-arrives; }
+}
+@keyframes parts-go { to { opacity: 0; } }
+/* Both ends stated. The from-only form used elsewhere on this site ends at
+   the element's own value, and this element's own value is 0, which is the
+   fallback for a browser with no view timeline. Left implicit it fades 0 to 0
+   and the satellite never arrives. */
+@keyframes sat-arrives { from { opacity: 0; } to { opacity: 1; } }
+/* An assembly that builds itself under the reader is the change the
+   preference asks not to make. It rests on the parts. */
+@media (prefers-reduced-motion: reduce) {
+  .plate--bed .plate__stack,
+  .plate--bed .plate__base,
+  .plate--bed .plate__into { animation: none; }
+  .plate--bed .plate__into { opacity: 0; }
 }
 .plate figcaption { padding-top: var(--s3); }
 .plate--btn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }

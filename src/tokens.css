@@ -120,12 +120,17 @@
   /* ---------- layout constants ----------
      Measurements of one element each. Not steps on a scale. */
   --header-h: 68px;
-  --logo-h: 34px;
+  /* The wordmark is orbit blue at a hairline stroke, and it is the only place
+     that blue is allowed. Thin blue on a near-black ground needs size to stay
+     readable, so the mark runs larger than a 68px bar would suggest. */
+  --logo-h: 40px;
   --icon: 44px;
   --radius: 0;   /* the house style is square. There is no second value. */
 
   /* ---------- motion ----------
-     One duration and one curve. Nothing on this site animates on scroll. */
+     One curve. Two durations: one for a control answering the pointer, and
+     one for the change of page, which is a longer move and needs the time. */
   --dur: 0.18s;
+  --dur-page: 0.34s;
   --ease: cubic-bezier(0.2, 0, 0, 1);
 }

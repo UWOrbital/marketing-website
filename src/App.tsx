@@ -82,32 +82,39 @@ function Footer() {
   )
 }
 
-function ScrollToTop() {
+/** The routed page. Arriving at the top of a new page is part of the change,
+ *  so the scroll reset lives here with it.
+ *
+ *  `key` remounts the markup on every path change. Without it two subteam
+ *  pages are one component with different params, React keeps the DOM, and
+ *  the fade is the one navigation on the site that does not play. */
+function Routed() {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
-  return null
+  return (
+    <main id="main">
+      <Routes key={pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/mission" element={<Mission />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/team/:slug" element={<TeamDetail />} />
+        {/* the old Wix Subsystems page is merged into Team */}
+        <Route path="/subsystems" element={<Navigate to="/team" replace />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/sponsors" element={<Sponsors />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </main>
+  )
 }
 
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop />
       <a className="skip" href="#main">Skip to main content</a>
       <Header />
-      <main id="main">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/mission" element={<Mission />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/team/:slug" element={<TeamDetail />} />
-          {/* the old Wix Subsystems page is merged into Team */}
-          <Route path="/subsystems" element={<Navigate to="/team" replace />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/sponsors" element={<Sponsors />} />
-          <Route path="/join" element={<Join />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+      <Routed />
       <Footer />
     </BrowserRouter>
   )

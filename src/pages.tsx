@@ -30,11 +30,15 @@ export function Home() {
         </>}
       />
 
+      {/* The one gimmick on the landing page, and it is the team's own
+          hardware: the parts converge into the finished satellite as the
+          reader passes them. */}
       <Plate
         bed
         src="/cad-exploded-cut.png"
-        alt="Exploded view of the UW Orbital 3U CubeSat assembly"
-        caption="V6 flight assembly, exploded view"
+        into="/cad-front.png"
+        alt="The UW Orbital V6 CubeSat, shown exploded and then assembled"
+        caption="V6 flight assembly"
       />
 
       <Section title="Subteams" action={<ArrowLink to="/team">Meet the team</ArrowLink>}>

@@ -75,7 +75,7 @@ export function PageHead({ title, lede, record, actions, stage }: {
 
 /** A full-bleed objective image. The photograph is evidence, not a background:
  *  no type sits over it and no scrim sits on it. */
-export function Plate({ src, alt, caption, bed, ratio }: {
+export function Plate({ src, alt, caption, bed, ratio, into }: {
   src: string
   alt: string
   caption?: string
@@ -83,10 +83,22 @@ export function Plate({ src, alt, caption, bed, ratio }: {
   bed?: boolean
   /** Crops a photograph to a fixed band. Omit to keep the whole image. */
   ratio?: string
+  /** A second render of the same hardware, from the same camera, stacked on
+   *  the first. The pair cross-fades as the reader passes it, so the exploded
+   *  assembly builds itself. The second render is decoration: `alt` on the
+   *  first already names what the figure shows, and a reader who cannot see
+   *  the fade has lost nothing. */
+  into?: string
 }) {
+  const fit = ratio ? { aspectRatio: ratio, objectFit: 'cover' as const } : undefined
   return (
     <figure className={bed ? 'plate plate--bed' : 'plate'}>
-      <img src={src} alt={alt} style={ratio ? { aspectRatio: ratio, objectFit: 'cover' } : undefined} />
+      {/* One grid cell holds both renders, so they register on the same box
+          instead of being positioned against each other by hand. */}
+      <span className="plate__stack">
+        <img className="plate__base" src={src} alt={alt} style={fit} />
+        {into && <img className="plate__into" src={into} alt="" aria-hidden="true" />}
+      </span>
       {caption && <figcaption className="page label">{caption}</figcaption>}
     </figure>
   )
