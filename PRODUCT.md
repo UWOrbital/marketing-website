@@ -39,7 +39,7 @@ The team has built a 3U CubeSat and put it through the same qualification campai
 - **Six subteams.** Mechanical, Electrical, Guidance Navigation and Controls, Firmware, Software, Business. 16 subteam leads and 1 team lead.
 - **Surfaces.** Home, Mission, Team, 6 subteam pages, Gallery, Sponsors, Join. Blog, Features, and Events pages are parked in code and not routed.
 - **Stack.** React 19, Vite 7, react-router 7, TypeScript. Deployed on Vercel. Repository `UWOrbital/marketing-website`, working branch `updated`.
-- **Undecided.** No accessibility standard has been chosen by the team. No launch date. No CUBICS outcome. The QEYnet infrared laser beacon partnership is not confirmed and was removed from the site in September 2026. ESA Fly Your Satellite is not being pursued.
+- **Undecided.** No accessibility standard has been chosen by the team. No launch date. No CUBICS outcome. The QEYnet infrared laser beacon partnership is not confirmed. It is named on the site as the secondary payload, on the team's instruction of 2026-09-10. ESA Fly Your Satellite is not being pursued.
 
 ## Brand Commitments
 
@@ -67,6 +67,7 @@ Absences future work must not fabricate:
 - No member roster. Full names and LinkedIn URLs were requested from the team but never delivered. The site shows abbreviated names such as "Ani A".
 - Subteam descriptions come from the old Wix site and are unverified. The Software description and its tech stack list are placeholder text awaiting lead confirmation.
 - No named faculty investigator, no launch date, no CUBICS result, no confirmed QEYnet partnership.
+- The primary payload changed on 2026-09-10, from the Arducam camera to the space debris detection payload built with the Waterloo Space Research team. The sensor models and the payload name are not known.
 
 ## Product Principles
 

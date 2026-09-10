@@ -79,7 +79,10 @@ export const mission = {
     },
     {
       heading: 'Payloads',
-      body: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit. Amateur Radio Operators (AROs, also known as ham radio operators) contact the CubeSat, ask for a set of coordinates, and receive the picture on the downlink. This puts amateur radio education first.',
+      // Sep 2026: the Arducam camera is replaced. The primary payload is the
+      // space sustainability collaboration written for CUBICS Stream 2.
+      body: 'Our primary payload finds and tracks resident space objects, which are pieces of space debris. The team builds it with the Waterloo Space Research team, on space sustainability. Two co-aligned sensors watch the same field of view, one longwave infrared (LWIR) and one visible light (VIS). The satellite runs the detection and the tracking on board, without a command from the ground.',
+      body2: 'The secondary payload is an infrared laser beacon prototype from QEYnet. The company develops it for a new approach to post-quantum key distribution. The mission also builds a platform for amateur radio education. Amateur Radio Operators (AROs, also known as ham radio operators) contact the CubeSat on the downlink.',
       images: [{ src: '/cad-back.png', alt: 'Back view of the V6 CubeSat CAD model' }],
     },
   ],
@@ -163,9 +166,9 @@ export const missionStations: Station[] = [
   },
   {
     slug: 'payload',
-    title: 'Arducam camera',
-    // mission.sections[2].body, first two sentences
-    lead: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit.',
+    title: 'Space debris tracking',
+    // mission.sections[2].body, first and third sentences
+    lead: 'Our primary payload finds and tracks space debris from orbit. It watches one field of view with a longwave infrared sensor and a visible light sensor.',
     image: heroImages.mission,
     alt: 'The Earth seen from low orbit',
   },
