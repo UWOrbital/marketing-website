@@ -34,7 +34,7 @@ The team has built a 3U CubeSat and put it through the same qualification campai
 ## Capabilities and Constraints
 
 - **Two active projects.** The 3U CubeSat, and the Ground Station that tracks it and holds the radio link.
-- **Primary payload.** An Arducam camera. Amateur radio operators contact the satellite, ask for a set of coordinates, and receive the picture on the downlink.
+- **Primary payload.** A space debris detection payload, built with the Waterloo Space Research team. Two co-aligned sensors, longwave infrared and visible light, find and track resident space objects on board. The secondary payload is the QEYnet laser beacon prototype, which is not confirmed. Amateur radio education stays a mission goal.
 - **Ground station timing.** A 3U CubeSat in low Earth orbit is in view of Waterloo for about 10 minutes per pass. There are 4 to 6 usable passes a day.
 - **Six subteams.** Mechanical, Electrical, Guidance Navigation and Controls, Firmware, Software, Business. 17 subteam leads and 1 team lead. Kevin D holds a mechanical lead seat and the team lead seat.
 - **Surfaces.** Home, Mission, Team, 6 subteam pages, Gallery, Sponsors, Join. Blog, Features, and Events pages are parked in code and not routed.
