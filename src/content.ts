@@ -155,8 +155,9 @@ export const missionStations: Station[] = [
   {
     slug: 'competition',
     title: 'CSDC-6 and CSDC-7, first place',
-    // mission.sections[0].body2, last two sentences
-    lead: 'UW Orbital applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
+    // mission.sections[0].body2, last two sentences. The money is CUBICS, not
+    // CSDC, so this lead names CUBICS where body2 has the context above it.
+    lead: 'UW Orbital now applies to CUBICS Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
     image: '/space/webb-pillars.jpg',
     alt: 'Pillars of Creation, imaged by Webb',
   },
