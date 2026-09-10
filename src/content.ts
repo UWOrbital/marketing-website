@@ -79,7 +79,10 @@ export const mission = {
     },
     {
       heading: 'Payloads',
-      body: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit. Amateur Radio Operators (AROs, also known as ham radio operators) contact the CubeSat, ask for a set of coordinates, and receive the picture on the downlink. This puts amateur radio education first.',
+      // Sep 2026: the Arducam camera is replaced. The primary payload is the
+      // space sustainability collaboration written for CUBICS Stream 2.
+      body: 'Our primary payload finds and tracks resident space objects, which are pieces of space debris. The team builds it with the Waterloo Space Research team, on space sustainability. Two co-aligned sensors watch the same field of view, one longwave infrared (LWIR) and one visible light (VIS). The satellite runs the detection and the tracking on board, without a command from the ground.',
+      body2: 'The secondary payload is an infrared laser beacon prototype from QEYnet. The company develops it for a new approach to post-quantum key distribution. The mission also builds a platform for amateur radio education. Amateur Radio Operators (AROs, also known as ham radio operators) contact the CubeSat on the downlink.',
       images: [{ src: '/cad-back.png', alt: 'Back view of the V6 CubeSat CAD model' }],
     },
   ],
@@ -155,16 +158,17 @@ export const missionStations: Station[] = [
   {
     slug: 'competition',
     title: 'CSDC-6 and CSDC-7, first place',
-    // mission.sections[0].body2, last two sentences
-    lead: 'UW Orbital applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
+    // mission.sections[0].body2, last two sentences. The money is CUBICS, not
+    // CSDC, so this lead names CUBICS where body2 has the context above it.
+    lead: 'UW Orbital now applies to CUBICS Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.',
     image: '/space/webb-pillars.jpg',
     alt: 'Pillars of Creation, imaged by Webb',
   },
   {
     slug: 'payload',
-    title: 'Arducam camera',
-    // mission.sections[2].body, first two sentences
-    lead: 'Our primary payload is an Arducam camera. It captures images of the Earth from orbit.',
+    title: 'Space debris tracking',
+    // mission.sections[2].body, first and third sentences
+    lead: 'Our primary payload finds and tracks space debris from orbit. It watches one field of view with a longwave infrared sensor and a visible light sensor.',
     image: heroImages.mission,
     alt: 'The Earth seen from low orbit',
   },
@@ -222,7 +226,8 @@ export const teams: Team[] = [
     short: 'Mechanical',
     icon: img('6a67b4_037785b41f854eb1ab5e016de7fffa41~mv2.png'),
     image: '/space/webb-pillars.jpg',
-    leads: [{ name: 'Ani A' }, { name: 'Alan H' }, { name: 'Brian K' }],
+    // Kevin D leads this subteam and the team, so the name is on both lists.
+    leads: [{ name: 'Kevin D' }, { name: 'Ani A' }, { name: 'Alan H' }, { name: 'Brian K' }],
     summary: 'Designs the frame of the CubeSat and proves it survives launch.',
     body: "The mechanical subsystem is responsible or designing the bus (frame) of the CubeSat, and any other relevant mechanical systems, such as a battery holder. The mechanical team is also responsible for Finite Element Modelling (FEM) of all these components and thermal analysis to ensure the CubeSat can sustain the forces of launch and harsh space environment. The team performs 3D printing, prototyping in the University of Waterloo's Student Machine Shop, and uses tools such as Siemens NX for CAD and analysis.",
     owns: ['Structures'],
