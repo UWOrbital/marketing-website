@@ -140,7 +140,7 @@ ul.plain li:first-child { border-top: 0; }
 /* The arrow is drawn at one size and one stroke everywhere it appears. It
    travels on hover, which is the only thing on this site that moves on hover. */
 .arrow { width: 18px; height: 10px; flex: none; transform: translateY(-1px); transition: transform var(--dur) var(--ease); }
-.alink:hover .arrow, .row--link:hover .arrow, .tile:hover .arrow { transform: translate(4px, -1px); }
+.alink:hover .arrow, .tile:hover .arrow { transform: translate(4px, -1px); }
 
 /* Signal red marks the single action on a page. It is the only fill on the
    site, so a second red button on one page would remove its meaning. */
@@ -541,7 +541,14 @@ main > :not(.field) { animation: page-in var(--dur-page) var(--ease); }
 .row__b { margin: var(--s2) 0 0; color: var(--text-2); max-width: 56ch; }
 .row__end { color: var(--text-3); transition: color var(--dur) var(--ease); }
 .row--link:hover .row__end { color: var(--signal-text); }
-@media (min-width: 901px) { .row__end { justify-self: end; } }
+@media (min-width: 901px) {
+  .row__end { justify-self: end; }
+  /* The arrow is on the grid edge here, so it travels the other way: it starts
+     4px short and lands on the edge. Moving it past the edge put it outside
+     the row's own hover ground. */
+  .row--link .arrow { transform: translate(-4px, -1px); }
+  .row--link:hover .arrow { transform: translate(0, -1px); }
+}
 
 /* The subteam mark. The disc is near-black, so on this ground it disappears
    and only the white line art reads. */
