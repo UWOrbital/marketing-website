@@ -36,7 +36,7 @@ The team has built a 3U CubeSat and put it through the same qualification campai
 - **Two active projects.** The 3U CubeSat, and the Ground Station that tracks it and holds the radio link.
 - **Primary payload.** An Arducam camera. Amateur radio operators contact the satellite, ask for a set of coordinates, and receive the picture on the downlink.
 - **Ground station timing.** A 3U CubeSat in low Earth orbit is in view of Waterloo for about 10 minutes per pass. There are 4 to 6 usable passes a day.
-- **Six subteams.** Mechanical, Electrical, Guidance Navigation and Controls, Firmware, Software, Business. 16 subteam leads and 1 team lead.
+- **Six subteams.** Mechanical, Electrical, Guidance Navigation and Controls, Firmware, Software, Business. 17 subteam leads and 1 team lead. Kevin D holds a mechanical lead seat and the team lead seat.
 - **Surfaces.** Home, Mission, Team, 6 subteam pages, Gallery, Sponsors, Join. Blog, Features, and Events pages are parked in code and not routed.
 - **Stack.** React 19, Vite 7, react-router 7, TypeScript. Deployed on Vercel. Repository `UWOrbital/marketing-website`, working branch `updated`.
 - **Undecided.** No accessibility standard has been chosen by the team. No launch date. No CUBICS outcome. The QEYnet infrared laser beacon partnership is not confirmed. It is named on the site as the secondary payload, on the team's instruction of 2026-09-10. ESA Fly Your Satellite is not being pursued.

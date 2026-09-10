@@ -226,7 +226,8 @@ export const teams: Team[] = [
     short: 'Mechanical',
     icon: img('6a67b4_037785b41f854eb1ab5e016de7fffa41~mv2.png'),
     image: '/space/webb-pillars.jpg',
-    leads: [{ name: 'Ani A' }, { name: 'Alan H' }, { name: 'Brian K' }],
+    // Kevin D leads this subteam and the team, so the name is on both lists.
+    leads: [{ name: 'Kevin D' }, { name: 'Ani A' }, { name: 'Alan H' }, { name: 'Brian K' }],
     summary: 'Designs the frame of the CubeSat and proves it survives launch.',
     body: "The mechanical subsystem is responsible or designing the bus (frame) of the CubeSat, and any other relevant mechanical systems, such as a battery holder. The mechanical team is also responsible for Finite Element Modelling (FEM) of all these components and thermal analysis to ensure the CubeSat can sustain the forces of launch and harsh space environment. The team performs 3D printing, prototyping in the University of Waterloo's Student Machine Shop, and uses tools such as Siemens NX for CAD and analysis.",
     owns: ['Structures'],
