@@ -1,0 +1,125 @@
+{
+  "tool": "build-phase",
+  "version": 2,
+  "startedAt": "2026-09-03T21:48:18.976Z",
+  "comp": null,
+  "direction": "3f03bf9b",
+  "breakpoint": null,
+  "artifact": null,
+  "phase": "hero",
+  "phases": {
+    "comps": {
+      "status": "closed",
+      "openedAt": "2026-09-03T21:48:18.975Z",
+      "closedAt": "2026-09-03T21:57:33.962Z",
+      "attempts": 2,
+      "notes": [],
+      "gate": {
+        "ok": false,
+        "reasons": [
+          "0 comps under .impeccable/mocks; the comp round puts three compositional options of the chosen direction in front of the user (reference/visualize.md). Generate the missing ones (harness image tool or generate-image.mjs), each with a .json sidecar holding its prompt.",
+          "no comp is approved: put the three comps in front of the user (decision page via serve-question.mjs, or the structured question tool), then set \"approved\": true in the chosen comp's sidecar. A delegated pick is recorded the same way and disclosed."
+        ],
+        "summary": "0 comps, 0 approved",
+        "approved": null,
+        "at": "2026-09-03T21:57:33.961Z"
+      },
+      "forced": {
+        "at": "2026-09-03T21:57:33.962Z",
+        "reason": "User downgraded the comp round. Asked how to clear the gate given no image generation exists here, they chose: 'Build one real page instead — skip the comp round, and instead of mockups I build the home hero for real in code and screenshot it. You approve or reject the actual thing rather than a picture of it.' Approval therefore happens against the built hero, not against a comp.",
+        "reasons": [
+          "0 comps under .impeccable/mocks; the comp round puts three compositional options of the chosen direction in front of the user (reference/visualize.md). Generate the missing ones (harness image tool or generate-image.mjs), each with a .json sidecar holding its prompt.",
+          "no comp is approved: put the three comps in front of the user (decision page via serve-question.mjs, or the structured question tool), then set \"approved\": true in the chosen comp's sidecar. A delegated pick is recorded the same way and disclosed."
+        ]
+      }
+    },
+    "spec": {
+      "status": "closed",
+      "openedAt": "2026-09-03T21:57:33.962Z",
+      "closedAt": "2026-09-03T21:57:56.543Z",
+      "attempts": 2,
+      "notes": [],
+      "gate": {
+        "ok": false,
+        "reasons": [
+          "no spec at .impeccable/build/spec.json: run comp-spec.mjs --comp null --grid, name the regions, then --regions regions.json"
+        ],
+        "at": "2026-09-03T21:57:56.541Z"
+      },
+      "forced": {
+        "at": "2026-09-03T21:57:56.543Z",
+        "reason": "User downgraded the comp round: 'Build one real page instead — skip the comp round, and instead of mockups I build the home hero for real in code and screenshot it. You approve or reject the actual thing rather than a picture of it.' The spec phase measures a comp; there is no comp to measure, and the phase's own instruction (comp-spec.mjs --comp null --grid) is not executable: 'cannot read null: ENOENT'. Composition is therefore fixed in the direction contract's FIRST VIEWPORT block and judged against the built hero screenshot the user asked for.",
+        "reasons": [
+          "no spec at .impeccable/build/spec.json: run comp-spec.mjs --comp null --grid, name the regions, then --regions regions.json"
+        ]
+      }
+    },
+    "plates": {
+      "status": "closed",
+      "openedAt": "2026-09-03T21:57:56.543Z",
+      "closedAt": "2026-09-03T21:58:19.825Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": false,
+        "reasons": [
+          "no spec"
+        ],
+        "at": "2026-09-03T21:58:19.824Z"
+      },
+      "forced": {
+        "at": "2026-09-03T21:58:19.825Z",
+        "reason": "User downgraded the comp round: 'Build one real page instead — skip the comp round, and instead of mockups I build the home hero for real in code and screenshot it.' The plates phase crops and scores generated plates against comp regions; there is no comp, so there are no regions to crop and nothing to score against, and generate-image.mjs errors with 'OPENAI_API_KEY is not set' while the harness exposes no image tool. Real imagery is instead sourced as public-domain NASA/ESA photography per the user's instruction to find PNGs with a subagent, and carries its credit line.",
+        "reasons": [
+          "no spec"
+        ]
+      }
+    },
+    "hero": {
+      "status": "open",
+      "openedAt": "2026-09-03T21:58:19.825Z",
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "sections": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "motion": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "responsive": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "review": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    }
+  },
+  "finish": null
+}
