@@ -103,6 +103,8 @@ function Routed() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/sponsors" element={<Sponsors />} />
         <Route path="/join" element={<Join />} />
+        {/* the old Wix Join Us URL */}
+        <Route path="/join-us" element={<Navigate to="/join" replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
