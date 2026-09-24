@@ -1,0 +1,236 @@
+// The site theme. USWDS (the U.S. Web Design System) is the template: its
+// components, grid, and type scale carry the layout. This file sets the USWDS
+// theme to the team's colours, then adds the few site rules USWDS has no
+// component for. USWDS accepts only its own colour tokens, so each brand
+// colour maps to its nearest token. The brand values are in the comments.
+
+@use "uswds-core" with (
+  $theme-show-notifications: false,
+  $theme-show-compile-warnings: false,
+  // Resolved by the `uswds-dist` alias in vite.config.ts, so Vite bundles
+  // only the fonts and images the CSS uses.
+  $theme-font-path: "uswds-dist/fonts",
+  $theme-image-path: "uswds-dist/img",
+
+  // Public Sans is the typeface the federal design system ships with.
+  // Roboto Mono carries dates and labels.
+  $theme-font-type-sans: "public-sans",
+  $theme-font-type-mono: "roboto-mono",
+  $theme-font-role-heading: "sans",
+  $theme-font-role-body: "sans",
+  $theme-font-role-ui: "sans",
+  $theme-font-role-alt: "mono",
+  $theme-style-body-element: true,
+  $theme-global-paragraph-styles: true,
+  $theme-global-link-styles: true,
+  $theme-global-content-styles: true,
+
+  // Signal red #c8351f -> red-50 #d83933. Orbit blue stays out of the
+  // interface, by the team's decision, so the primary colour is the red.
+  $theme-color-primary-family: "red",
+  $theme-color-primary-lighter: "red-10",
+  $theme-color-primary-light: "red-30",
+  $theme-color-primary: "red-50",
+  $theme-color-primary-vivid: "red-50v",
+  $theme-color-primary-dark: "red-60v",
+  $theme-color-primary-darker: "red-70v",
+  $theme-color-secondary: "red-50",
+  $theme-color-secondary-dark: "red-60v",
+  $theme-color-secondary-darker: "red-70v",
+  // Solar gold #e8a83a -> gold-20v.
+  $theme-color-accent-warm: "gold-20v",
+  // Titanium #1c1e22 -> gray-cool-90. Starlight white #f4f5f7 -> gray-cool-3.
+  $theme-color-base-lightest: "gray-cool-3",
+  $theme-color-base-darkest: "gray-cool-90",
+  $theme-color-base-ink: "gray-cool-90",
+  $theme-link-visited-color: "red-60v",
+  $theme-focus-color: "gold-20v",
+
+  // Square corners throughout, the way mission sites draw them.
+  $theme-button-border-radius: 0,
+  $theme-card-border-radius: 0,
+  $theme-card-border-width: 1px,
+  $theme-grid-container-max-width: "widescreen",
+  $theme-header-max-width: "widescreen",
+  $theme-footer-max-width: "widescreen",
+  $theme-header-min-width: "desktop",
+);
+// Only the USWDS parts this site uses. Add a line here to use another.
+@forward "uswds-global";
+@forward "uswds-helpers";
+@forward "uswds-typography";
+@forward "usa-breadcrumb/src/styles";
+@forward "usa-button/src/styles";
+@forward "usa-card/src/styles";
+@forward "usa-footer/src/styles";
+@forward "usa-header/src/styles";
+@forward "usa-layout-grid/src/styles";
+@forward "usa-nav/src/styles";
+@forward "usa-process-list/src/styles";
+@forward "usa-section/src/styles";
+@forward "usa-sidenav/src/styles";
+@forward "usa-skipnav/src/styles";
+@forward "usa-summary-box/src/styles";
+@forward "usa-tag/src/styles";
+@forward "uswds-utilities/src/styles";
+
+// Deep space, the team's page ground. USWDS has no token this dark.
+$deep-space: #121214;
+$titanium: #1c1e22;
+$rule: #2d2e2f;
+
+// ---------- header: black bar, white type, the way mission sites set it
+.usa-header {
+  background: $deep-space;
+  border-bottom: 1px solid $rule;
+  position: sticky;
+  top: 0;
+  z-index: 400;
+}
+.usa-logo { margin: 1rem 0; }
+.usa-logo img { display: block; height: 3rem; width: auto; }
+.usa-menu-btn { background: uswds-core.color("primary"); border-radius: 0; }
+@include uswds-core.at-media("desktop") {
+  .usa-header--basic .usa-nav-container { align-items: center; }
+  .usa-header .usa-nav__primary > .usa-nav__primary-item > a {
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.875rem;
+    &:hover { color: white; }
+    &.usa-current::after, &:hover::after { background-color: uswds-core.color("primary"); }
+  }
+  .usa-nav__primary-item.site-cta { margin-left: 1rem; }
+  .usa-nav__primary-item.site-cta > a.usa-button { color: white; padding: 0.75rem 1.25rem; }
+  .usa-nav__primary-item.site-cta > a.usa-button::after { display: none; }
+}
+
+// ---------- the dark band a page opens on: a photograph with a gradient
+.page-hero {
+  background: $deep-space center / cover no-repeat;
+  color: white;
+  position: relative;
+  padding: 5rem 0 3rem;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba($deep-space, 0.94) 0%, rgba($deep-space, 0.7) 55%, rgba($deep-space, 0.25) 100%);
+  }
+  > .grid-container { position: relative; }
+  h1 { color: white; margin: 0.5rem 0 1rem; max-width: 22ch; }
+  .usa-intro { color: uswds-core.color("gray-cool-10"); max-width: 44rem; }
+  .usa-breadcrumb { background: transparent; color: white; padding: 0; }
+  .usa-breadcrumb__link, .usa-breadcrumb__link:visited { color: uswds-core.color("gray-cool-10"); }
+  @include uswds-core.at-media("desktop") { padding: 8rem 0 5rem; }
+}
+.page-hero--home {
+  min-height: 80vh;
+  display: flex;
+  align-items: flex-end;
+  h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.05; }
+}
+
+// The small uppercase label above a heading, set in mono.
+.kicker {
+  font-family: uswds-core.family("mono");
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: uswds-core.color("primary-light");
+  margin: 0;
+}
+.usa-section:not(.usa-section--dark) .kicker { color: uswds-core.color("primary-dark"); }
+
+// ---------- sections
+.usa-section--dark {
+  background: $deep-space;
+  .usa-graphic-list__heading, h2, h3 { color: white; }
+  p { color: uswds-core.color("gray-cool-10"); }
+}
+.usa-section--alt { background: uswds-core.color("base-lightest"); }
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  h2 { margin: 0.25rem 0 0; font-size: clamp(1.75rem, 3.5vw, 2.5rem); }
+}
+
+// ---------- the record: measured facts in a row of large numerals
+.stats { border-top: 1px solid $rule; }
+.stat {
+  border-bottom: 1px solid $rule;
+  padding: 1.5rem 0;
+  @include uswds-core.at-media("tablet") { border-bottom: 0; border-left: 1px solid $rule; padding: 1.5rem; }
+}
+.stat__value {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: white;
+}
+.stat__label { display: block; margin-top: 0.5rem; color: uswds-core.color("gray-cool-30"); }
+
+// ---------- cards: full images, and a light sheet for sponsor logos
+.usa-card__img { aspect-ratio: 16 / 10; }
+.usa-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.usa-card--link .usa-card__container { transition: border-color 0.15s, transform 0.15s; }
+.usa-card--link:hover .usa-card__container { border-color: uswds-core.color("primary"); transform: translateY(-2px); }
+.usa-card--link a { text-decoration: none; }
+.subteam-icon { width: 2.5rem; height: 2.5rem; margin-bottom: 0.5rem; }
+.sponsor-logo {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 8rem;
+  padding: 1.25rem;
+  border-bottom: 1px solid uswds-core.color("base-lighter");
+  img { max-height: 100%; max-width: 100%; object-fit: contain; }
+}
+
+// A text and image pair. `flip` puts the image on the left at desktop width.
+@include uswds-core.at-media("desktop") { .grid-row.flip { flex-direction: row-reverse; } }
+
+// The mission overview: 3 columns, each an image over its facts.
+.overview__img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: $titanium; }
+.overview__img--render { object-fit: contain; padding: 1rem; }
+
+// CAD renders carry real alpha. They sit on the dark ground, not a white box.
+.render { display: block; width: 100%; height: auto; }
+
+// ---------- process list on a dark ground (the timeline)
+.usa-section--dark .usa-process-list__item { border-left-color: $rule; }
+.usa-section--dark .usa-process-list__heading { color: white; }
+.usa-section--dark .usa-process-list__item::before { background: $deep-space; color: white; border-color: uswds-core.color("primary"); }
+
+// ---------- gallery
+.gallery { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); }
+.gallery button { padding: 0; border: 0; cursor: zoom-in; background: $titanium; aspect-ratio: 4 / 3; overflow: hidden; }
+.gallery img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+.gallery button:hover img { transform: scale(1.04); }
+.gallery__lead { grid-column: 1 / -1; aspect-ratio: 21 / 9 !important; }
+.lightbox { border: 0; padding: 0; background: transparent; max-width: 92vw; max-height: 92vh; }
+.lightbox::backdrop { background: rgba(0, 0, 0, 0.9); }
+.lightbox img { display: block; max-width: 92vw; max-height: 92vh; }
+
+// ---------- footer
+.usa-footer__primary-section { background: $titanium; }
+.usa-footer__primary-section { color: white; }
+.usa-footer__primary-section a, .usa-footer__primary-section a:visited { color: uswds-core.color("gray-cool-10"); text-decoration: none; }
+.usa-footer__primary-section a:hover { color: white; text-decoration: underline; }
+.usa-footer__primary-link { color: white; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.875rem; }
+.usa-footer__secondary-section { background: #0a0b0d; color: uswds-core.color("gray-cool-30"); }
+.usa-footer__secondary-section a { color: white; }
+.footer-patch { width: 6rem; height: auto; }
+.footer-credits { font-size: 0.75rem; line-height: 1.5; color: uswds-core.color("gray-cool-40"); }
+.footer-credits li { margin-bottom: 0.25rem; }
+
+// The summary box ships in info cyan. Teal is out of the interface, so it
+// takes the light grey and a red rule instead.
+.usa-summary-box { background: uswds-core.color("base-lightest"); border-color: uswds-core.color("base-lighter"); border-left: 4px solid uswds-core.color("primary"); border-radius: 0; }

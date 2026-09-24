@@ -1,222 +1,106 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-export type Record = { label: string; value: string }
-
-/** The one call to action. `signal` fills it red; there is 1 per page. */
-export function Btn({ to, href, signal, children }: {
+/** A button. Internal paths use the router, and external links open a new tab. */
+export function Btn({ to, href, outline, children }: {
   to?: string
   href?: string
-  signal?: boolean
+  /** The second action beside a filled one. White outline on a dark ground. */
+  outline?: boolean
   children: ReactNode
 }) {
-  const cls = signal ? 'btn btn--signal' : 'btn'
+  const cls = outline ? 'usa-button usa-button--outline usa-button--inverse' : 'usa-button'
   if (to) return <Link className={cls} to={to}>{children}</Link>
   return <a className={cls} href={href} target={href?.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{children}</a>
 }
 
-/** The site's one icon: drawn, square-terminalled, and sized off the type it
- *  sits beside. A Unicode arrow is a glyph from whatever font loaded, not a mark
- *  that belongs to this drawing. */
-export function Arrow() {
-  return (
-    <svg className="arrow" viewBox="0 0 18 10" fill="none" aria-hidden="true" focusable="false">
-      <path d="M0 5h16M12.2 1.2 16 5l-3.8 3.8" stroke="currentColor" strokeWidth="1.2" />
-    </svg>
-  )
-}
-
-export function ArrowLink({ to, href, children }: { to?: string; href?: string; children: ReactNode }) {
-  const inner = <>{children}<Arrow /></>
-  if (to) return <Link className="alink" to={to}>{inner}</Link>
-  return <a className="alink" href={href} target="_blank" rel="noreferrer">{inner}</a>
-}
-
-/** The page headline. 1 per page, always the first thing on it.
- *  Display type, then a heavy rule, then the supporting matter set in the
- *  grid below it. The only photograph behind type is the landing field. */
-export function PageHead({ title, lede, record, actions, stage }: {
+/** The dark band each page opens on: a photograph under a gradient, then the
+ *  kicker, the one h1, the intro, and the actions. */
+export function PageHero({ title, kicker, lede, image, crumb, home, children }: {
   title: string
+  kicker?: string
   lede?: string
-  /** Measured facts. Under the headline, never above it. */
-  record?: Record[]
-  actions?: ReactNode
-  /** Holds the headline in the whole first viewport, so nothing else is in
-   *  view on arrival. The landing page only. */
-  stage?: boolean
+  image?: string
+  /** The parent page, for a breadcrumb above the title. */
+  crumb?: { to: string; label: string }
+  home?: boolean
+  children?: ReactNode
 }) {
   return (
-    <header className={stage ? 'ph ph--stage' : 'ph'}>
-      <div className="page ph__title">
-        <h1 className="ph__t">{title}</h1>
-      </div>
-      <hr className="rule rule--heavy" />
-      {(lede || record || actions) && (
-        <div className="page ph__foot">
-          <div className="ph__body">
-            {lede && <p className="lede">{lede}</p>}
-            {actions && <div className="actions">{actions}</div>}
-          </div>
-          {record && (
-            <dl className="rec">
-              {record.map((r) => (
-                <div key={r.label}>
-                  <dt>{r.label}</dt>
-                  <dd>{r.value}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-        </div>
-      )}
-    </header>
-  )
-}
-
-/** A full-bleed objective image. The photograph is evidence, not a background:
- *  no type sits over it and no scrim sits on it. */
-export function Plate({ src, alt, caption, bed, ratio, into }: {
-  src: string
-  alt: string
-  caption?: string
-  /** Puts the image on the alternate field. Use it for a cut-out render. */
-  bed?: boolean
-  /** Crops a photograph to a fixed band. Omit to keep the whole image. */
-  ratio?: string
-  /** A second render of the same hardware, from the same camera, stacked on
-   *  the first. The pair cross-fades as the reader passes it, so the exploded
-   *  assembly builds itself. The second render is decoration: `alt` on the
-   *  first already names what the figure shows, and a reader who cannot see
-   *  the fade has lost nothing. */
-  into?: string
-}) {
-  const fit = ratio ? { aspectRatio: ratio, objectFit: 'cover' as const } : undefined
-  return (
-    <figure className={bed ? 'plate plate--bed' : 'plate'}>
-      {/* One grid cell holds both renders, so they register on the same box
-          instead of being positioned against each other by hand. */}
-      <span className="plate__stack">
-        <img className="plate__base" src={src} alt={alt} style={fit} />
-        {into && <img className="plate__into" src={into} alt="" aria-hidden="true" />}
-      </span>
-      {caption && <figcaption className="page label">{caption}</figcaption>}
-    </figure>
-  )
-}
-
-/** A numbered section. The number sits in the left column, the heading in the
- *  next, the action at the right edge. The rule above it is the boundary. */
-export function Section({ title, action, alt, children }: {
-  title?: string
-  action?: ReactNode
-  /** Sets the section on the alternate field. */
-  alt?: boolean
-  children: ReactNode
-}) {
-  return (
-    <section className={alt ? 'sec sec--alt' : 'sec'}>
-      {/* Heading left, action right, body across both. */}
-      <div className="page">
-        {title ? <h2 className="sec__t">{title}</h2> : <span />}
-        <div className="sec__a">{action}</div>
-        <div className="sec__body">{children}</div>
+    <section
+      className={home ? 'page-hero page-hero--home' : 'page-hero'}
+      style={image ? { backgroundImage: `url("${image}")` } : undefined}
+    >
+      <div className="grid-container width-full">
+        {crumb && (
+          <nav className="usa-breadcrumb" aria-label="Breadcrumbs">
+            <ol className="usa-breadcrumb__list">
+              <li className="usa-breadcrumb__list-item">
+                <Link className="usa-breadcrumb__link" to={crumb.to}><span>{crumb.label}</span></Link>
+              </li>
+              <li className="usa-breadcrumb__list-item usa-current" aria-current="page"><span>{title}</span></li>
+            </ol>
+          </nav>
+        )}
+        {kicker && <p className="kicker">{kicker}</p>}
+        <h1>{title}</h1>
+        {lede && <p className="usa-intro">{lede}</p>}
+        {children && <div className="margin-top-4">{children}</div>}
       </div>
     </section>
   )
 }
 
-/** The list primitive. Every list on this site is this component: subteams,
- *  the timeline, the steps to join, contact, and the subteam list.
- *  One row is a hairline, a lead column, and the text. */
-export function Rows({ numbered, lit, children }: { numbered?: boolean; lit?: boolean; children: ReactNode }) {
-  /** `lit` sets the rows in white for a list that sits on the sky. */
-  return <div className={['rows', numbered && 'rows--num', lit && 'rows--lit'].filter(Boolean).join(' ')}>{children}</div>
-}
-
-export function Row({ lead, title, body, end, to, href, children }: {
-  lead?: ReactNode
-  title: string
-  body?: string
-  end?: ReactNode
-  to?: string
-  href?: string
-  children?: ReactNode
-}) {
-  const inner = (
-    <>
-      <span className="row__lead">
-        <span className="row__n" aria-hidden="true" />
-        {lead}
-      </span>
-      <div className="row__main">
-        <h3 className="row__t">{title}</h3>
-        {body && <p className="row__b">{body}</p>}
-        {children}
-      </div>
-      <span className="row__end">{end}</span>
-    </>
-  )
-  if (to) return <Link className="row row--link" to={to}>{inner}</Link>
-  if (href) return <a className="row row--link" href={href} target="_blank" rel="noreferrer">{inner}</a>
-  return <div className="row">{inner}</div>
-}
-
-/** An asymmetric pair: text in the narrow column, image in the wide one.
- *  `flip` moves the image to the left. It is never a 50/50 split. */
-export function Split({ heading, image, alt, flip, children }: {
-  heading?: string
-  image?: string
-  alt?: string
-  flip?: boolean
+/** A page section. `dark` sets it on deep space, `alt` on the light grey. */
+export function Section({ kicker, title, action, dark, alt, children }: {
+  kicker?: string
+  title?: string
+  action?: ReactNode
+  dark?: boolean
+  alt?: boolean
   children: ReactNode
 }) {
-  const cls = ['split']
-  if (flip && image) cls.push('split--flip')
-  if (!image) cls.push('split--solo')
+  const cls = ['usa-section', dark && 'usa-section--dark', alt && 'usa-section--alt'].filter(Boolean).join(' ')
   return (
-    <div className={cls.join(' ')}>
-      <div className="split__text">
-        {heading && <h3 className="split__h">{heading}</h3>}
+    <section className={cls}>
+      <div className="grid-container">
+        {(title || kicker) && (
+          <div className="section-head">
+            <div>
+              {kicker && <p className="kicker">{kicker}</p>}
+              {title && <h2>{title}</h2>}
+            </div>
+            {action}
+          </div>
+        )}
         {children}
       </div>
-      {image && (
-        <figure className="split__fig">
-          <img src={image} alt={alt ?? ''} loading="lazy" />
-        </figure>
-      )}
-    </div>
+    </section>
   )
 }
 
-/** A competition result, set as type. The laurel artwork is gone: at this
- *  scale the year and the word carry more than an ornament does. */
-export function Award({ competition, result, year }: {
-  competition: string
-  result: string
-  year: string
-}) {
-  return (
-    <div className="award">
-      <div className="award__year">{year}</div>
-      <div className="award__comp">{competition}</div>
-      <div className="award__result">{result}</div>
-    </div>
-  )
-}
-
-/** An image tile. The caption sits under the photograph, never over it. */
-export function Tile({ to, href, image, title }: {
-  to?: string
-  href?: string
+/** A USWDS card with a photograph. The whole card is the link. */
+export function ImageCard({ to, image, title, body, icon, cols = 'tablet:grid-col-4' }: {
+  to: string
   image: string
   title: string
+  body?: string
+  icon?: string
+  cols?: string
 }) {
-  const inner = (
-    <>
-      <span className="tile__img"><img src={image} alt="" loading="lazy" /></span>
-      <span className="tile__t">{title}<Arrow /></span>
-    </>
+  return (
+    <li className={`usa-card usa-card--link ${cols}`}>
+      <Link to={to} className="usa-card__container text-ink">
+        <div className="usa-card__media">
+          <div className="usa-card__img"><img src={image} alt="" loading="lazy" /></div>
+        </div>
+        <div className="usa-card__header">
+          {icon && <img className="subteam-icon" src={icon} alt="" loading="lazy" />}
+          <h3 className="usa-card__heading">{title}</h3>
+        </div>
+        {body && <div className="usa-card__body"><p>{body}</p></div>}
+        <div className="usa-card__footer"><span className="usa-link text-bold">Learn more →</span></div>
+      </Link>
+    </li>
   )
-  if (to) return <Link className="tile" to={to}>{inner}</Link>
-  return <a className="tile" href={href} target="_blank" rel="noreferrer">{inner}</a>
 }
