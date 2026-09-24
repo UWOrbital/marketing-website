@@ -4,21 +4,25 @@ import {
   site, heroImages, awards, mission, missionStations, timeline, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
-import { Btn, ImageCard, PageHero, Section } from './ui'
+import { ArrowLink, Btn, ImageCard, PageHero, Section } from './ui'
 
 // The 3 subteams the landing page shows. The order follows `teams`.
 const FEATURED_TEAMS = ['mechanical', 'electrical', 'software']
 
-/** Measured facts, set as large type in a row. */
+/** JPL's MissionDetailStats: a dark panel that overlaps the bottom of the
+ *  hero, with subtitle-set labels over large figures. */
 function Stats({ items }: { items: { value: string; label: string }[] }) {
   return (
-    <div className="grid-row stats">
-      {items.map((s) => (
-        <div key={s.label} className="tablet:grid-col stat">
-          <span className="stat__value">{s.value}</span>
-          <span className="stat__label">{s.label}</span>
-        </div>
-      ))}
+    <div className="relative z-20 lg:-mt-20 container mx-auto lg:px-10 2xl:px-0">
+      <h2 className="sr-only">The record</h2>
+      <div className="bg-gray-dark text-white px-8 py-10 lg:px-12 lg:py-12 grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
+        {items.map((s) => (
+          <div key={s.label}>
+            <p className="text-subtitle text-gray-mid mb-2">{s.label}</p>
+            <p className="text-stats-lg font-display font-bold">{s.value}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -37,42 +41,47 @@ export function Home() {
         <Btn to="/mission" outline>Our mission</Btn>
       </PageHero>
 
-      <Section dark>
-        <Stats items={[
-          { value: '3U', label: 'CubeSat, designed and built by students' },
-          { value: awards[1].year, label: `${awards[1].competition}, first place` },
-          { value: awards[0].year, label: `${awards[0].competition}, first place` },
-          { value: 'Mar 2026', label: 'Vibration and thermal vacuum, passed' },
-        ]} />
-      </Section>
+      <Stats items={[
+        { label: 'CubeSat', value: '3U' },
+        { label: `${awards[1].competition}, first place`, value: awards[1].year },
+        { label: `${awards[0].competition}, first place`, value: awards[0].year },
+        { label: 'Vibration and thermal vacuum, Mar 2026', value: 'Passed' },
+      ]} />
 
-      <Section kicker="The satellite" title="Winners of CSDC-6 and CSDC-7. Now we fly it.">
-        <div className="grid-row grid-gap-6 flex-align-center">
-          <div className="desktop:grid-col-5">
-            <p className="usa-intro">
+      {/* JPL's BlockTeaser: the image on the wide side, the text beside it. */}
+      <section className="bg-white py-16 lg:py-24">
+        <div className="container mx-auto px-4 lg:px-10 2xl:px-0 lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+          <div className="lg:col-span-7 mb-10 lg:mb-0">
+            <img className="w-full h-auto" src="/cad-exploded.png" alt="The UW Orbital V6 CubeSat, shown exploded" />
+          </div>
+          <div className="lg:col-span-5">
+            <p className="text-subtitle text-primary mb-4">The satellite</p>
+            <h2 className="text-h2 mb-6">Winners of CSDC-6 and CSDC-7. Now we fly it.</h2>
+            <p className="text-body-lg mb-8">
               UW Orbital won CSDC-6 in 2023 and CSDC-7 in 2026. The team now competes for CUBICS,
               the Canadian Space Agency program that funds development and buys the launch.
             </p>
-            <Link className="usa-button margin-top-2" to="/mission">Read our mission</Link>
+            <Btn to="/mission" variant="secondary">Read our mission</Btn>
           </div>
-          <div className="desktop:grid-col-7 margin-top-4 desktop:margin-top-0">
-            <img className="render" src="/cad-exploded.png" alt="The UW Orbital V6 CubeSat, shown exploded" />
-          </div>
+        </div>
+      </section>
+
+      <Section alt kicker="Who builds it" title="Subteams" action={<ArrowLink to="/team">Meet the team</ArrowLink>}>
+        <div className="grid md:grid-cols-3 gap-8">
+          {teams.filter((t) => FEATURED_TEAMS.includes(t.slug)).map((t) => (
+            <ImageCard key={t.slug} to={`/team/${t.slug}`} image={t.image} title={t.name} body={t.summary} label="Subteam" icon={`/icons/${t.slug}-accent.png`} />
+          ))}
         </div>
       </Section>
 
-      <Section alt kicker="Who builds it" title="Subteams" action={<Link className="usa-link text-bold" to="/team">Meet the team →</Link>}>
-        <ul className="usa-card-group">
-          {teams.filter((t) => FEATURED_TEAMS.includes(t.slug)).map((t) => (
-            <ImageCard key={t.slug} to={`/team/${t.slug}`} image={t.image} title={t.name} body={t.summary} icon={`/icons/${t.slug}-accent.png`} />
-          ))}
-        </ul>
-      </Section>
-
-      <Section dark kicker="Join us" title="Build hardware that leaves the planet.">
-        <div className="grid-row grid-gap-6">
-          <p className="desktop:grid-col-8 font-body-md">{join.why}</p>
-          <div className="desktop:grid-col-4 desktop:text-right">
+      <Section dark>
+        <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-end">
+          <div className="lg:col-span-8">
+            <p className="text-subtitle text-primary-light mb-4">Join us</p>
+            <h2 className="text-h2 mb-6">Build hardware that leaves the planet.</h2>
+            <p className="text-body-lg text-gray-light-mid mb-8 lg:mb-0">{join.why}</p>
+          </div>
+          <div className="lg:col-span-4 lg:text-right">
             <Btn href={site.discord}>Join our Discord</Btn>
           </div>
         </div>

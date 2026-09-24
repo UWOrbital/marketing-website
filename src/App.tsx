@@ -1,109 +1,101 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import closeIcon from 'uswds-dist/img/usa-icons/close.svg'
 import { imageCredits, nav, site, teams } from './content'
 import { Gallery, Home, Join, Mission, NotFound, Sponsors, Team, TeamDetail } from './pages'
+import { Btn } from './ui'
 
-/** The USWDS basic header. USWDS ships its own JavaScript for the mobile
- *  menu. React state does the same job here, so the USWDS script is not loaded. */
+/** JPL's NavDesktop, without the dropdowns: this site has 4 flat tabs.
+ *  On Home it is transparent over the hero (`-transparent`), elsewhere white.
+ *  Below lg the tabs move into a full-screen panel, like JPL's NavMobile. */
 function Header() {
-  const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
+  const [open, setOpen] = useState(false)
   useEffect(() => setOpen(false), [pathname])
-  useEffect(() => { document.body.classList.toggle('usa-js-mobile-nav--active', open) }, [open])
+  const invert = pathname === '/'
 
   return (
-    <>
-      <div className={open ? 'usa-overlay is-visible' : 'usa-overlay'} onClick={() => setOpen(false)} />
-      <header className="usa-header usa-header--basic">
-        <div className="usa-nav-container">
-          <div className="usa-navbar">
-            <div className="usa-logo">
-              <Link to="/" title={site.name}>
-                <img src="/logo-light.png" alt={site.name} draggable={false} />
-              </Link>
-            </div>
-            <button type="button" className="usa-menu-btn" aria-controls="primary-nav" aria-expanded={open} onClick={() => setOpen(true)}>
-              Menu
-            </button>
-          </div>
-          <nav id="primary-nav" aria-label="Primary navigation" className={open ? 'usa-nav is-visible' : 'usa-nav'}>
-            <button type="button" className="usa-nav__close" onClick={() => setOpen(false)}>
-              <img src={closeIcon} role="img" alt="Close" />
-            </button>
-            <ul className="usa-nav__primary usa-accordion">
+    <div className={`NavDesktop z-50 w-full ${invert ? '-transparent absolute top-0' : 'relative border-b border-gray-light-mid'}`}>
+      <div className="header-bg max-w-screen-3xl absolute inset-0 mx-auto"></div>
+      <div className="px-4">
+        <div className="h-20 lg:h-28 container relative flex items-center justify-between mx-auto">
+          <Link to="/" className="z-20 flex flex-shrink-0 my-2 -ml-1">
+            <img src={invert ? '/logo-light.png' : '/logo.png'} alt={site.name} className="h-10 lg:h-14 w-auto" draggable={false} />
+          </Link>
+          <nav aria-label="Main" className="main-navigation hidden lg:flex items-center justify-end w-full">
+            <div className="flex flex-wrap items-center justify-end">
               {nav.map((n) => (
-                <li key={n.to} className="usa-nav__primary-item">
-                  <NavLink to={n.to} className={({ isActive }) => (isActive ? 'usa-nav-link usa-current' : 'usa-nav-link')}>
-                    <span>{n.label}</span>
-                  </NavLink>
-                </li>
+                <NavLink key={n.to} to={n.to} className="px-4 font-bold font-text tracking-[-.03rem] border-t-2 border-transparent">
+                  {({ isActive }) => (
+                    <span className={`inline-block py-2 border-b-2 ${isActive ? 'border-primary' : 'border-transparent hover:border-primary'}`}>{n.label}</span>
+                  )}
+                </NavLink>
               ))}
-              <li className="usa-nav__primary-item site-cta">
-                <Link className="usa-button" to="/join">Join us</Link>
-              </li>
-            </ul>
+              <Btn to="/join" compact className="ml-4">Join us</Btn>
+            </div>
           </nav>
+          <button
+            type="button"
+            className={`lg:hidden z-20 text-subtitle p-2 -mr-2 ${invert ? 'text-white' : 'text-gray-dark'}`}
+            aria-expanded={open}
+            aria-controls="primary-nav"
+            onClick={() => setOpen(true)}
+          >
+            Menu
+          </button>
         </div>
-      </header>
-    </>
+      </div>
+      {/* JPL's NavMobile: a full-screen dark panel with the links stacked. */}
+      <nav
+        id="primary-nav"
+        aria-label="Mobile"
+        className={`${open ? 'flex' : 'hidden'} lg:hidden fixed inset-0 z-50 flex-col bg-gray-dark text-white px-4 pb-10`}
+      >
+        <div className="h-20 flex items-center justify-between">
+          <img src="/logo-light.png" alt="" className="h-10 w-auto" />
+          <button type="button" className="text-subtitle p-2 -mr-2" onClick={() => setOpen(false)}>Close</button>
+        </div>
+        {nav.map((n) => (
+          <NavLink key={n.to} to={n.to} className="font-display font-bold text-3xl py-4 border-b border-white/20">{n.label}</NavLink>
+        ))}
+        <Btn to="/join" className="mt-8">Join us</Btn>
+      </nav>
+    </div>
   )
 }
 
-/** The USWDS big footer. The image credits are a licence term (CC BY 4.0),
- *  so every image the site shows keeps its credit line here. */
+/** JPL's TheFooter: dark grey, subtitle-set column heads, an aside for the
+ *  organisation, then a darker strip for the meta. The image credits are a
+ *  licence term (CC BY 4.0), so they sit in that strip. */
 function Footer() {
+  const col = (title: string, links: { to?: string; href?: string; label: string }[]) => (
+    <div className="mb-8">
+      <div className="text-subtitle text-gray-mid mb-3">{title}</div>
+      {links.map((l) =>
+        l.to
+          ? <Link key={l.label} to={l.to} className="block text-base can-hover:hover:underline py-1">{l.label}</Link>
+          : <a key={l.label} href={l.href} target="_blank" rel="noreferrer" className="block text-base can-hover:hover:underline py-1">{l.label}</a>,
+      )}
+    </div>
+  )
   return (
-    <footer className="usa-footer usa-footer--big">
-      <div className="usa-footer__primary-section">
-        <div className="grid-container padding-y-5">
-          <div className="grid-row grid-gap-4">
-            <div className="tablet:grid-col-4">
-              <h2 className="usa-footer__primary-link margin-top-0">Explore</h2>
-              <ul className="usa-list usa-list--unstyled">
-                {nav.map((n) => <li key={n.to} className="usa-footer__secondary-link"><Link to={n.to}>{n.label}</Link></li>)}
-                <li className="usa-footer__secondary-link"><Link to="/join">Join us</Link></li>
-              </ul>
-            </div>
-            <div className="tablet:grid-col-4">
-              <h2 className="usa-footer__primary-link margin-top-0">Subteams</h2>
-              <ul className="usa-list usa-list--unstyled">
-                {teams.map((t) => <li key={t.slug} className="usa-footer__secondary-link"><Link to={`/team/${t.slug}`}>{t.name}</Link></li>)}
-              </ul>
-            </div>
-            <div className="tablet:grid-col-4">
-              <h2 className="usa-footer__primary-link margin-top-0">Follow</h2>
-              <ul className="usa-list usa-list--unstyled">
-                {site.social.map((s) => (
-                  <li key={s.label} className="usa-footer__secondary-link">
-                    <a href={s.href} target="_blank" rel="noreferrer">{s.label}</a>
-                  </li>
-                ))}
-                <li className="usa-footer__secondary-link"><a href={`mailto:${site.email}`}>{site.email}</a></li>
-              </ul>
-            </div>
-          </div>
+    <footer className="TheFooter bg-gray-dark text-white relative z-20">
+      <div className="container px-4 pt-10 lg:pt-20 mx-auto lg:grid lg:grid-cols-12 lg:gap-6">
+        <div className="lg:col-span-9 sm:grid grid-cols-3 gap-6">
+          {col('Explore', [...nav.map((n) => ({ to: n.to, label: n.label })), { to: '/join', label: 'Join us' }])}
+          {col('Subteams', teams.map((t) => ({ to: `/team/${t.slug}`, label: t.name })))}
+          {col('Follow us', [...site.social.map((s) => ({ href: s.href, label: s.label })), { href: `mailto:${site.email}`, label: site.email }])}
+        </div>
+        <div className="lg:col-span-3 mb-10">
+          <img src="/patch.png" alt="UW Orbital mission patch" width="512" height="504" className="w-24 h-auto mb-5" loading="lazy" />
+          <p className="font-display text-lg">{site.name} is the {site.tagline}.</p>
         </div>
       </div>
-      <div className="usa-footer__secondary-section">
-        <div className="grid-container">
-          <div className="grid-row grid-gap-4">
-            <div className="tablet:grid-col-4 display-flex flex-align-center">
-              <img className="footer-patch margin-right-2" src="/patch.png" alt="UW Orbital mission patch" width="512" height="504" loading="lazy" />
-              <div>
-                <img src="/logo-light.png" alt={site.name} style={{ height: '2rem', width: 'auto' }} loading="lazy" />
-                <p className="margin-y-1 font-body-2xs">{site.tagline}</p>
-              </div>
-            </div>
-            <div className="tablet:grid-col-8">
-              <p className="footer-credits margin-top-0">Imagery: ESA/Webb and ESA/Hubble, NASA and CSA. Released under CC BY 4.0.</p>
-              <ul className="usa-list usa-list--unstyled footer-credits">
-                {imageCredits.map((c) => (
-                  <li key={c.title}><i>{c.title}</i> — {c.credit}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+      <div className="bg-black bg-opacity-15 lg:mt-10 py-8">
+        <div className="container px-4 mx-auto text-sm text-gray-mid">
+          <p className="mb-2">Imagery: ESA/Webb and ESA/Hubble, NASA and CSA. Released under CC BY 4.0.</p>
+          <ul className="space-y-1 text-xs">
+            {imageCredits.map((c) => <li key={c.title}><i>{c.title}</i> — {c.credit}</li>)}
+          </ul>
         </div>
       </div>
     </footer>
@@ -142,7 +134,7 @@ function Routed() {
 export default function App() {
   return (
     <BrowserRouter>
-      <a className="usa-skipnav" href="#main">Skip to main content</a>
+      <a className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-4" href="#main">Skip to main content</a>
       <Header />
       <Routed />
       <Footer />

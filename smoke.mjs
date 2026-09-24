@@ -82,7 +82,7 @@ await sleep(2500)
 const menu = await evaluate(`(async () => {
   const nav = document.querySelector('#primary-nav')
   const before = getComputedStyle(nav).display
-  document.querySelector('.usa-menu-btn').click()
+  document.querySelector('[aria-controls=primary-nav]').click()
   await new Promise(r => setTimeout(r, 300))
   const after = getComputedStyle(nav).display
   return JSON.stringify({ before, after })

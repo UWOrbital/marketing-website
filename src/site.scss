@@ -1,0 +1,31 @@
+// JPL's Explorer-1 design system, compiled from its source with its own
+// Tailwind config (tailwind.config.ts). Only the classes our markup uses ship.
+@import '@explorer-1/common/src/scss/styles';
+
+// ---------- UW Orbital overrides
+
+// JPL's Helvetica Now files are in a private repo, so each Helvetica Now
+// family name resolves to Inter, the closest free grotesque. These faces come
+// after JPL's, so the browser uses them.
+$inter: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
+@each $family in 'Helvetica Now Display', 'Helvetica Now Text', 'Helvetica Now Micro' {
+  @font-face { font-family: $family; src: $inter; font-weight: 100 900; font-style: normal; font-display: swap; }
+}
+
+// The team's signal red replaces JPL red. Dark grounds use the lifted value.
+:root, .ThemeVariantLight {
+  --color-primary: #c8351f;
+  --color-primary-light: #ef6a52;
+  --color-primary-lighter: #f4a08f;
+  --color-primary-dark: #a42916;
+  --color-primary-darker: #7d1f10;
+}
+// Text on dark uses the lifted red for contrast. Button fills keep signal red.
+.ThemeVariantDark {
+  --color-action: #c8351f;
+  --color-action-dark: #a42916;
+  --color-primary: #ef6a52;
+  --color-primary-light: #ef6a52;
+  --color-primary-dark: #c8351f;
+  --color-primary-darker: #a42916;
+}
