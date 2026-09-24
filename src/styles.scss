@@ -232,5 +232,5 @@ $rule: #2d2e2f;
 .footer-credits li { margin-bottom: 0.25rem; }
 
 // The summary box ships in info cyan. Teal is out of the interface, so it
-// takes the light grey and a red rule instead.
-.usa-summary-box { background: uswds-core.color("base-lightest"); border-color: uswds-core.color("base-lighter"); border-left: 4px solid uswds-core.color("primary"); border-radius: 0; }
+// takes the light grey instead.
+.usa-summary-box { background: uswds-core.color("base-lightest"); border-color: uswds-core.color("base-lighter"); border-radius: 0; }
