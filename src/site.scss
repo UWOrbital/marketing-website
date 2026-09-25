@@ -33,3 +33,19 @@ $inter: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-n
 // Every page is on the black ground. The body matches it, so overscroll and
 // the gap before the first paint are black too.
 body { background: #000; }
+
+// NASA's label: DM Mono, capitals, wide tracking. Used for every small label.
+.label-mono {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+// NASA's buttons are bold sentence case, not JPL's medium capitals.
+.BaseButton .label {
+  text-transform: none;
+  font-weight: 700;
+  font-size: 1.125rem;
+}

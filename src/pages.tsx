@@ -4,27 +4,21 @@ import {
   site, heroImages, awards, mission, missionStations, timeline, teams, teamLead, galleryImages,
   join, sponsors, sponsorIntro, sponsorPackage, tiers,
 } from './content'
-import { Arrow, ArrowLink, Awards, Btn, ImageCard, Kicker, PageHero, Plate, Section, Titled, WRAP } from './ui'
+import { ArrowLink, Awards, Btn, Closing, Go, Kicker, PageHero, Plate, Section, Tile, Titled, WRAP } from './ui'
 
 // The 3 subteams the landing page shows. The order follows `teams`.
 const FEATURED_TEAMS = ['mechanical', 'electrical', 'software']
 
+// Subteam lead seats. One person can hold seats on 2 subteams, and each seat
+// counts, so this matches the team's own count of 17.
+const LEAD_SEATS = teams.reduce((n, t) => n + t.leads.length, 0)
 
-/** JPL's MissionDetailStats, on the ground itself: a rule over each column,
- *  a subtitle-set label, then the figure. */
-function Stats({ items }: { items: { value: string; label: string }[] }) {
+/** The closing section most pages end on: the way in for a new member. */
+function JoinClosing() {
   return (
-    <div className={`${WRAP} pt-4 pb-8`}>
-      <h2 className="sr-only">The record</h2>
-      <dl className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
-        {items.map((s) => (
-          <div key={s.label} className="flex flex-col-reverse justify-end border-t border-white border-opacity-20 pt-5">
-            <dt className="text-subtitle text-gray-mid">{s.label}</dt>
-            <dd className="text-stats-lg font-display font-bold mb-2">{s.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
+    <Closing kicker="Join us" title="Build hardware that leaves the planet." body={join.why}>
+      <Btn href={site.discord}>Join our Discord</Btn>
+    </Closing>
   )
 }
 
@@ -37,17 +31,16 @@ export function Home() {
         kicker={site.tagline}
         title={site.headline}
         lede="We are building a 3U CubeSat and launching it, to make it the University of Waterloo's first satellite launched by students."
+        facts={[
+          { label: 'CubeSat', value: '3U' },
+          { label: `${awards[1].competition}, first place`, value: awards[1].year },
+          { label: `${awards[0].competition}, first place`, value: awards[0].year },
+          { label: 'Vibration and thermal vacuum', value: 'Passed' },
+        ]}
       >
         <Btn to="/join">Join the team</Btn>
         <Btn to="/mission" outline>Our mission</Btn>
       </PageHero>
-
-      <Stats items={[
-        { label: 'CubeSat', value: '3U' },
-        { label: `${awards[1].competition}, first place`, value: awards[1].year },
-        { label: `${awards[0].competition}, first place`, value: awards[0].year },
-        { label: 'Vibration and thermal vacuum, Mar 2026', value: 'Passed' },
-      ]} />
 
       {/* JPL's BlockTeaser: the image on the wide side, the text beside it. */}
       <section className="py-16 lg:py-28">
@@ -57,7 +50,7 @@ export function Home() {
           </div>
           <div className="lg:col-span-5">
             <Awards items={awards} size="w-32 lg:w-40" />
-            <h2 className="text-h2 font-display font-bold mt-8 mb-6">Winners of CSDC-6 and CSDC-7. Now we fly it.</h2>
+            <h2 className="text-h2 font-display font-bold mt-8 mb-6">Winners of <span className="whitespace-nowrap">CSDC-6</span> and <span className="whitespace-nowrap">CSDC-7</span>. Now we fly it.</h2>
             <p className="text-body-lg text-gray-light-mid mb-8">
               UW Orbital won CSDC-6 in 2023 and CSDC-7 in 2026. The team now competes for CUBICS,
               the Canadian Space Agency program that funds development and buys the launch.
@@ -68,34 +61,35 @@ export function Home() {
       </section>
 
       <Section title="Subteams" action={<ArrowLink to="/team">Meet the team</ArrowLink>}>
-        <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
+        <div className="grid md:grid-cols-3 gap-5">
           {teams.filter((t) => FEATURED_TEAMS.includes(t.slug)).map((t) => (
-            <ImageCard key={t.slug} to={`/team/${t.slug}`} image={t.image} title={t.name} body={t.summary} />
+            <Tile key={t.slug} to={`/team/${t.slug}`} image={t.image} title={t.name} body={t.summary} />
           ))}
         </div>
       </Section>
 
-      <Section stars>
-        <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-end py-8 lg:py-16">
-          <div className="lg:col-span-8">
-            <Kicker className="mb-4">Join us</Kicker>
-            <h2 className="text-h2 font-display font-bold mb-6">Build hardware that leaves the planet.</h2>
-            <p className="text-body-lg text-gray-light-mid mb-8 lg:mb-0">{join.why}</p>
-          </div>
-          <div className="lg:col-span-4 lg:text-right">
-            <Btn href={site.discord}>Join our Discord</Btn>
-          </div>
-        </div>
-      </Section>
+      <JoinClosing />
     </>
   )
 }
 
 export function Mission() {
   const [satellite, competition, payload] = missionStations
+  const next = timeline[timeline.length - 2]
   return (
     <>
-      <PageHero image={heroImages.mission} kicker="3U CubeSat" title={mission.title} lede={mission.statement} />
+      <PageHero
+        image={heroImages.mission}
+        kicker="3U CubeSat"
+        title={mission.title}
+        lede={mission.statement}
+        facts={[
+          { label: 'Satellite', value: satellite.title },
+          { label: 'Competition', value: 'CSDC-6 and CSDC-7' },
+          { label: 'Payload', value: payload.title },
+          { label: next.date, value: next.title },
+        ]}
+      />
 
       {/* The overview, first: the facts a sponsor came for, in one screen. */}
       <Section title="The mission at a glance">
@@ -114,7 +108,7 @@ export function Mission() {
                   loading="lazy"
                 />
               </div>
-              <Kicker className="mb-2">{lead}</Kicker>
+              <Kicker className="mb-3">{lead}</Kicker>
               <h3 className="text-h5 font-display font-bold mb-3">{s.title}</h3>
               <p className="text-body-md text-gray-light-mid">{s.lead}</p>
             </div>
@@ -126,7 +120,7 @@ export function Mission() {
         <Section key={s.heading}>
           <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
             <div className={`lg:col-span-6 mb-10 lg:mb-0 ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
-              <Kicker className="mb-3">{`0${i + 1}`}</Kicker>
+              <Kicker className="mb-4">{`0${i + 1}`}</Kicker>
               <h2 className="text-h2 font-display font-bold mb-6">{s.heading}</h2>
               <div className="text-body-lg text-gray-light-mid space-y-5 lg:pr-6">
                 <p>{s.body}</p>
@@ -147,10 +141,10 @@ export function Mission() {
       <Section kicker="Timeline" title="From kickoff to orbit" action={<ArrowLink to="/team">Meet the subteams</ArrowLink>}>
         <ol>
           {timeline.map((t, i) => {
-            const next = i === timeline.length - 1
+            const last = i === timeline.length - 1
             return (
               <li key={t.title} className="lg:grid lg:grid-cols-12 lg:gap-12 border-t border-white border-opacity-15 py-6 lg:py-8">
-                <p className={`lg:col-span-3 text-subtitle mb-2 lg:mb-0 lg:pt-1 ${next ? 'text-primary' : 'text-gray-mid'}`}>{t.date}</p>
+                <p className={`lg:col-span-3 label-mono mb-2 lg:mb-0 lg:pt-1.5 ${last ? 'text-primary' : 'text-gray-mid'}`}>{t.date}</p>
                 <div className="lg:col-span-9 lg:grid lg:grid-cols-9 lg:gap-12">
                   <h3 className="lg:col-span-4 text-h6 font-display font-bold mb-2 lg:mb-0">{t.title}</h3>
                   <p className="lg:col-span-5 text-body-md text-gray-light-mid">{t.body}</p>
@@ -160,6 +154,8 @@ export function Mission() {
           })}
         </ol>
       </Section>
+
+      <JoinClosing />
     </>
   )
 }
@@ -167,17 +163,29 @@ export function Mission() {
 export function Team() {
   return (
     <>
-      <PageHero image={heroImages.team} kicker={`${teamLead.role}: ${teamLead.name}`} title="Team" lede="Six subteams design, build and test the CubeSat.">
+      <PageHero
+        image={heroImages.team}
+        kicker="The team"
+        title="Team"
+        lede="Six subteams design, build and test the CubeSat."
+        facts={[
+          { label: teamLead.role, value: teamLead.name },
+          { label: 'Subteams', value: String(teams.length) },
+          { label: 'Subteam leads', value: String(LEAD_SEATS) },
+        ]}
+      >
         <Btn to="/join">Join the team</Btn>
       </PageHero>
 
       <Section title="Six subteams">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {teams.map((t) => (
-            <ImageCard key={t.slug} to={`/team/${t.slug}`} image={t.image} title={t.name} body={t.summary} />
+            <Tile key={t.slug} to={`/team/${t.slug}`} image={t.image} title={t.name} body={t.summary} />
           ))}
         </div>
       </Section>
+
+      <JoinClosing />
     </>
   )
 }
@@ -188,19 +196,28 @@ export function TeamDetail() {
   if (!t) return <NotFound />
   return (
     <>
-      <PageHero image={t.image} crumb={{ to: '/team', label: 'Team' }} title={t.name} lede={t.summary} />
+      <PageHero
+        image={t.image}
+        crumb={{ to: '/team', label: 'Team' }}
+        title={t.name}
+        lede={t.summary}
+        facts={[
+          { label: 'Leads', value: String(t.leads.length) },
+          { label: 'All subteams', value: 'Meet the team', to: '/team' },
+        ]}
+      />
 
       <Section>
         <div className="lg:grid lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7 mb-14 lg:mb-0">
-            <Kicker className="mb-4">About</Kicker>
+            <Kicker className="mb-5">About</Kicker>
             <div className="text-body-lg text-gray-light space-y-5">
               <p>{t.body}</p>
               {t.body2 && <p>{t.body2}</p>}
             </div>
             {t.stack && (
               <>
-                <Kicker className="mt-12 mb-4">Tech stack</Kicker>
+                <Kicker className="mt-12 mb-5">Tech stack</Kicker>
                 <ul className="text-body-md text-gray-light-mid">
                   {t.stack.map((s) => <li key={s} className="border-t border-white border-opacity-15 py-3">{s}</li>)}
                 </ul>
@@ -209,7 +226,7 @@ export function TeamDetail() {
           </div>
 
           <aside className="lg:col-span-4 lg:col-start-9">
-            <Kicker className="mb-4">Leads</Kicker>
+            <Kicker className="mb-5">Leads</Kicker>
             <ul className="mb-8">
               {t.leads.map((l) => (
                 <li key={l.name} className="text-h6 font-display font-bold border-t border-white border-opacity-15 py-3">
@@ -217,7 +234,6 @@ export function TeamDetail() {
                 </li>
               ))}
             </ul>
-            <Btn to="/join">Join us</Btn>
           </aside>
         </div>
       </Section>
@@ -229,20 +245,20 @@ export function TeamDetail() {
             <NavLink
               key={o.slug}
               to={`/team/${o.slug}`}
-              className={({ isActive }) => `group flex items-center justify-between border-t border-white border-opacity-15 py-5 ${isActive ? 'text-gray-mid pointer-events-none' : ''}`}
+              className={({ isActive }) => `group flex items-center justify-between gap-4 border-t border-white border-opacity-15 py-5 ${isActive ? 'text-gray-mid pointer-events-none' : ''}`}
             >
               {({ isActive }) => (
                 <>
                   <span className="text-h6 font-display font-bold">{o.name}</span>
-                  {isActive
-                    ? <span className="text-subtitle">You are here</span>
-                    : <Arrow className="text-primary transition-transform can-hover:group-hover:translate-x-1" />}
+                  {isActive ? <span className="label-mono">You are here</span> : <Go />}
                 </>
               )}
             </NavLink>
           ))}
         </nav>
       </Section>
+
+      <JoinClosing />
     </>
   )
 }
@@ -257,29 +273,36 @@ function Sponsor({ s, large }: { s: (typeof sponsors)[number]; large?: boolean }
         <img className="max-w-[70%] max-h-[55%] object-contain transition-transform duration-300 can-hover:group-hover:scale-105" src={s.logo} alt={s.alt} loading="lazy" />
       </div>
       <div className={large ? 'md:col-span-6' : ''}>
-        <p className={`${large ? 'text-h3' : 'text-h6'} font-display font-bold mb-2`}><Titled title={s.fullName} className="text-base" /></p>
-        {s.since && <p className="text-subtitle text-gray-mid mb-3">Since {s.since}</p>}
+        <p className={`${large ? 'text-h3' : 'text-h6'} font-display font-bold mb-3`}><Titled title={s.fullName} mark={large ? 'w-6 h-6' : 'w-4 h-4'} /></p>
+        {s.since && <p className="label-mono text-gray-mid mb-3">Since {s.since}</p>}
         <p className={large ? 'text-body-lg text-gray-light-mid' : 'text-body-sm text-gray-mid'}>{s.blurb}</p>
       </div>
     </a>
   )
 }
 
+// The intro's first sentence is the hero's summary. The rest closes the page,
+// beside the actions it argues for.
+const [introLead, ...introRest] = sponsorIntro.split(/(?<=\.) /)
+
 export function Sponsors() {
+  const becomeSponsor = `mailto:${site.email}?subject=${encodeURIComponent('[Our Company] - Sponsoring UW Orbital')}`
   return (
     <>
-      <PageHero image={heroImages.sponsors} kicker="Partners" title="Sponsors">
+      <PageHero
+        image={heroImages.sponsors}
+        kicker="Partners"
+        title="Sponsors"
+        lede={introLead}
+        facts={[
+          { label: 'Sponsors', value: String(sponsors.length) },
+          { label: 'Tiers', value: String(tiers.length) },
+          { label: 'Contact', value: site.email, href: becomeSponsor },
+        ]}
+      >
         <Btn href={sponsorPackage}>Sponsorship package</Btn>
-        <Btn outline href={`mailto:${site.email}?subject=${encodeURIComponent('[Our Company] - Sponsoring UW Orbital')}`}>
-          Become a sponsor
-        </Btn>
+        <Btn outline href={becomeSponsor}>Become a sponsor</Btn>
       </PageHero>
-
-      <section className="pt-8 pb-8 lg:pt-12">
-        <div className={WRAP}>
-          <p className="font-display text-lg lg:text-2xl text-gray-light-mid lg:w-2/3">{sponsorIntro}</p>
-        </div>
-      </section>
 
       {tiers.map((tier) => {
         const list = sponsors.filter((s) => s.tier === tier)
@@ -293,6 +316,13 @@ export function Sponsors() {
           </Section>
         )
       })}
+
+      <Closing kicker="Partners" title="Become a sponsor" body={introRest.join(' ')}>
+        <div className="flex flex-wrap lg:justify-end gap-4">
+          <Btn href={sponsorPackage}>Sponsorship package</Btn>
+          <Btn outline href={becomeSponsor}>Become a sponsor</Btn>
+        </div>
+      </Closing>
     </>
   )
 }
@@ -301,27 +331,19 @@ export function Join() {
   const contacts = [{ label: 'Email', handle: site.email, href: `mailto:${site.email}` }, ...site.social]
   return (
     <>
-      <PageHero image={heroImages.join} kicker="Join us" title="Build hardware that leaves the planet.">
-        <Btn href={site.discord}>Join our Discord</Btn>
-      </PageHero>
+      {/* The 2 steps are the hero's facts: the way in is the first thing a
+          new member sees. */}
+      <PageHero
+        image={heroImages.join}
+        kicker="Join us"
+        title="Build hardware that leaves the planet."
+        facts={join.steps.map((s) => ({ label: `Step 0${s.n}`, value: s.title, href: s.href }))}
+      />
 
-      <section className="pt-8 lg:pt-12">
-        <div className={WRAP}>
-          <p className="font-display text-lg lg:text-2xl text-gray-light-mid lg:w-2/3">{join.why}</p>
-        </div>
-      </section>
-
-      <Section title="How to join" action={<ArrowLink to="/team">Learn about our subteams</ArrowLink>}>
-        <ol className="grid md:grid-cols-2 gap-x-8">
-          {join.steps.map((s) => (
-            <li key={s.n}>
-              <a className="group flex items-baseline gap-6 border-t border-white border-opacity-20 pt-6 pb-2" href={s.href} target="_blank" rel="noreferrer">
-                <span className="text-stats-lg font-display font-bold text-gray-mid">{`0${s.n}`}</span>
-                <span className="text-h4 font-display font-bold"><Titled title={s.title} /></span>
-              </a>
-            </li>
-          ))}
-        </ol>
+      <Section>
+        <Kicker className="mb-5">Why join</Kicker>
+        <p className="font-display text-lg lg:text-2xl text-gray-light lg:w-2/3 mb-8">{join.why}</p>
+        <ArrowLink to="/team">Learn about our subteams</ArrowLink>
       </Section>
 
       <Section title="Contact us">
@@ -329,7 +351,7 @@ export function Join() {
           {contacts.map((c) => (
             <li key={c.label}>
               <a className="group block border-t border-white border-opacity-20 pt-5 pb-8" href={c.href} target="_blank" rel="noreferrer">
-                <Kicker className="mb-2">{c.label}</Kicker>
+                <Kicker className="mb-3">{c.label}</Kicker>
                 <span className="text-h6 font-display font-bold can-hover:group-hover:text-primary">{c.handle}</span>
               </a>
             </li>
@@ -368,7 +390,16 @@ export function Gallery() {
   return (
     <>
       {/* The first photograph is the hero, so the grid starts at the second. */}
-      <PageHero image={galleryImages[0]} title="Gallery" />
+      <PageHero
+        image={galleryImages[0]}
+        kicker="The team at work"
+        title="Gallery"
+        facts={[
+          { label: 'Photographs', value: String(galleryImages.length) },
+          { label: 'The people', value: 'Meet the team', to: '/team' },
+          { label: 'Instagram', value: '@uworbital', href: site.social[0].href },
+        ]}
+      />
       <Section>
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
           {galleryImages.slice(1).map((src, i) => (
@@ -382,16 +413,16 @@ export function Gallery() {
             </button>
           ))}
         </div>
-        <div className="mt-12"><ArrowLink to="/team">Meet the subteams</ArrowLink></div>
       </Section>
       <Lightbox src={open} onClose={() => setOpen(null)} />
+      <JoinClosing />
     </>
   )
 }
 
 export function NotFound() {
   return (
-    <PageHero image="/space/field.jpg" kicker="404" title="Page not found" lede="That page is not part of this site.">
+    <PageHero home image="/space/field.jpg" kicker="404" title="Page not found" lede="That page is not part of this site.">
       <Btn to="/mission">Mission</Btn>
       <Btn to="/team" outline>Team</Btn>
       <Btn to="/join" outline>Join us</Btn>

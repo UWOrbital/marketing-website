@@ -68,7 +68,7 @@ function Header() {
 function Footer() {
   const col = (title: string, links: { to?: string; href?: string; label: string }[]) => (
     <div className="mb-8">
-      <div className="text-subtitle text-gray-mid mb-3">{title}</div>
+      <div className="label-mono text-gray-mid mb-4">{title}</div>
       {links.map((l) =>
         l.to
           ? <Link key={l.label} to={l.to} className="block text-base text-gray-light-mid can-hover:hover:text-white py-1">{l.label}</Link>
