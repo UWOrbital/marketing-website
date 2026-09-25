@@ -29,3 +29,7 @@ $inter: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-n
   --color-primary-dark: #c8351f;
   --color-primary-darker: #a42916;
 }
+
+// Every page is on the black ground. The body matches it, so overscroll and
+// the gap before the first paint are black too.
+body { background: #000; }
