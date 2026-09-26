@@ -28,6 +28,7 @@ export function Home() {
       <PageHero
         home
         image="/space/field.jpg"
+        screen
         kicker={site.tagline}
         title={site.headline}
         lede="We are building a 3U CubeSat and launching it, to make it the University of Waterloo's first satellite launched by students."
@@ -102,7 +103,7 @@ export function Mission() {
             <div key={s.slug}>
               <div className="aspect-[4/3] bg-gray-dark overflow-hidden mb-6">
                 <img
-                  className={`w-full h-full ${s.float ? 'object-contain bg-black p-4' : 'object-cover'}`}
+                  className={`w-full h-full ${s.float ? 'object-contain bg-ground p-4' : 'object-cover'}`}
                   src={s.image}
                   alt={s.alt}
                   loading="lazy"
@@ -422,7 +423,7 @@ export function Gallery() {
 
 export function NotFound() {
   return (
-    <PageHero home image="/space/field.jpg" kicker="404" title="Page not found" lede="That page is not part of this site.">
+    <PageHero home image="/space/field.jpg" screen kicker="404" title="Page not found" lede="That page is not part of this site.">
       <Btn to="/mission">Mission</Btn>
       <Btn to="/team" outline>Team</Btn>
       <Btn to="/join" outline>Join us</Btn>

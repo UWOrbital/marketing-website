@@ -47,7 +47,7 @@ function Header() {
       <nav
         id="primary-nav"
         aria-label="Mobile"
-        className={`${open ? 'flex' : 'hidden'} lg:hidden fixed inset-0 z-50 flex-col bg-black text-white px-4 pb-10`}
+        className={`${open ? 'flex' : 'hidden'} lg:hidden fixed inset-0 z-50 flex-col bg-ground text-white px-4 pb-10`}
       >
         <div className="h-20 flex items-center justify-between">
           <img src="/logo-white.png" alt="" width="900" height="140" className="h-8 w-auto" />
@@ -77,7 +77,7 @@ function Footer() {
     </div>
   )
   return (
-    <footer className="TheFooter bg-black text-white relative z-20 border-t border-white border-opacity-10">
+    <footer className="TheFooter bg-ground text-white relative z-20 border-t border-white border-opacity-10">
       <div className={`${WRAP} pt-10 lg:pt-20 lg:grid lg:grid-cols-12 lg:gap-6`}>
         <div className="lg:col-span-9 sm:grid grid-cols-3 gap-6">
           {col('Explore', [...nav.map((n) => ({ to: n.to, label: n.label })), { to: '/join', label: 'Join us' }])}
@@ -85,7 +85,7 @@ function Footer() {
           {col('Follow us', [...site.social.map((s) => ({ href: s.href, label: s.label })), { href: `mailto:${site.email}`, label: site.email }])}
         </div>
         <div className="lg:col-span-3 mb-10">
-          <img src="/emblem.png" alt="The UW Orbital emblem" width="400" height="368" className="w-32 h-auto mb-5" loading="lazy" />
+          <img src="/emblem.png" alt="The UW Orbital emblem" width="400" height="368" className="w-32 h-auto mb-5 mix-blend-screen" loading="lazy" />
           <p className="font-display text-lg text-gray-light-mid">{site.name} is the {site.tagline}.</p>
         </div>
       </div>
@@ -111,7 +111,7 @@ function Routed() {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
   return (
-    <main id="main" className="bg-black text-white">
+    <main id="main" className="bg-ground text-white">
       <Routes key={pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/mission" element={<Mission />} />

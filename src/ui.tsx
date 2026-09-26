@@ -24,11 +24,11 @@ export function Btn({ to, href, variant = 'primary', outline, compact, className
  *  it, so all of them share one left edge and one right edge. */
 export const WRAP = 'container mx-auto px-4 lg:px-10 2xl:px-0'
 
-/** NASA's link mark: a red disc with a white arrow. It moves on hover of the
- *  nearest `group`. */
+/** The link mark: a thin ring with an arrow, like the globe in the wordmark.
+ *  On hover of the nearest `group` it fills red and moves. */
 export function Go({ className = 'w-5 h-5' }: { className?: string }) {
   return (
-    <span aria-hidden="true" className={`inline-flex flex-none items-center justify-center rounded-full bg-primary text-white align-middle transition-transform duration-200 can-hover:group-hover:translate-x-1 ${className}`}>
+    <span aria-hidden="true" className={`inline-flex flex-none items-center justify-center rounded-full border border-white border-opacity-50 text-white align-middle transition-all duration-200 can-hover:group-hover:translate-x-1 can-hover:group-hover:bg-primary can-hover:group-hover:border-primary ${className}`}>
       <svg className="w-[60%] h-[60%]" viewBox="0 0 16 16" fill="none">
         <path d="M2 8h11M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" strokeWidth="2" />
       </svg>
@@ -95,11 +95,14 @@ function Facts({ items }: { items: Fact[] }) {
  *  the mono label, the one h1 at 72px, the summary, the actions, and a row of
  *  facts along the bottom. The header sits over it, and the bottom edge fades
  *  into the black ground so the page has no seam under the photograph. */
-export function PageHero({ title, kicker, lede, image, crumb, home, facts, children }: {
+export function PageHero({ title, kicker, lede, image, screen, crumb, home, facts, children }: {
   title: string
   kicker?: string
   lede?: string
   image?: string
+  /** A star field darker than the ground: screen it, so only the stars add
+   *  light and the hero matches the ground. Not for photographs. */
+  screen?: boolean
   /** The parent page, shown as the label with a link. */
   crumb?: { to: string; label: string }
   /** Home's hero is taller. Everything else is the same. */
@@ -108,11 +111,11 @@ export function PageHero({ title, kicker, lede, image, crumb, home, facts, child
   children?: ReactNode
 }) {
   return (
-    <section className="relative bg-black">
+    <section className="relative bg-ground">
       <div className="absolute inset-0">
-        {image && <img className="object-cover w-full h-full" src={image} alt="" />}
+        {image && <img className={`object-cover w-full h-full ${screen ? 'mix-blend-screen' : ''}`} src={image} alt="" />}
         <div className="bg-gradient-to-t lg:bg-gradient-to-r from-transparent-black-75 to-transparent absolute inset-0"></div>
-        <div className="bg-gradient-to-t from-black to-transparent absolute inset-x-0 bottom-0 h-40"></div>
+        <div className="bg-gradient-to-t from-ground to-transparent absolute inset-x-0 bottom-0 h-40"></div>
       </div>
       <div className={`relative flex items-end ${home ? 'min-h-[44rem] lg:min-h-[52rem]' : 'min-h-[36rem] lg:min-h-[44rem]'}`}>
         <div className={`${WRAP} w-full pt-40 pb-10 lg:pb-14`}>
@@ -144,8 +147,9 @@ export function Section({ kicker, title, action, stars, children }: {
 }) {
   return (
     <section className="relative py-16 lg:py-24">
-      {/* The star field fades out at both edges, so it has no band edge. */}
-      {stars && <div className="bg-stars absolute inset-0 [mask-image:linear-gradient(transparent,black_30%,black_70%,transparent)]"></div>}
+      {/* The star field fades out at both edges, so it has no band edge. It is
+          darker than the ground, so it screens onto it: only the stars add light. */}
+      {stars && <div className="bg-stars absolute inset-0 mix-blend-screen [mask-image:linear-gradient(transparent,black_30%,black_70%,transparent)]"></div>}
       <div className={`${WRAP} relative`}>
         {(title || kicker) && (
           <div className="flex flex-wrap items-end justify-between gap-4 mb-10 lg:mb-14">
