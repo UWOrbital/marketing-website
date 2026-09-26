@@ -604,16 +604,6 @@ export const sponsors: Sponsor[] = [
     blurb: "We're incredibly grateful to RTL-SDR for providing UW Orbital with a USB-dongle with computer based radio scanner capabilities! RTL-SDR's contribution will allow us to perform crucial activities such as receiving radio signals for our first payload.",
   },
   {
-    name: "Wix",
-    fullName: "Wix",
-    tier: "Bronze",
-    logo: "https://static.wixstatic.com/media/6a67b4_c1579ee067e74929be98bb2f4ae250fc~mv2.png",
-    alt: "Wix logo",
-    website: "https://www.wix.com/",
-    since: "May 2022",
-    blurb: "We're incredibly grateful to Wix for sponsoring us in order to build this website.",
-  },
-  {
     name: "EngSoc",
     fullName: "Waterloo Engineering Society",
     tier: "Bronze",
