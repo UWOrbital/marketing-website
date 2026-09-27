@@ -36,7 +36,7 @@ export function Home() {
           { label: 'CubeSat', value: '3U' },
           { label: `${awards[1].competition}, first place`, value: awards[1].year },
           { label: `${awards[0].competition}, first place`, value: awards[0].year },
-          { label: 'Vibration and thermal vacuum', value: 'Passed' },
+          { label: 'Next: CUBICS Stream 2 proposal', value: 'Nov 2026' },
         ]}
       >
         <Btn to="/join">Join the team</Btn>

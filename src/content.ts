@@ -214,7 +214,7 @@ export type Team = {
   stack?: string[]
 }
 
-export const teamLead = { role: 'Team Lead', name: 'Kevin D' }
+export const teamLead = { role: 'Team Leads', name: 'Kevin D and Ani A' }
 
 // The 6 subteams. Clicking one on /team opens /team/<slug>.
 // Descriptions come from the captured Wix Subsystems page, except Software,
