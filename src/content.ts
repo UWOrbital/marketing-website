@@ -227,7 +227,7 @@ export const teams: Team[] = [
     icon: img('6a67b4_037785b41f854eb1ab5e016de7fffa41~mv2.png'),
     image: '/space/webb-pillars.jpg',
     // Kevin D leads this subteam and the team, so the name is on both lists.
-    leads: [{ name: 'Kevin D' }, { name: 'Ani A' }, { name: 'Alan H' }, { name: 'Brian K' }],
+    leads: [{ name: 'Kevin D' }, { name: 'Ani A' }, { name: 'Alan H' }, { name: 'Brian K' }, { name: 'Caedon M' }],
     summary: 'Designs the frame of the CubeSat and proves it survives launch.',
     body: "The mechanical subsystem is responsible or designing the bus (frame) of the CubeSat, and any other relevant mechanical systems, such as a battery holder. The mechanical team is also responsible for Finite Element Modelling (FEM) of all these components and thermal analysis to ensure the CubeSat can sustain the forces of launch and harsh space environment. The team performs 3D printing, prototyping in the University of Waterloo's Student Machine Shop, and uses tools such as Siemens NX for CAD and analysis.",
     owns: ['Structures'],
@@ -293,7 +293,7 @@ export const teams: Team[] = [
     short: 'Business',
     icon: img('6a67b4_95de1a216b554277befa9c85d13b7b9c~mv2.png'),
     image: '/space/webb-lion-nebula.jpg',
-    leads: [{ name: 'Evan M' }],
+    leads: [{ name: 'Evan M' }, { name: 'Tia B' }],
     summary: 'Funds the project and tells people it exists.',
     body: 'The business subteam is responsible for many behind the scenes tasks of UW Orbital. This includes securing funding, reaching out to sponsors, and keeping track of finance and budgeting. The business subteam also manages marketing and brand creation, social media, organizing outreach events, content creation, technical writing, and recruiting students.',
   },

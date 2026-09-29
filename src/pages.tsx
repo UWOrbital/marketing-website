@@ -10,7 +10,7 @@ import { ArrowLink, Awards, Btn, Closing, Go, Kicker, PageHero, Plate, Section, 
 const FEATURED_TEAMS = ['mechanical', 'electrical', 'software']
 
 // Subteam lead seats. One person can hold seats on 2 subteams, and each seat
-// counts, so this matches the team's own count of 17.
+// counts, so this matches the team's own count of 19.
 const LEAD_SEATS = teams.reduce((n, t) => n + t.leads.length, 0)
 
 /** The closing section most pages end on: the way in for a new member. */
@@ -76,7 +76,6 @@ export function Home() {
 
 export function Mission() {
   const [satellite, competition, payload] = missionStations
-  const next = timeline[timeline.length - 2]
   return (
     <>
       <PageHero
@@ -84,12 +83,6 @@ export function Mission() {
         kicker="3U CubeSat"
         title={mission.title}
         lede={mission.statement}
-        facts={[
-          { label: 'Satellite', value: satellite.title },
-          { label: 'Competition', value: 'CSDC-6 and CSDC-7' },
-          { label: 'Payload', value: payload.title },
-          { label: next.date, value: next.title },
-        ]}
       />
 
       {/* The overview, first: the facts a sponsor came for, in one screen. */}
