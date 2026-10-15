@@ -1,26 +1,1292 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UW Orbital | University of Waterloo Satellite Design Team</title>
-    <meta name="description" content="UW Orbital is the University of Waterloo's CubeSat satellite design team, participating in the Canadian Satellite Design Challenge." />
-    <meta name="theme-color" content="#121214" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="UW Orbital" />
-    <meta property="og:title" content="UW Orbital | University of Waterloo Satellite Design Team" />
-    <meta property="og:description" content="UW Orbital is the University of Waterloo's CubeSat satellite design team, participating in the Canadian Satellite Design Challenge." />
-    <meta property="og:url" content="https://www.uworbital.com/" />
-    <meta property="og:image" content="https://www.uworbital.com/og.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="The UW Orbital mission patch beside the team's wordmark" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="We are building a 3U CubeSat and launching it, to make it the University of Waterloo's first satellite launched by students.">
+<meta name="theme-color" content="#121214">
+<link rel="icon" type="image/png" href="orbital-mark.png">
+<title>UW Orbital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Montserrat:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=EB+Garamond:ital,wght@1,400;1,500&display=swap">
+<style>
+/* Layout: the live site's own page format (hero, sections, tiles, closing), with one 3D stage that moves between pages: a large explorer on Team, a compact one in each subteam's sidebar. */
+:root{
+  --ground:#121214; --black:#000; --white:#fff;
+  --g-light:#d8d8d8; --g-lm:#bdbdbd; --g-mid:#8f8f8f; --g-dark:#2a2a2d;
+  --line:rgba(255,255,255,.15); --bone:#e6dfcf;
+  --red:#c8351f; --red-dark:#a42916; --red-hi:#ef6a52;
+  --f-display:'Syncopate','Arial Black',sans-serif;
+  --f-body:'Montserrat',system-ui,sans-serif;
+  --f-mono:'DM Mono',ui-monospace,Menlo,monospace;
+  --f-cap:'EB Garamond',Georgia,serif;
+  --wrap:1280px;
+  color-scheme:dark;
+}
+html,body{margin:0}
+body{background:var(--ground);color:var(--white);font-family:var(--f-body);font-size:16px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--red-hi);outline-offset:3px}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:40px}
+.label{font-weight:500;font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--g-mid);margin:0}
+.mono{font-family:var(--f-mono);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+.h1,.h2{font-family:var(--f-display);font-weight:400;text-transform:uppercase;letter-spacing:.04em;line-height:1.15;margin:0;text-wrap:balance}
+.h1{font-size:clamp(1.75rem,4.4vw,3.5rem)}
+.h2{font-size:clamp(1.375rem,2.6vw,2.125rem)}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;background:var(--red);color:#fff;font-weight:600;font-size:.875rem;letter-spacing:.15em;text-transform:uppercase}
+.btn:hover{background:var(--red-dark)}
+.go{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid rgba(255,255,255,.5);border-radius:999px;flex:none;transition:transform .2s,background .2s,border-color .2s}
+.go svg{width:60%;height:60%}
+.grp:hover .go{transform:translateX(4px);background:var(--red);border-color:var(--red)}
+
+/* header */
+.hdr{position:absolute;top:0;left:0;right:0;z-index:30;padding-top:env(safe-area-inset-top,0px)}
+.hdr .wrap{height:96px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.hdr img{height:40px;width:auto;display:block}
+.hdr nav{display:flex;align-items:center;gap:4px}
+.hdr nav a.t{padding:8px 14px;font-weight:700}
+.hdr nav a.t span{padding-bottom:6px;border-bottom:2px solid transparent}
+.hdr nav a.t[aria-current] span,.hdr nav a.t:hover span{border-bottom-color:var(--red)}
+.hdr .btn{min-height:42px;margin-left:12px}
+.menu{display:none;align-items:center;gap:10px;min-height:42px;padding:0 4px 0 14px;font-weight:600;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase}
+.menu i{position:relative;display:block;width:18px;height:2px;background:#fff;transition:background .2s}
+.menu i::before,.menu i::after{content:'';position:absolute;left:0;width:18px;height:2px;background:#fff;transition:transform .25s}
+.menu i::before{top:-6px}.menu i::after{top:6px}
+.hdr.open .menu i{background:transparent}.hdr.open .menu i::before{transform:translateY(6px) rotate(45deg)}.hdr.open .menu i::after{transform:translateY(-6px) rotate(-45deg)}
+.hdr .right{display:flex;align-items:center}
+
+/* hero */
+.hero{position:relative;background:var(--ground);overflow:hidden}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero>img.screen{mix-blend-mode:screen}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.8),rgba(0,0,0,0) 70%)}
+.hero .fade{position:absolute;left:0;right:0;bottom:0;height:160px;background:linear-gradient(0deg,var(--ground),transparent)}
+.hero .in{position:relative;min-height:640px;display:flex;align-items:flex-end}
+.hero .wrap{width:100%;padding-top:160px;padding-bottom:48px}
+.hero .crumb{display:inline-block;margin-bottom:20px;color:var(--g-lm)}
+.hero .crumb:hover{color:#fff}
+.hero .lede{font-weight:500;font-size:clamp(1.1rem,1.6vw,1.5rem);color:var(--g-light);max-width:40ch;margin:22px 0 0}
+.hero .acts{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:64px 0 0}
+.facts div{border-top:1px solid rgba(255,255,255,.3);padding-top:18px;display:flex;flex-direction:column-reverse;justify-content:flex-end;min-width:0}
+.facts dd{margin:0 0 6px;font-weight:600;font-size:clamp(1.3rem,2.2vw,1.9rem);line-height:1.2}
+.facts dt{color:var(--g-lm)}
+
+/* sections */
+.sec{padding-block:88px}
+.sec-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:44px}
+.sec-h .label{margin-bottom:14px}
+
+/* explorer (Team) */
+.explorer{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:stretch}
+.explorer .slot{grid-column:1/span 8;height:580px}
+.tabs{grid-column:9/span 4;display:flex;flex-direction:column;min-width:0}
+.tab{display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:start;text-align:left;border-top:1px solid var(--line);padding:14px 0;color:var(--g-lm)}
+.tab:last-of-type{border-bottom:1px solid var(--line)}
+.tab img{width:34px;height:34px;grid-row:span 2}
+.tab strong{font-weight:600;font-size:1rem;color:#fff;line-height:1.3}
+.tab span{grid-column:2;font-size:.85rem;line-height:1.45;max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .35s ease}
+.tab[aria-selected="true"] strong{color:var(--red-hi)}
+.tab[aria-selected="true"] span{max-height:5em;opacity:1;margin-top:4px}
+.tab:hover strong{color:var(--red-hi)}
+.tabs .open{margin-top:18px;display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:1.05rem}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.tile{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#000;max-width:100%}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform .5s ease}
+.tile:hover img{transform:scale(1)}
+.tile .g{position:absolute;inset:0;background:linear-gradient(0deg,#000,rgba(0,0,0,.5) 35%,transparent 60%)}
+.tile .t{position:absolute;left:0;right:0;bottom:0;padding:28px}
+.tile .t p{margin:0}
+.tile .t .n{font-weight:600;font-size:1.75rem;line-height:1.2;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tile .t .s{font-size:.9rem;color:var(--g-lm);margin-top:10px}
+
+/* subteam page: text on the left, the satellite hovering on the right */
+.split{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;padding-top:128px}
+.split .txt{grid-column:1/span 6;min-width:0;padding-bottom:40px}
+.split .hover{grid-column:7/span 6;position:relative}
+.split .hover .slot{position:sticky;top:96px;height:calc(100vh - 120px);min-height:520px;max-height:860px}
+.split .crumb{display:inline-block;margin-bottom:22px;color:var(--g-lm)}
+.split .crumb:hover{color:#fff}
+.split .lede{font-weight:500;font-size:1.35rem;line-height:1.45;color:var(--g-light);margin:22px 0 0;max-width:40ch}
+.split .facts{grid-template-columns:repeat(2,minmax(0,1fr));margin:44px 0 56px}
+.body p{font-size:1.1rem;line-height:1.7;color:var(--g-light);margin:0 0 20px;max-width:62ch}
+.stack{list-style:none;margin:0 0 40px;padding:0}
+.stack li{border-top:1px solid var(--line);padding:11px 0;color:var(--g-lm)}
+.leads{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
+.leads li{border-top:1px solid var(--line);padding:12px 0;font-weight:600;font-size:1.1rem}
+.others{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:32px}
+.others a{display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:20px 0;font-weight:600;font-size:1.15rem}
+.others a[aria-current]{color:var(--g-mid);pointer-events:none}
+.fadeable{transition:opacity .45s ease,transform .45s ease}
+.out .fadeable{opacity:0;transform:translateY(10px)}
+#page{will-change:transform}
+html{overflow-x:hidden}
+.pushing #readout,.pushing #hint,.pushing #labels,.pushing #over{opacity:0!important}
+.tile{transition:background .7s ease}
+.tile.pushing{background:var(--ground)}
+.tile.pushing .g,.tile.pushing .t{opacity:0;transition:opacity .45s ease}
+.tile #stageWrap{z-index:0}
+
+/* closing + footer */
+.closing{position:relative;overflow:hidden}
+.closing .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.45;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.closing .in{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:end;padding-block:48px}
+.closing .l{grid-column:1/span 8}
+.closing .big{font-size:clamp(1.625rem,3.6vw,2.875rem);margin:18px 0 22px}
+.closing p{color:var(--g-lm);font-size:1.1rem;line-height:1.6;margin:0;max-width:62ch}
+.closing .r{grid-column:9/span 4;display:flex;flex-direction:column;align-items:flex-end;gap:30px}
+.seal{position:relative;width:150px;height:150px}
+.seal svg{position:absolute;inset:0}
+.seal img{position:absolute;left:0;top:16px;width:150px;height:auto}
+footer{border-top:1px solid rgba(255,255,255,.1);padding-block:64px 36px}
+footer .cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+footer .cols a{display:block;color:var(--g-lm);padding:3px 0}
+footer .cols a:hover{color:#fff}
+footer .credit{margin-top:40px;font-size:12px;color:var(--g-mid)}
+
+/* the stage */
+.slot{position:relative}
+#stageWrap{position:absolute;inset:0;overflow:hidden;touch-action:pan-y}
+#stageWrap.flying{position:fixed;inset:auto;z-index:40;transition:left .85s cubic-bezier(.65,0,.35,1),top .85s cubic-bezier(.65,0,.35,1),width .85s cubic-bezier(.65,0,.35,1),height .85s cubic-bezier(.65,0,.35,1),background .85s}
+#stage{display:block;width:100%;height:100%;cursor:grab}
+#stage.drag{cursor:grabbing}#stage.hot{cursor:pointer}
+#over,#labels{position:absolute;inset:0;pointer-events:none;width:100%;height:100%}
+.lab{position:absolute;left:0;top:0;display:flex;flex-direction:column;gap:2px;padding:6px 9px;background:rgba(0,0,0,.72);border:1px solid rgba(230,223,207,.28);white-space:nowrap;opacity:0;transition:opacity .45s;pointer-events:auto}
+.lab.on{opacity:1}
+.lab b{font-family:var(--f-mono);font-weight:500;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone)}
+.lab i{font-family:var(--f-cap);font-size:13.5px;color:var(--g-lm)}
+.lab.hl{border-color:rgba(239,106,82,.7)}.lab.hl b{color:var(--red-hi)}
+a.lab:hover b{color:var(--red-hi)}
+.compact .lab i{display:none}
+#readout{position:absolute;right:14px;top:12px;color:var(--g-mid);font-variant-numeric:tabular-nums;pointer-events:none;font-size:10px}
+#hint{position:absolute;right:14px;top:30px;color:#6f6f6f;pointer-events:none;font-size:10px}
+.compact #readout,.compact #hint{display:none}
+#tip{position:fixed;left:0;top:0;z-index:50;pointer-events:none;padding:5px 8px;background:#e7e0cf;color:#2a261f;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+#code{position:absolute;right:14px;bottom:14px;width:min(430px,52%);background:#0c0e0f;color:#cfd3d6;border:1px solid #2a2d31;opacity:0;transform:translateY(8px);transition:opacity .6s,transform .6s;pointer-events:none}
+#code.on{opacity:1;transform:none}
+#code .hd{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;border-bottom:1px solid #2a2d31;font-size:9px;color:#8a9096;letter-spacing:.12em}
+#code .hd span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#code pre{margin:0;padding:8px 0 10px;font-family:var(--f-mono);font-size:10.5px;line-height:1.6;overflow:hidden}
+#code .ln{display:block;padding-right:10px;white-space:pre;overflow:hidden;text-overflow:ellipsis}
+#code .ln::before{content:attr(data-n);display:inline-block;width:32px;padding-right:12px;text-align:right;color:#4d5359}
+#code .ln .c{color:#6f8f74}#code .ln .k{color:#e6c07b}#code .ln .n{color:#9cc3e6}
+#code .ln.run{background:rgba(239,106,82,.12);box-shadow:inset 2px 0 0 var(--red-hi)}
+#code .cur{display:inline-block;width:7px;height:12px;background:#cfd3d6;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.narrow #code{width:calc(100% - 28px)}
+.narrow #code .ln.early{display:none}
+.narrow #code pre{font-size:9.5px}
+
+/* posters (used to render the stills) */
+body.poster{overflow:hidden}
+body.poster main,body.poster header,body.poster footer{visibility:hidden}
+body.poster #stageWrap{position:fixed;inset:0;z-index:100}
+body.poster.clean #labels,body.poster.clean #over,body.poster.clean #code,body.poster #readout,body.poster #hint{display:none}
+
+
+/* ---------- page transitions: the page lifts out, the next one settles in ---------- */
+#page{position:relative;z-index:1;transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+footer{position:relative;z-index:1;background:var(--ground);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+#stageWrap{transition:opacity .55s ease}
+body.leaving #page,body.leaving footer{opacity:0;transform:translateY(-14px);transition:opacity .28s ease-in,transform .3s ease-in}
+body.leaving #stageWrap{opacity:0;transition:opacity .28s ease-in}
+body.entering #page,body.entering footer{opacity:0;transform:translateY(20px);transition:none}
+body.entering #stageWrap{opacity:0;transition:none}
+#page>*{pointer-events:auto}
+
+/* ---------- subteam pages: the satellite is the page's backdrop, no box around it ---------- */
+#stageWrap.full{position:fixed;inset:0;z-index:0}
+#scrim{position:absolute;inset:0;pointer-events:none;display:none}
+#stageWrap.full #scrim{display:block;background:
+  linear-gradient(90deg,rgba(18,18,20,.97) 0,rgba(18,18,20,.94) calc(var(--vx,720px) - 180px),rgba(18,18,20,.6) calc(var(--vx,720px) - 50px),rgba(18,18,20,0) calc(var(--vx,720px) + 90px)),
+  linear-gradient(180deg,rgba(18,18,20,.9) 0,rgba(18,18,20,0) 140px)}
+#stageWrap.full #readout{top:auto;right:auto;bottom:22px;left:var(--vx,720px)}
+#stageWrap.full #hint{top:auto;right:auto;bottom:22px;left:calc(var(--vx,720px) + 170px)}
+#stageWrap.full #code{left:var(--vx,720px);right:40px;width:auto;bottom:54px}
+/* with the satellite behind the page, the page lets drags through everywhere except its text and the solid sections */
+#page.thru{pointer-events:none}
+#page.thru>section:not(.pass){pointer-events:auto}
+.pass{pointer-events:none!important}
+.pass .txt{pointer-events:auto}
+.split .txt{text-shadow:0 1px 14px rgba(18,18,20,.9),0 0 2px rgba(18,18,20,.6)}
+.split .hover{min-height:calc(100vh - 140px)}
+.opaque{background:var(--ground);position:relative}
+
+/* ---------- shared pieces for the other pages ---------- */
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.55)}
+.btn.ghost:hover{background:rgba(255,255,255,.08)}
+.arrow{display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:1.1rem}
+.facts.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.facts a{display:inline-flex;align-items:center;gap:12px}
+.lead-lg{font-size:clamp(1.15rem,1.7vw,1.5rem);line-height:1.5;color:var(--g-light);margin:0;max-width:42ch;font-weight:500}
+.body-lg{font-size:1.1rem;line-height:1.7;color:var(--g-lm);margin:0 0 18px;max-width:60ch}
+.grid12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:center}
+.cap{font-family:var(--f-cap);font-style:italic;font-size:15px;color:var(--g-lm);margin:10px 0 0}
+
+/* drawing sheet: bone paper for the white-ground CAD renders */
+.sheet{position:relative;background:#e7e0cf;box-shadow:inset 0 0 90px rgba(110,88,50,.28);color:#2a261f;padding:34px 34px 64px;margin:0}
+.sheet::before{content:"";position:absolute;inset:12px;border:1.2px solid #2a261f;pointer-events:none}
+.sheet img{display:block;width:100%;height:auto;mix-blend-mode:multiply;filter:sepia(.25) saturate(.8)}
+.sheet .zn{position:absolute;font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;color:#2a261f}
+.sheet .tb{position:absolute;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(3,auto);border-top:1.2px solid #2a261f;border-left:1.2px solid #2a261f;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+.sheet .tb span{padding:6px 10px}
+.sheet .tb span:not(:last-child){border-right:1px solid #2a261f}
+.sheet .tb .t1{grid-column:1/-1;border-right:0!important;border-bottom:1px solid #2a261f;font-size:10.5px}
+
+/* awards: the laurel is one image, the text is type */
+.awards{display:flex;gap:18px;flex-wrap:wrap}
+.award{position:relative;width:170px;aspect-ratio:1;container-type:inline-size;margin:0}
+.award img{position:absolute;inset:0;width:100%;height:100%}
+.award figcaption{position:absolute;inset:22%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.1}
+.award b{font-weight:600;font-size:13cqw;white-space:nowrap}
+.award span{font-size:5.5cqw;letter-spacing:.3em;text-transform:uppercase;color:var(--g-lm);margin-top:3cqw}
+.award i{font-style:normal;font-size:7cqw;color:var(--g-mid);margin-top:1cqw}
+
+/* mission: glance cards and timeline */
+.glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.glance .img{aspect-ratio:4/3;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+.glance .img img{width:100%;height:100%;object-fit:cover}
+.glance .img.sheet{background:#e7e0cf;padding:22px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.glance .img.sheet img{height:100%;width:auto;max-width:100%;object-fit:contain}
+.glance h3{font-weight:600;font-size:1.35rem;line-height:1.25;margin:10px 0 10px}
+.glance p.l{margin:18px 0 0}
+.glance p.d{margin:0;color:var(--g-lm);line-height:1.6}
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:170px;top:8px;bottom:8px;width:1px;background:rgba(255,255,255,.2)}
+.tl li{display:grid;grid-template-columns:150px 40px minmax(0,4fr) minmax(0,5fr);gap:0 24px;padding:22px 0;border-top:1px solid var(--line);position:relative}
+.tl li::after{content:"";position:absolute;left:166px;top:30px;width:9px;height:9px;border-radius:50%;background:var(--ground);border:1px solid rgba(255,255,255,.55)}
+.tl li.done::after{background:#bdbdbd;border-color:#bdbdbd}
+.tl li.next::after{background:var(--red-hi);border-color:var(--red-hi);box-shadow:0 0 0 5px rgba(239,106,82,.18)}
+.tl .dt{padding-top:3px;color:var(--g-mid)}
+.tl li.next .dt{color:var(--red-hi)}
+.tl h3{grid-column:3;margin:0;font-weight:600;font-size:1.15rem;line-height:1.3}
+.tl p{grid-column:4;margin:0;color:var(--g-lm);line-height:1.6}
+
+/* gallery */
+.masonry{columns:3;column-gap:16px}
+.ph{break-inside:avoid;margin:0 0 16px;position:relative;background:#0c0c0e;border:1px solid rgba(230,223,207,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--g-mid)}
+.ph svg{opacity:.55}
+.ph .n{position:absolute;left:14px;top:12px}
+
+/* sponsors */
+.tier{display:grid;gap:48px 32px}
+.tier.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tier.c4 .sp .plate{aspect-ratio:3/2}
+.tier.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.sp{display:flex;flex-direction:column;gap:14px}
+.sp .plate{aspect-ratio:2/1;background:#d9d3c4;box-shadow:inset 0 0 50px rgba(110,88,50,.2);display:flex;align-items:center;justify-content:center;position:relative;padding:0 16px;text-align:center}
+.sp .plate b{font-weight:600;font-size:clamp(1rem,1.6vw,1.45rem);color:#2a261f;letter-spacing:-.01em}
+.sp .plate i{position:absolute;right:10px;bottom:8px;font-style:normal;font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(42,38,31,.5)}
+.sp .nm{display:flex;align-items:center;gap:12px;font-weight:600;font-size:1.15rem;line-height:1.25}
+.sp .since{margin:0}
+.sp p.b{margin:0;color:var(--g-mid);font-size:.92rem;line-height:1.55}
+.sp.big{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:center}
+.sp.big .plate{grid-column:1/span 5;aspect-ratio:3/2}
+.sp.big .tx{grid-column:7/span 6;display:flex;flex-direction:column;gap:14px}
+.sp.big .plate b{font-size:clamp(1.4rem,2.6vw,2.2rem)}
+.sp.big .nm{font-size:1.8rem}
+.sp.big p.b{font-size:1.1rem;color:var(--g-lm)}
+
+/* join */
+.contacts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 32px;list-style:none;margin:0;padding:0}
+.contacts li{border-top:1px solid rgba(255,255,255,.2);padding:20px 0 30px}
+.contacts .h{font-weight:600;font-size:1.2rem;margin-top:10px;display:block;user-select:all}
+
+@media (max-width:900px){
+  .wrap{padding-inline:16px}
+  .hdr nav a.t{display:none}
+  .hdr img{height:28px}
+  .hero .in{min-height:520px}
+  .facts{grid-template-columns:1fr 1fr}
+  .explorer,.split,.closing .in{grid-template-columns:1fr}
+  .explorer .slot,.tabs,.split .txt,.split .hover,.closing .l,.closing .r{grid-column:1/-1}
+  .split{padding-top:96px}
+  .split .hover{order:-1;min-height:0;margin-inline:-16px}
+  .split .hover .slot{position:relative;top:0;height:420px;min-height:0}
+  .split .hover::after{content:'';position:absolute;left:0;right:0;bottom:0;height:72px;background:linear-gradient(rgba(18,18,20,0),var(--ground));pointer-events:none;z-index:3}
+  .menu{display:inline-flex}
+  .hdr .btn{min-height:38px;padding:0 14px;font-size:.75rem;white-space:nowrap;margin-left:4px}
+  .hdr .wrap{height:80px}
+  .hdr.open nav{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--ground);padding:4px 16px 20px;border-bottom:1px solid var(--line)}
+  .hdr.open nav a.t{display:block;padding:14px 0;border-top:1px solid var(--line)}
+  .hdr.open nav a.t span{padding-bottom:4px}
+  .hdr.open nav .btn{margin:16px 0 0;justify-content:center}
+  .explorer .slot{height:360px}
+  .closing .r{align-items:flex-start}
+  .tiles,.others,.glance,.tier.c3,.tier.c4,.contacts{grid-template-columns:1fr}
+  .grid12>*{grid-column:1/-1!important}
+  .masonry{columns:1}
+  .facts.four{grid-template-columns:1fr 1fr}
+  .sp.big .plate,.sp.big .tx{grid-column:1/-1}
+  .tl::before,.tl li::after{display:none}
+  .tl li{grid-template-columns:1fr}
+  .tl h3,.tl p{grid-column:1}
+  footer .cols{grid-template-columns:1fr 1fr}
+}
+@media (max-width:480px){ .menu .mt{display:none} .menu{padding:0 2px 0 12px;min-width:40px;justify-content:center} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<header class="hdr"><div class="wrap">
+  <a href="#home" aria-label="UW Orbital, home"><img src="logo-white.png" alt="UW Orbital" width="900" height="140"></a>
+  <div class="right"><nav aria-label="Main" id="mainnav">
+    <a class="t" href="#mission" data-r="mission"><span>Mission</span></a>
+    <a class="t" href="#team" data-r="team"><span>Team</span></a>
+    <a class="t" href="#gallery" data-r="gallery"><span>Gallery</span></a>
+    <a class="t" href="#sponsors" data-r="sponsors"><span>Sponsors</span></a>
+    <a class="btn" href="#join" data-r="join">Join us</a>
+  </nav><button class="menu" id="menuBtn" aria-expanded="false" aria-controls="mainnav" aria-label="Menu"><span class="mt">Menu</span><i></i></button></div>
+</div></header>
+
+<main id="page"></main>
+
+<div id="stageWrap">
+  <canvas id="stage" aria-label="3D model of the UW Orbital 3U CubeSat. Drag to rotate; select a part to open the subteam that builds it."></canvas>
+  <div id="scrim" aria-hidden="true"></div>
+  <svg id="over" aria-hidden="true"></svg>
+  <div id="labels"></div>
+  <div id="readout" class="mono">Az 000° · El 00°</div>
+  <div id="hint" class="mono">Drag to rotate</div>
+  <div id="code" aria-hidden="true">
+    <div class="hd mono"><span>obc/app/modules/state_mgr/state_mgr.c</span><span>UWOrbital/obc-firmware</span></div>
+    <pre id="codepre"></pre>
+  </div>
+</div>
+<div id="tip" hidden></div>
+<div id="park" hidden></div>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div><p class="label" style="margin-bottom:14px">Explore</p><a href="#mission">Mission</a><a href="#team">Team</a><a href="#gallery">Gallery</a><a href="#sponsors">Sponsors</a><a href="#join">Join us</a></div>
+    <div id="fsub"><p class="label" style="margin-bottom:14px">Subteams</p></div>
+    <div><p class="label" style="margin-bottom:14px">Follow us</p><a href="https://instagram.com/uworbital">Instagram</a><a href="https://www.linkedin.com/company/uw-orbital">LinkedIn</a><a href="https://www.facebook.com/uworbital">Facebook</a><span style="display:block;color:var(--g-lm);padding:3px 0;user-select:all">uworbital@gmail.com</span></div>
+    <div><img src="emblem.png" alt="The UW Orbital emblem" width="400" height="368" style="width:120px;height:auto;mix-blend-mode:screen;margin-bottom:14px"><p style="margin:0;color:var(--g-lm)">UW Orbital is the University of Waterloo Satellite Design Team.</p></div>
+  </div>
+  <p class="credit">Imagery: <i>The Hubble Legacy Field</i> — NASA, ESA, G. Illingworth and D. Magee (University of California, Santa Cruz), K. Whitaker (University of Connecticut), R. Bouwens (Leiden University), P. Oesch (University of Geneva), and the Hubble Legacy Field team. CC BY 4.0. Satellite renders: UW Orbital 3D model.</p>
+</div></footer>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+
+/* ---------------- content (from src/content.ts) ---------------- */
+
+
+const TEAMS = [
+  {slug:'mechanical', fig:'The frame, exploded', short:'Mechanical', name:'Mechanical', sheet:'01', summary:'Designs the frame of the CubeSat and proves it survives launch.',
+   body:"The mechanical subsystem is responsible or designing the bus (frame) of the CubeSat, and any other relevant mechanical systems, such as a battery holder. The mechanical team is also responsible for Finite Element Modelling (FEM) of all these components and thermal analysis to ensure the CubeSat can sustain the forces of launch and harsh space environment. The team performs 3D printing, prototyping in the University of Waterloo's Student Machine Shop, and uses tools such as Siemens NX for CAD and analysis.",
+   leads:['Kevin D','Ani A','Alan H','Brian K','Caedon M']},
+  {slug:'electrical', fig:'Panels, boards and batteries', short:'Electrical', name:'Electrical', sheet:'02', summary:'Makes the power, and the boards that move it around.',
+   body:'The Electrical subsystem is responsible for power production, distribution, and management. Major components of this subsystem involve the solar panels and batteries. The team is heavily hardware focused, developing PCBs for an MPPT charging circuit, a Battery Management System, in-house solar panels, and more. Learn about board design in Altium and gain hands-on experience with PCB assembly.',
+   leads:['Judy Y','Sam B','Zack C','Ahmed Q','Nikhita G']},
+  {slug:'gnc', fig:'Reaction wheel and magnetorquers', short:'GNC', name:'Guidance, Navigation and Controls', sheet:'03', summary:'Points the satellite where it needs to look.',
+   body:'The GNC subsystem is responsible for orientation control of the satellite within space through actuators such as magnetorquers and reaction wheels, as well as sensors (IMUs, sun sensors, GPS) that determine the location and pointing direction of the satellite. The team develops custom controls algorithms like B-dot, PID, and EKF, designs and builds the main Flight Controller board with Altium, is working on a custom magnetorquer design, and works with industry-standard orbital mechanics simulation software like AGI Systems Tool Kit.',
+   leads:['Jeff H','Panth P']},
+  {slug:'firmware', fig:'The RM46 on the OBC board', short:'Firmware', name:'Firmware', sheet:'04', summary:'Writes the low-level code that runs on the satellite itself.',
+   body:'The Firmware team is responsible for writing all of the low-level software that will run on the satellite as well as writing the software for our ground station communications. This involves writing firmware for our RM46 microcontroller for various areas such as Communications, Electrical, Command & Data Handling, GNC, and Payload.',
+   leads:['Kashif B','Adityya K','Panth P']},
+  {slug:'software', fig:'The ground station at Waterloo', short:'Software', name:'Software', sheet:'05', summary:'Builds the ground station and the tools people use to talk to the satellite.',
+   body:'The Software team writes everything that runs on the ground. That is the ground station that tracks the satellite and holds a radio link during a pass, the pipeline that decodes and stores the telemetry that comes down, and the web tools that amateur radio operators and researchers use to request a photo and collect the result. The team also applies machine learning to the image and telemetry data the satellite returns.',
+   body2:'The ground station is the part with the hardest deadline. A 3U CubeSat in low Earth orbit is in view of Waterloo for about 10 minutes per pass, and there are 4 to 6 usable passes a day. Everything the team schedules, uplinks, and downlinks has to fit in that window, so the software plans each pass in advance and recovers on its own when a link drops.',
+   leads:['Cameron L','Eddie W','Kevin W'], stack:['TypeScript, React, and Vite for the web tools','Python for the telemetry pipeline and the pass scheduler','GNU Radio and a software defined radio for the ground station link','PostgreSQL for telemetry storage','PyTorch for the image and telemetry models','Docker and GitHub Actions for builds and deploys']},
+  {slug:'business', fig:'The whole CubeSat', short:'Business', name:'Business', sheet:'06', summary:'Funds the project and tells people it exists.',
+   body:'The business subteam is responsible for many behind the scenes tasks of UW Orbital. This includes securing funding, reaching out to sponsors, and keeping track of finance and budgeting. The business subteam also manages marketing and brand creation, social media, organizing outreach events, content creation, technical writing, and recruiting students.',
+   leads:['Evan M','Tia B']},
+];
+const BY = Object.fromEntries(TEAMS.map(t=>[t.slug,t]));
+const ROUTES = ['team', ...TEAMS.map(t=>t.slug)];
+
+const CODE = [
+ [113,"  lm75bd_config_t config = {"],
+ [114,"      .devAddr = LM75BD_OBC_I2C_ADDR,"],
+ [115,"      .devOperationMode = LM75BD_DEV_OP_MODE_NORMAL,"],
+ [116,"      .osFaultQueueSize = 2,"],
+ [117,"      .osPolarity = LM75BD_OS_POL_ACTIVE_LOW,"],
+ [118,"      .osOperationMode = LM75BD_OS_OP_MODE_COMP,"],
+ [119,"      .overTempThresholdCelsius = 125.0f,"],
+ [120,"      .hysteresisThresholdCelsius = 75.0f,"],
+ [121,"  };"],
+ [122,""],
+ [123,"  LOG_IF_ERROR_CODE(lm75bdInit(&config));  // LM75BD temperature sensor (OBC)"],
+ [124,""],
+ [125,"  initFRAM();  // FRAM storage (OBC)"],
+ [126,""],
+ [127,"  // Initialize the state of each module. This will not start any tasks."],
+ [128,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_TIMEKEEPER);"],
+ [129,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_ALARM_MGR);"],
+ [130,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_TELEMETRY_MGR);"],
+ [131,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_COMMAND_MGR);"],
+ [132,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_COMMS_MGR);"],
+ [133,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_COMMS_UPLINK_DECODER);"],
+ [134,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_COMMS_DOWNLINK_ENCODER);"],
+ [135,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_EPS_MGR);"],
+ [136,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_PAYLOAD_MGR);"],
+ [137,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_HEALTH_COLLECTOR);"],
+ [138,"  obcSchedulerInitTask(OBC_SCHEDULER_CONFIG_ID_GNC_MGR);"]
+];
+// Which hardware each running line wakes up in the scene.
+const CODE_PULSE = {123:['obc'],125:['obc'],128:['obc'],129:['obc'],130:['obc'],131:['obc'],132:['comms','antenna'],133:['comms'],134:['comms'],135:['eps','batt'],136:['payload'],137:['obc'],138:['fc','wheel','mtq']};
+
+
+
+
+
+/* ---------------- renderer ---------------- */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wrapEl = document.getElementById('stageWrap');
+const canvas = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio||1, 2));
+renderer.setClearColor(0x000000, 0);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.08;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(34, 1, 0.05, 3000);
+scene.add(new THREE.HemisphereLight(0xf3e9d6, 0x16161c, 1.0));
+const sun = new THREE.DirectionalLight(0xfff0da, 2.6); sun.position.set(7, 9, 6); scene.add(sun);
+const rim = new THREE.DirectionalLight(0x9fb2cf, 0.9); rim.position.set(-8, 2, -7); scene.add(rim);
+const fillL = new THREE.DirectionalLight(0xe6dfcf, 0.35); fillL.position.set(-4, -6, 5); scene.add(fillL);
+const BONE = new THREE.Color(0xdde0e5), RED = new THREE.Color(0xef6a52);
+
+/* ---------------- procedural textures ---------------- */
+function canvasTex(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;return t;}
+const cellTex = canvasTex(256,896,(g,w,h)=>{g.fillStyle='#c9c1ad';g.fillRect(0,0,w,h);
+  const cw=(w-24)/2, ch=(h-24)/7;
+  for(let r=0;r<7;r++)for(let c=0;c<2;c++){const x=12+c*cw+4,y=12+r*ch+4,ww=cw-8,hh=ch-8;
+    g.fillStyle='#1e2536';g.fillRect(x,y,ww,hh);
+    g.strokeStyle='rgba(200,205,215,.35)';g.lineWidth=1;for(let i=1;i<9;i++){g.beginPath();g.moveTo(x,y+i*hh/9);g.lineTo(x+ww,y+i*hh/9);g.stroke();}
+    g.strokeStyle='rgba(220,220,225,.6)';g.lineWidth=2;g.beginPath();g.moveTo(x+ww*.33,y);g.lineTo(x+ww*.33,y+hh);g.moveTo(x+ww*.66,y);g.lineTo(x+ww*.66,y+hh);g.stroke();}
+});
+const pcbTex = canvasTex(512,512,(g,w,h)=>{g.fillStyle='#2e5438';g.fillRect(0,0,w,h);
+  let s=7;const rnd=()=>((s=(s*9301+49297)%233280)/233280);
+  g.strokeStyle='rgba(196,178,120,.5)';g.lineWidth=2;
+  for(let i=0;i<60;i++){let x=rnd()*w,y=rnd()*h;g.beginPath();g.moveTo(x,y);for(let k=0;k<3;k++){if(rnd()>.5)x+=(rnd()-.5)*180;else y+=(rnd()-.5)*180;g.lineTo(x,y);}g.stroke();}
+  g.fillStyle='rgba(214,196,140,.8)';for(let i=0;i<120;i++){g.beginPath();g.arc(rnd()*w,rnd()*h,2.2,0,7);g.fill();}
+  g.strokeStyle='rgba(230,223,207,.6)';g.lineWidth=3;g.strokeRect(10,10,w-20,h-20);
+});
+const chipTex = canvasTex(256,256,(g,w,h)=>{g.fillStyle='#1b1b1d';g.fillRect(0,0,w,h);g.fillStyle='rgba(230,223,207,.85)';g.font='600 30px "DM Mono", monospace';g.textAlign='center';g.fillText('RM46L852',w/2,h/2-4);g.font='20px "DM Mono", monospace';g.fillStyle='rgba(230,223,207,.55)';g.fillText('ARM CORTEX-R4F',w/2,h/2+30);g.beginPath();g.arc(26,26,8,0,7);g.fill();});
+
+/* ---------------- parts ---------------- */
+const sat = new THREE.Group(); scene.add(sat);
+const parts = {};
+const pickables = [];
+const M = {
+  alu:{color:0xd3d6db, metalness:.6, roughness:.32},
+  aluDark:{color:0xa2a7ae, metalness:.55, roughness:.4},
+  pcb:{color:0xffffff, map:pcbTex, roughness:.75, metalness:.05},
+  chip:{color:0x1c1c1e, roughness:.5, metalness:.2},
+  gold:{color:0xc8a860, metalness:.8, roughness:.35},
+  copper:{color:0xb4683c, metalness:.85, roughness:.33},
+  cell:{color:0xffffff, map:cellTex, roughness:.35, metalness:.25},
+  batt:{color:0x3b4250, roughness:.45, metalness:.35},
+  battCap:{color:0xb44a2a, roughness:.5, metalness:.2},
+  glass:{color:0x22262e, roughness:.08, metalness:.6},
+  black:{color:0x18181a, roughness:.6, metalness:.2},
+  tape:{color:0xd8d1c0, metalness:.6, roughness:.3},
+};
+function part(key, team, name, dir=[0,0,0], parent=sat){
+  const g = new THREE.Group(); parent.add(g);
+  parts[key] = {key, team, name, group:g, meshes:[], dir:new THREE.Vector3(...dir),
+    f:1, ft:1, h:0, ht:0, e:0, et:0, pulse:0};
+  return g;
+}
+function add(key, geo, m, pos=[0,0,0], rot=[0,0,0], edges=true){
+  const mat = new THREE.MeshStandardMaterial({...M[m], transparent:true});
+  const mesh = new THREE.Mesh(geo, mat); mesh.position.set(...pos); mesh.rotation.set(...rot);
+  mesh.userData.key = key;
+  if(edges){ const e = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 28), new THREE.LineBasicMaterial({color:BONE.clone(), transparent:true, opacity:.25})); mesh.add(e); mesh.userData.edges=e; }
+  parts[key].group.add(mesh); parts[key].meshes.push(mesh); pickables.push(mesh);
+  return mesh;
+}
+const box=(x,y,z)=>new THREE.BoxGeometry(x,y,z);
+const cyl=(r,h,s=24)=>new THREE.CylinderGeometry(r,r,h,s);
+const anchors = {};
+function anchor(name, key, pos){ const o=new THREE.Object3D(); o.position.set(...pos); parts[key].group.add(o); anchors[name]=o; }
+
+// dimensions: 1 unit = 10 cm. 3U = 100 x 340.5 x 100 mm.
+const HY = 1.7025, U = 0.5675, R = 0.4575;
+
+// Frame (bus): rails, unit rings, side bracing, standoffs
+part('frame','mechanical','Frame (bus)');
+for(const sx of [-1,1]) for(const sz of [-1,1]) add('frame', box(.085,2*HY,.085),'alu',[sx*R,0,sz*R]);
+for(const y of [-U,U]){
+  add('frame', box(.9,.04,.04),'alu',[0,y,R]); add('frame', box(.9,.04,.04),'alu',[0,y,-R]);
+  add('frame', box(.04,.04,.9),'alu',[R,y,0]); add('frame', box(.04,.04,.9),'alu',[-R,y,0]);
+}
+{ const L = Math.hypot(2*R, 2*U-0.04), a = Math.atan2(2*R, 2*U-0.04);
+  for(const yc of [-2*U, 0, 2*U]) for(const s of [-1,1]){
+    add('frame', box(.028,L,.028),'aluDark',[0,yc,R],[0,0,s*a],false);
+    add('frame', box(.028,L,.028),'aluDark',[0,yc,-R],[0,0,s*a],false);
+    add('frame', box(.028,L,.028),'aluDark',[R,yc,0],[s*a,0,0],false);
+    add('frame', box(.028,L,.028),'aluDark',[-R,yc,0],[s*a,0,0],false);
+  }}
+for(const sx of [-1,1]) for(const sz of [-1,1]) add('frame', cyl(.018,1.1,10),'gold',[sx*.37,1.12,sz*.37],[0,0,0],false);
+anchor('frame','frame',[R,-0.9,R]);
+
+// End plates
+for(const [k,y,d] of [['plateTop',HY-.035,1],['plateBot',-HY+.035,-1]]){
+  part(k,'mechanical','End plate',[0,d*.75,0]);
+  add(k, box(1,.07,.08),'alu',[0,y,R]); add(k, box(1,.07,.08),'alu',[0,y,-R]);
+  add(k, box(.08,.07,.84),'alu',[R,y,0]); add(k, box(.08,.07,.84),'alu',[-R,y,0]);
+  add(k, box(.84,.018,.84),'aluDark',[0,y+d*.02,0]);
+}
+anchor('plateTop','plateTop',[.3,HY,-.3]);
+anchor('plateBot','plateBot',[0,-HY-.05,0]);
+
+// Board stack (top unit). OBC carries the RM46.
+const boards = [
+  ['obc','firmware','OBC board',1.50,[-1.55,.55,0]],
+  ['fc','gnc','Flight controller board',1.30,[-1.55,.2,0]],
+  ['comms','electrical','Comms board',1.10,[-1.55,-.15,0]],
+  ['eps','electrical','EPS board',0.90,[-1.55,-.5,0]],
+];
+let seed=11; const rnd=()=>((seed=(seed*9301+49297)%233280)/233280);
+for(const [k,team,name,y,dir] of boards){
+  part(k,team,name,dir);
+  add(k, box(.88,.018,.88),'pcb',[0,y,0]);
+  add(k, box(.55,.07,.05),'black',[0,y+.045,-.36]);
+  for(let i=0;i<6;i++){ const w=.06+rnd()*.12, d=.05+rnd()*.12; add(k, box(w,.03,d),'chip',[-.3+rnd()*.55, y+.024, -.2+rnd()*.5],[0,0,0],false); }
+  anchor(k,k,[-.44,y,.3]);
+}
+part('rm46','firmware','RM46 microcontroller',[0,0,0],parts.obc.group);
+{ const y=1.50;
+  add('rm46', box(.27,.006,.27),'gold',[.14,y+.012,.14],[0,0,0],false);
+  const chip = add('rm46', box(.22,.026,.22),'chip',[.14,y+.026,.14]);
+  chip.material = [chip.material, chip.material, new THREE.MeshStandardMaterial({color:0xffffff,map:chipTex,roughness:.5,transparent:true}), chip.material, chip.material, chip.material];
+  anchor('rm46','rm46',[.14,y+.04,.14]);
+}
+
+// Batteries + holder (middle unit)
+part('holder','mechanical','Battery holder',[0,0,1.25]);
+add('holder', box(.03,.46,.62),'alu',[-.34,.25,0]); add('holder', box(.03,.46,.62),'alu',[.34,.25,0]);
+add('holder', box(.71,.02,.62),'aluDark',[0,.02,0]);
+anchor('holder','holder',[.34,.48,.31]);
+part('batt','electrical','Batteries',[0,0,1.25]);
+for(const y of [.14,.36]) for(const z of [-.15,.15]){
+  add('batt', cyl(.095,.62),'batt',[0,y,z],[0,0,Math.PI/2]);
+  add('batt', cyl(.097,.03),'battCap',[.3,y,z],[0,0,Math.PI/2],false);
+}
+anchor('batt','batt',[-.2,.46,.15]);
+
+// Reaction wheel + magnetorquers
+part('wheel','gnc','Reaction wheel',[0,0,-1.2]);
+const wheelRotor = add('wheel', cyl(.24,.07,40),'alu',[0,-.33,-.05]);
+add('wheel', new THREE.TorusGeometry(.28,.03,10,40),'aluDark',[0,-.33,-.05],[Math.PI/2,0,0]);
+const wheelMark = new THREE.Mesh(box(.04,.08,.2), new THREE.MeshStandardMaterial({color:0xc8351f,transparent:true})); wheelMark.position.set(0,0,.1); wheelRotor.add(wheelMark); parts.wheel.meshes.push(wheelMark); wheelMark.userData.key='wheel';
+anchor('wheel','wheel',[.28,-.33,.1]);
+part('mtq','gnc','Magnetorquers',[1.2,0,0]);
+add('mtq', cyl(.035,.78,16),'copper',[.3,-.1,0],[Math.PI/2,0,0]);
+for(const [p,r] of [[[.41,-.05,0],[0,Math.PI/2,0]],[[0,-.05,.41],[0,0,0]]]){
+  const loop = new THREE.Group(); loop.position.set(...p); loop.rotation.set(...r);
+  for(const [x,y,w,h] of [[0,.3,.62,.04],[0,-.3,.62,.04],[.3,0,.04,.62],[-.3,0,.04,.62]]){ const m=add('mtq', box(w,h,.02),'copper',[x,y,0]); loop.add(m); }
+  parts.mtq.group.add(loop);
+}
+anchor('mtq','mtq',[.41,.25,-.25]);
+
+// Payload (bottom unit): two co-aligned sensors, LWIR + VIS
+part('payload',null,'Payload · LWIR + VIS',[0,-.4,0]);
+add('payload', box(.72,.8,.72),'black',[0,-1.12,0]);
+add('payload', cyl(.13,.34,32),'aluDark',[-.17,-1.55,0]); add('payload', cyl(.1,.02,32),'glass',[-.17,-1.73,0],[0,0,0],false);
+add('payload', cyl(.085,.34,32),'aluDark',[.2,-1.55,.05]); add('payload', cyl(.065,.02,32),'glass',[.2,-1.73,.05],[0,0,0],false);
+anchor('payload','payload',[-.17,-1.74,0]);
+
+// Solar: two deployable wings + two body panels
+function wing(key, px, pz, sign){
+  part(key,'electrical','Solar panel',[0,0,sign*1.0]);
+  const pivot = new THREE.Group(); pivot.position.set(px,0,pz); parts[key].group.add(pivot); parts[key].pivot=pivot;
+  const m = add(key, box(.95,3.3,.02),'cell',[-sign*.475,0,0]); pivot.add(m);
+  anchor(key,key,[0,0,0]); anchors[key].removeFromParent(); pivot.add(anchors[key]); anchors[key].position.set(-sign*.7,1.1,sign*.01);
+}
+wing('solarA', .5, .53, 1); wing('solarB', -.5, -.53, -1);
+part('solarX','electrical','Solar panel',[0,0,0]);
+add('solarX', box(.02,3.3,.95),'cell',[.53,0,0]); add('solarX', box(.02,3.3,.95),'cell',[-.53,0,0]);
+
+// Antennas (tape) on the bottom plate
+part('antenna','electrical','Antennas',[0,0,0],parts.plateBot.group);
+for(const a of [0,1,2,3]){ const ang=a*Math.PI/2+Math.PI/4; const m=add('antenna', box(1.5,.004,.03),'tape',[Math.cos(ang)*1.05,-HY+.01,Math.sin(ang)*1.05],[0,-ang,0],false); }
+anchor('antenna','antenna',[1.4,-HY,1.4]);
+
+// Attitude triad (GNC)
+const triad = new THREE.Group(); sat.add(triad);
+for(const [d,c] of [[[1,0,0],0xe6dfcf],[[0,1,0],0xe6dfcf],[[0,0,1],0xef6a52]]){ const a=new THREE.ArrowHelper(new THREE.Vector3(...d),new THREE.Vector3(),2.6,c,.18,.08); a.line.material.transparent=a.cone.material.transparent=true; triad.add(a); }
+
+/* ---------------- Earth, and the ground at Waterloo ---------------- */
+const EARTH_R = 120, EC = new THREE.Vector3(0,-150,0);
+const earthGroup = new THREE.Group(); earthGroup.position.copy(EC); scene.add(earthGroup);
+const earthTex = new THREE.TextureLoader().load('earth-grey.jpg'); earthTex.colorSpace=THREE.SRGBColorSpace; earthTex.anisotropy=8;
+const earth = new THREE.Mesh(new THREE.SphereGeometry(EARTH_R,160,120), new THREE.MeshStandardMaterial({color:0xffffff, map:earthTex, bumpMap:earthTex, bumpScale:.04, roughness:.95, metalness:0}));
+earthGroup.add(earth);
+// Waterloo, 43.46 N 80.52 W, in the sphere's own coordinates
+const lat=43.4643*Math.PI/180, lon=-80.5204*Math.PI/180, phi=lon+Math.PI, th=Math.PI/2-lat;
+const wLocal = new THREE.Vector3(-Math.cos(phi)*Math.sin(th), Math.cos(th), Math.sin(phi)*Math.sin(th));
+const up = new THREE.Vector3(.025,1,.035).normalize();  // Waterloo sits almost directly below the satellite, so the downlink reads in every view
+earth.quaternion.setFromUnitVectors(wLocal, up);
+const stationPos = EC.clone().add(up.clone().multiplyScalar(EARTH_R));
+
+// A flat patch of ground tangent at Waterloo: 1 unit is about 1 m here, so the station, laptop and desk are to scale.
+const ground = new THREE.Group(); ground.position.copy(stationPos); ground.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), up); scene.add(ground);
+const fadeTex = canvasTex(256,256,(g,w,h)=>{const r=g.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);r.addColorStop(0,'#fff');r.addColorStop(.55,'#fff');r.addColorStop(1,'#000');g.fillStyle=r;g.fillRect(0,0,w,h);});
+fadeTex.colorSpace = THREE.NoColorSpace;
+const grit = new THREE.TextureLoader().load('ground-grit.jpg'); grit.colorSpace=THREE.SRGBColorSpace; grit.wrapS=grit.wrapT=THREE.RepeatWrapping; grit.repeat.set(40,40); grit.anisotropy=8;
+const gritBump = new THREE.TextureLoader().load('ground-grit.jpg'); gritBump.wrapS=gritBump.wrapT=THREE.RepeatWrapping; gritBump.repeat.set(40,40);
+const groundDisc = new THREE.Mesh(new THREE.CircleGeometry(60,96), new THREE.MeshStandardMaterial({color:0xffffff, map:grit, bumpMap:gritBump, bumpScale:.03, roughness:1, metalness:0, transparent:true, alphaMap:fadeTex, depthWrite:false}));
+groundDisc.rotation.x = -Math.PI/2; groundDisc.position.y = .01; ground.add(groundDisc);
+
+// Ground station: antenna mast with crossed Yagis, a folding table, a laptop and the cable between them.
+part('station','software','Ground station',[0,0,0],ground);
+{ const g = parts.station.group;
+  const mast = new THREE.Group(); mast.scale.setScalar(2.2); g.add(mast);
+  const a1=add('station', cyl(.03,.8,10),'alu',[0,.4,0]); mast.add(a1);
+  const a2=add('station', box(.22,.1,.22),'aluDark',[0,.05,0]); mast.add(a2);
+  const boom = add('station', box(.9,.02,.02),'alu',[0,.82,0],[0,0,.55]); mast.add(boom);
+  for(let i=0;i<7;i++){ const el=add('station', box(.012,.012,.36-i*.02),'tape',[0,0,0],[0,0,0],false); el.position.set(-.38+i*.12,0,0); boom.add(el); }
+  const boom2 = add('station', box(.9,.02,.02),'alu',[0,.82,0],[0,Math.PI/2,.55]); mast.add(boom2);
+  for(let i=0;i<7;i++){ const el=add('station', box(.012,.36-i*.02,.012),'tape',[0,0,0],[0,0,0],false); el.position.set(-.38+i*.12,0,0); boom2.add(el); }
+  anchor('station','station',[0,2.0,0]);
+  // table
+  add('station', box(1.0,.04,.6),'black',[1.7,.72,.7]);
+  for(const [x,z] of [[1.24,.44],[2.16,.44],[1.24,.96],[2.16,.96]]) add('station', cyl(.015,.72,8),'aluDark',[x,.36,z],[0,0,0],false);
+  // laptop, screen facing the camera side
+  add('station', box(.36,.02,.25),'aluDark',[1.7,.75,.72]);
+  const scr = canvasTex(512,340,(q,w,h)=>{q.fillStyle='#0d0f0e';q.fillRect(0,0,w,h);q.fillStyle='#1c2024';q.fillRect(0,0,w,26);
+    q.fillStyle='#cfd3d6';q.font='500 14px "DM Mono", monospace';q.fillText('MISSION CONTROL · PASS 03',12,18);
+    q.strokeStyle='rgba(207,211,214,.35)';q.lineWidth=1.2;for(const r of [40,80,120]){q.beginPath();q.arc(130,185,r,0,7);q.stroke();}
+    q.beginPath();q.moveTo(10,185);q.lineTo(250,185);q.moveTo(130,65);q.lineTo(130,305);q.stroke();
+    q.strokeStyle='#ef6a52';q.lineWidth=3;q.beginPath();q.moveTo(40,120);q.quadraticCurveTo(150,150,210,270);q.stroke();
+    q.fillStyle='#ef6a52';q.beginPath();q.arc(150,168,6,0,7);q.fill();
+    q.fillStyle='#8f9498';q.font='13px "DM Mono", monospace';['AOS  14:02:11','EL   38.6°','AZ   121.4°','SNR  11.2 dB','RX   telemetry ok','LOS  14:11:47'].forEach((t,i)=>q.fillText(t,290,90+i*28));
+    q.fillStyle='rgba(239,106,82,.8)';for(let i=0;i<28;i++){const v=20+Math.abs(Math.sin(i*.7))*40;q.fillRect(290+i*7,320-v,5,v);}});
+  const screen = new THREE.Mesh(new THREE.BoxGeometry(.36,.24,.008), [0,1,2,3,4,5].map(i=>i===4?new THREE.MeshBasicMaterial({map:scr,transparent:true}):new THREE.MeshStandardMaterial({color:0x2a2c30,transparent:true})));
+  screen.position.set(1.7,.87,.60); screen.rotation.x=-.28; screen.userData.key='station'; g.add(screen); parts.station.meshes.push(screen); pickables.push(screen);
+  anchor('laptop','station',[1.7,.95,.62]);
+  // cable from the laptop to the mast
+  const curve = new THREE.CatmullRomCurve3([V3(1.6,.76,.6),V3(1.3,.7,.5),V3(1.15,.35,.4),V3(1.0,.02,.3),V3(.4,.02,.1),V3(.12,.08,.03)]);
+  add('station', new THREE.TubeGeometry(curve,48,.008,6,false),'black',[0,0,0],[0,0,0],false);
+}
+function V3(x,y,z){return new THREE.Vector3(x,y,z);}
+
+// The drafting desk: a first sketch of the mission, drawn as the camera arrives.
+part('desk','business','The first sketch',[0,0,0],ground);
+const DESK = V3(-9,0,5);
+const paperC = document.createElement('canvas'); paperC.width=1400; paperC.height=990;
+const paperTex = new THREE.CanvasTexture(paperC); paperTex.colorSpace=THREE.SRGBColorSpace; paperTex.anisotropy=8;
+let sketchP = 0;
+function drawSketch(p){
+  const q=paperC.getContext('2d'), W=paperC.width, H=paperC.height;
+  q.fillStyle='#ece6d6'; q.fillRect(0,0,W,H);
+  q.strokeStyle='rgba(120,110,90,.18)'; q.lineWidth=1; for(let x=0;x<W;x+=35){q.beginPath();q.moveTo(x,0);q.lineTo(x,H);q.stroke();} for(let y=0;y<H;y+=35){q.beginPath();q.moveTo(0,y);q.lineTo(W,y);q.stroke();}
+  const ink='#26303f', pencil='rgba(40,40,44,.75)';
+  const strokes=[
+    [pencil,4,()=>{q.arc(520,520,230,0,Math.PI*2);}],
+    [pencil,2.4,()=>{for(let i=-3;i<=3;i++){q.moveTo(290,520+i*55);q.bezierCurveTo(400,520+i*60,640,520+i*60,750,520+i*55);}}],
+    [ink,5,()=>{q.ellipse(520,520,420,170,-.35,0,Math.PI*2);}],
+    [ink,4.4,()=>{q.rect(860,300,54,54);q.rect(914,300,54,54);q.rect(968,300,54,54);q.moveTo(860,300);q.lineTo(878,284);q.lineTo(1040,284);q.lineTo(1022,300);q.moveTo(1040,284);q.lineTo(1040,338);q.lineTo(1022,354);}],
+    [ink,3.6,()=>{q.moveTo(915,360);q.lineTo(640,420);}],
+    ['#b23a22',4.4,()=>{q.arc(630,395,10,0,Math.PI*2);q.moveTo(630,395);q.lineTo(880,355);}],
+    [pencil,3,()=>{q.moveTo(1080,640);q.lineTo(1300,640);q.lineTo(1300,900);q.lineTo(1080,900);q.lineTo(1080,640);q.moveTo(1080,720);q.lineTo(1300,720);q.moveTo(1080,800);q.lineTo(1300,800);}],
+  ];
+  const n=strokes.length, t=p*n;
+  q.lineCap='round'; q.lineJoin='round'; q.save(); q.scale(1,1);
+  strokes.forEach(([c,w,f],i)=>{ const k=Math.max(0,Math.min(1,t-i)); if(k<=0) return; q.save(); q.strokeStyle=c; q.lineWidth=w; q.setLineDash([4000*k,4000]); q.beginPath(); f(); q.stroke(); q.restore(); });
+  q.globalAlpha=Math.max(0,Math.min(1,(t-n*.55)*1.5)); q.fillStyle=ink; q.font='italic 44px "EB Garamond", Georgia, serif';
+  q.fillText('UW Orbital — the first sketch', 70, 110);
+  q.font='italic 32px "EB Garamond", Georgia, serif'; q.fillText('3U CubeSat', 1050, 262); q.fillText('Waterloo', 560, 450); q.fillText('downlink', 740, 330); q.fillText('low Earth orbit', 120, 820);
+  q.font='24px "DM Mono", monospace'; q.fillText('SPONSORS', 1100, 690); q.fillText('FUNDING', 1100, 770); q.fillText('OUTREACH', 1100, 850);
+  q.restore(); q.globalAlpha=1; paperTex.needsUpdate=true;
+}
+drawSketch(0);
+{ const g=parts.desk.group; g.position.copy(DESK);
+  const wood = canvasTex(512,256,(q,w,h)=>{q.fillStyle='#4a3526';q.fillRect(0,0,w,h);for(let i=0;i<70;i++){q.strokeStyle=`rgba(${30+Math.random()*30},${20+Math.random()*16},12,.35)`;q.lineWidth=1+Math.random()*2;q.beginPath();const y=Math.random()*h;q.moveTo(0,y);q.bezierCurveTo(w*.3,y+Math.random()*10-5,w*.6,y+Math.random()*10-5,w,y+Math.random()*8-4);q.stroke();}});
+  M.wood={color:0xffffff,map:wood,roughness:.7,metalness:0};
+  M.paper={color:0xffffff,map:paperTex,roughness:.9,metalness:0};
+  M.paper2={color:0xe2dccb,roughness:.95,metalness:0};
+  M.yellow={color:0xd9a520,roughness:.5,metalness:0}; M.red={color:0xb23a22,roughness:.4,metalness:.1}; M.ink={color:0x1f2733,roughness:.35,metalness:.3};
+  M.mug={color:0xdedad2,roughness:.4,metalness:0}; M.lampc={color:0x2b2d31,roughness:.4,metalness:.6};
+  add('desk', box(1.6,.05,.9),'wood',[0,.75,0]);
+  for(const [x,z] of [[-.74,-.38],[.74,-.38],[-.74,.38],[.74,.38]]) add('desk', box(.05,.75,.05),'wood',[x,.375,z],[0,0,0],false);
+  add('desk', box(.44,.002,.31),'paper2',[-.04,.777,.03],[0,.9,0],false);
+  add('desk', box(.42,.002,.297),'paper',[.02,.779,.0],[0,.73,0]);
+  anchor('desk','desk',[.02,.79,0]);
+  add('desk', cyl(.0045,.18,6),'yellow',[.3,.781,.08],[0,.4,Math.PI/2],false);
+  add('desk', cyl(.005,.15,10),'ink',[.28,.781,-.06],[0,-.3,Math.PI/2],false);
+  add('desk', cyl(.005,.15,10),'red',[.33,.781,-.12],[0,.9,Math.PI/2],false);
+  add('desk', box(.32,.003,.035),'alu',[-.06,.78,.22],[0,.05,0],false);
+  add('desk', box(.04,.012,.02),'mug',[-.34,.782,.18],[0,.5,0],false);
+  add('desk', cyl(.04,.1,20),'mug',[-.5,.8,-.22],[0,0,0],false);
+  // drafting compass
+  add('desk', cyl(.003,.12,6),'alu',[.2,.782,.2],[0,.2,Math.PI/2-.08],false); add('desk', cyl(.003,.12,6),'alu',[.2,.782,.23],[0,.55,Math.PI/2-.08],false);
+  // desk lamp
+  add('desk', cyl(.07,.02,24),'lampc',[-.6,.785,.3],[0,0,0],false);
+  add('desk', cyl(.01,.45,8),'lampc',[-.6,1.0,.3],[0,0,.25],false);
+  add('desk', cyl(.01,.35,8),'lampc',[-.48,1.26,.24],[0,0,-1.1],false);
+  add('desk', new THREE.ConeGeometry(.07,.12,24,1,true),'lampc',[-.33,1.3,.16],[0,0,-2.4],false);
+}
+const lamp = new THREE.PointLight(0xffd9a0, 0, 4, 1.6); lamp.position.copy(DESK).add(V3(-.3,1.22,.14)); ground.add(lamp);
+
+const stationTip = new THREE.Vector3();
+const linkGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+const link = new THREE.Line(linkGeo, new THREE.LineDashedMaterial({color:0xef6a52, dashSize:.35, gapSize:.25, transparent:true, opacity:0}));
+link.frustumCulled = false; scene.add(link);
+const linkMid = new THREE.Object3D(); scene.add(linkMid); anchors.linkMid = linkMid;
+// orbit track through the satellite
+const orbitPts=[]; { const a=new THREE.Vector3(0,1,0), b=new THREE.Vector3(1,0,.35).normalize(); const r=150; for(let i=0;i<=512;i++){const t=i/512*Math.PI*2; orbitPts.push(EC.clone().add(a.clone().multiplyScalar(Math.cos(t)*r)).add(b.clone().multiplyScalar(Math.sin(t)*r)));} }
+const orbit = new THREE.Line(new THREE.BufferGeometry().setFromPoints(orbitPts), new THREE.LineDashedMaterial({color:0xe6dfcf, dashSize:1.2, gapSize:1.8, transparent:true, opacity:.35}));
+orbit.computeLineDistances(); scene.add(orbit);
+
+/* ---------------- route states ---------------- */
+const V = (x,y,z)=>new THREE.Vector3(x,y,z);
+const G = (x,y,z)=>ground.localToWorld(new THREE.Vector3(x,y,z));
+ground.updateMatrixWorld(true);
+const STATES = {
+  team:      {cam:V(6.6,1.2,7.8), tgt:V(0,-.1,0), focus:null, explode:{}, deploy:1, labels:[
+               ['frame','Mechanical','The frame','#mechanical',-150,70],
+               ['solarA','Electrical','Power + boards','#electrical',110,-70],
+               ['wheel','GNC','Pointing','#gnc',-190,40],
+               ['obc','Firmware','Code on the RM46','#firmware',-200,-60],
+               ['antenna','Software','Ground station link','#software',60,70]]},
+  mechanical:{cam:V(5.6,2.4,7.2), tgt:V(-.35,0,.2), focus:['frame','plateTop','plateBot','holder'], explode:'all', deploy:0, labels:[
+               ['frame','Frame (bus)','Rails, rings, bracing',null,120,60],
+               ['plateTop','End plates','Siemens NX · FEM',null,120,-50],
+               ['holder','Battery holder','Machined in the Student Machine Shop',null,130,20]]},
+  electrical:{cam:V(-4.6,2.8,7.6), tgt:V(-1.1,-.1,0), focus:['solarA','solarB','solarX','eps','comms','batt','antenna'], explode:{eps:.6,comms:.6,batt:.55,holder:.55}, deploy:1, labels:[
+               ['solarA','Solar panels','In-house panels',null,90,-60],
+               ['eps','EPS board','MPPT charging · BMS',null,-170,60],
+               ['comms','Comms board','Communications',null,-180,-50],
+               ['batt','Batteries','Power storage',null,110,50]]},
+  gnc:       {cam:V(4.6,1.3,5.8), tgt:V(0,-.15,0), focus:['wheel','mtq','fc'], explode:{wheel:.55,mtq:.55,fc:.5}, deploy:0, triad:1, labels:[
+               ['wheel','Reaction wheel','Actuator',null,-170,50],
+               ['mtq','Magnetorquers','Custom design',null,110,-40],
+               ['fc','Flight controller','Designed in Altium',null,-160,70]]},
+  firmware:  {cam:V(-.45,3.35,1.75), tgt:V(-1.41,1.8,.14), focus:['obc','rm46'], explode:{obc:1}, deploy:0, code:1, labels:[
+               ['rm46','RM46 microcontroller','RM46L852 · Cortex-R4F',null,-150,-90],
+               ['obc','OBC board','Command and data handling',null,-120,90]]},
+  software:  {cam:null, tgt:null, ground:1, focus:['station'], satFull:1, explode:{}, deploy:1, link:1, labels:[
+               ['station','Ground station','Waterloo · 43.46° N 80.52° W',null,-150,-60],
+               ['laptop','Mission control','Telemetry pipeline · web app',null,120,-70],
+               ['linkMid','Downlink to the satellite','About 10 min in view per pass',null,70,20]]},
+  business:  {cam:G(-8.62,1.55,5.52), tgt:G(-8.98,.78,5.0), ground:1, desk:1, focus:['desk'], satFull:1, explode:{}, deploy:1, labels:[
+               ['desk','The first sketch','Funding, sponsors, outreach',null,150,-150]], pivot:G(-8.98,.78,5.0)},
+};
+
+// Stand behind the station, facing the satellite, low to the ground so the link climbs into the sky.
+{ const s = ground.worldToLocal(new THREE.Vector3(0,0,0)); const hdir = new THREE.Vector3(s.x,0,s.z).normalize();
+  const side = new THREE.Vector3(-hdir.z,0,hdir.x);
+  // the ground station's centre of mass: between the mast and the laptop table
+  const com = new THREE.Vector3(.85,.9,.35);
+  STATES.software.tgt = G(...com.clone().add(new THREE.Vector3(0,.35,0)).toArray());
+  STATES.software.pivot = G(...com.toArray());
+  STATES.software.cam = G(...com.clone().addScaledVector(hdir,-6.2).addScaledVector(side,-2.4).setY(1.35).toArray()); }
+
+// Views used only for page imagery (Mission hero, payload card): not routes.
+STATES.orbit   = {cam:V(46,6,62), tgt:V(-7,-13,0), focus:null, explode:{}, deploy:1, labels:[]};
+STATES.payload = {cam:V(2.4,-4.6,3.2), tgt:V(0,-1.55,0), focus:['payload'], explode:{payload:.3}, deploy:0, labels:[
+                   ['payload','Payload','Longwave infrared + visible light',null,130,-50]]};
+
+
+
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* ---------------- stage state ---------------- */
+const cam = {piv:STATES.team.tgt.clone(), pos:STATES.team.cam.clone(), tgt:STATES.team.tgt.clone(), from:null, to:null, t:1, dur:1.8, lift:0};
+let yaw=0, pitch=0, yawT=0, pitchT=0, dragging=false, lastX=0, lastY=0, moved=0;
+let narrow=false, view='team', stateT=0, deploy=1, deployT=1, triadF=0, linkF=0, lampF=0, still=false, zoomK=1, compact=false, visible=true;
+earth.material.polygonOffset=true; earth.material.polygonOffsetFactor=6; earth.material.polygonOffsetUnits=6;
+const FIXED = new Set(['station','desk']);
+// fog in the page's own colour: on the ground the horizon dissolves into the page instead of ending at an edge
+scene.fog = new THREE.FogExp2(0x121214, 0); let fogF=0, groundNear=false, fitNow=1.1, pushing=false;
+// where the stage lives: 'slot' (inside a page element), 'full' (fixed behind a subteam page), or parked (not drawn)
+let stageMode='slot', parked=false, vr={x:0,y:0,w:1,h:1};
+
+function setView(r, instant){
+  if(!STATES[r]) r='team';
+  const prev=view; view=r; stateT=0;
+  const S=STATES[r];
+  const far=!!S.ground !== !!STATES[prev].ground, lateral = S.ground && STATES[prev].ground && r!==prev;
+  cam.from={pos:cam.pos.clone(), tgt:cam.tgt.clone(), piv:cam.piv.clone()}; cam.to={pos:S.cam.clone(), tgt:S.tgt.clone(), piv:(S.pivot||S.tgt).clone()};
+  cam.fromUp = camera.up.clone(); if(instant||reduce){ camera.up.copy(S.ground?up:new THREE.Vector3(0,1,0)); }
+  cam.t=(instant||reduce)?1:0; cam.dur=far?3.2:(lateral?2.4:2.0); cam.lift=far?6:(lateral?2.5:.5);
+  if(cam.from.pos.distanceTo(cam.to.pos)<1e-4 && cam.from.tgt.distanceTo(cam.to.tgt)<1e-4) cam.t=1;
+  if(cam.t===1){ cam.pos.copy(S.cam); cam.tgt.copy(S.tgt); cam.piv.copy(S.pivot||S.tgt); }
+  yawT=0; pitchT=0;
+  for(const k in parts){ const p=parts[k];
+    const inFocus=!S.focus||S.focus.includes(k);
+    p.ft = S.focus ? (inFocus?1:(S.satFull&&!FIXED.has(k)?1:.08)) : 1;
+    if(FIXED.has(k)) p.ft=1;
+    p.ht = S.focus&&S.focus.includes(k)&&!S.ground?1:0;
+    p.et = S.explode==='all'?1:(S.explode[k]||0);
+    if(k==='rm46'||k==='antenna') p.et=0;
+  }
+  if(instant||reduce) for(const k in parts){ const p=parts[k]; p.f=p.ft; p.h=p.ht; p.e=p.et; }
+  deployT=S.deploy; if(instant||reduce) deploy=deployT;
+  if(S.desk && (instant||reduce) && sketchP<1){ sketchP = 1; drawSketch(1); }  // draws once per visit to the site
+  const code=document.getElementById('code'); code.classList.toggle('on',!!S.code && cam.t>=1);  // shown once the camera arrives (see tick)
+  if(S.code) startCode(); else stopCode();
+  buildLabels(S.labels);
+}
+
+// smooth in and out, no hard start or stop
+const ease=t=>-(Math.cos(Math.PI*t)-1)/2;
+canvas.addEventListener('pointerdown',e=>{dragging=true;moved=0;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);canvas.classList.add('drag');stopTour();});
+canvas.addEventListener('pointermove',e=>{
+  if(dragging){const dx=e.clientX-lastX,dy=e.clientY-lastY;moved+=Math.abs(dx)+Math.abs(dy);lastX=e.clientX;lastY=e.clientY;yawT-=dx*.006;pitchT=Math.max(-.7,Math.min(.7,pitchT+dy*.004));}
+  hover(e);
+});
+canvas.addEventListener('pointerleave',()=>{tip.hidden=true;});
+addEventListener('pointerup',e=>{if(dragging&&moved<5)click(e);dragging=false;canvas.classList.remove('drag');});
+const ray=new THREE.Raycaster(), ndc=new THREE.Vector2(), tip=document.getElementById('tip');
+function pick(e){const r=canvas.getBoundingClientRect();ndc.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(ndc,camera);
+  const hits=ray.intersectObjects(pickables,false).filter(h=>{const p=parts[h.object.userData.key];return p&&p.f>.5;});return hits.length?hits[0].object.userData.key:null;}
+function hover(e){if(dragging){tip.hidden=true;return;}const k=pick(e);canvas.classList.toggle('hot',!!(k&&parts[k].team));
+  if(k){const p=parts[k];tip.hidden=false;tip.textContent=p.name+(p.team?'  →  '+BY[p.team].short:'');tip.style.transform=`translate(${e.clientX+14}px,${e.clientY+14}px)`;}else tip.hidden=true;}
+function click(e){const k=pick(e);if(k&&parts[k].team&&parts[k].team!==route) navigate(parts[k].team);}
+
+/* labels, placed inside the stage */
+const labelsEl=document.getElementById('labels'), over=document.getElementById('over');
+let labels=[];
+function buildLabels(list){
+  labelsEl.innerHTML='';over.innerHTML='';labels=[];
+  const hl=!!STATES[view].focus;
+  list.forEach(([a,title,sub,href,dx,dy])=>{
+    const el=document.createElement(href?'a':'div');el.className='lab'+(hl?' hl':'');if(href){el.href=href;}
+    el.innerHTML='<b></b><i></i>';el.querySelector('b').textContent=title;el.querySelector('i').textContent=sub;labelsEl.appendChild(el);
+    const mk=(n)=>document.createElementNS('http://www.w3.org/2000/svg',n);
+    const ln=mk('polyline');ln.setAttribute('fill','none');ln.setAttribute('stroke',hl?'#ef6a52':'#e6dfcf');ln.setAttribute('stroke-width','1');ln.setAttribute('opacity','0');
+    const dot=mk('circle');dot.setAttribute('r','3');dot.setAttribute('fill',hl?'#ef6a52':'#e6dfcf');dot.setAttribute('opacity','0');
+    const ring=mk('circle');ring.setAttribute('r','9');ring.setAttribute('fill','none');ring.setAttribute('stroke','#e6dfcf');ring.setAttribute('stroke-width','.8');ring.setAttribute('opacity','0');
+    over.append(ln,ring,dot);labels.push({a,el,ln,dot,ring,dx,dy});
+  });
+}
+const tmp=new THREE.Vector3();
+function placeLabels(W,H){
+  const show=cam.t>=1&&stateT>.35&&!pushing, s=W<700?.6:.85;
+  for(const L of labels){const o=anchors[L.a];if(!o)continue;o.getWorldPosition(tmp);tmp.project(camera);
+    const x=(tmp.x*.5+.5)*W,y=(-tmp.y*.5+.5)*H;
+    const lx=x+L.dx*s,ly=y+L.dy*s,bw=L.el.offsetWidth,bh=L.el.offsetHeight;
+    const minX = stageMode==='full' ? vr.x-24 : 6;
+    let bx=L.dx<0?lx-bw:lx; bx=Math.max(minX,Math.min(W-bw-6,bx)); const by=Math.max(6,Math.min(H-bh-6,ly-bh/2));
+    const vis=show&&tmp.z<1&&x>(stageMode==='full'?vr.x-40:0)&&x<W&&y>0&&y<H;
+    L.el.classList.toggle('on',vis);L.el.style.transform=`translate(${Math.round(bx)}px,${Math.round(by)}px)`;
+    const ex=L.dx<0?bx+bw:bx;
+    L.ln.setAttribute('points',`${x},${y} ${x+(ex-x)*.45},${by+bh/2} ${ex},${by+bh/2}`);
+    L.dot.setAttribute('cx',x);L.dot.setAttribute('cy',y);L.ring.setAttribute('cx',x);L.ring.setAttribute('cy',y);
+    const op=vis?1:0;L.ln.setAttribute('opacity',op*.85);L.dot.setAttribute('opacity',op);L.ring.setAttribute('opacity',op*.6);}
+}
+
+/* firmware terminal: a contiguous excerpt, typed in, then each module line "runs" and wakes its hardware */
+const pre=document.getElementById('codepre');
+const hl=s=>esc(s).replace(/(\/\/.*)$/,'<span class="c">$1</span>').replace(/\b(OBC_SCHEDULER_CONFIG_ID_\w+|LM75BD_\w+)\b/g,'<span class="k">$1</span>').replace(/\b(\d+(\.\d+)?f?)\b/g,'<span class="n">$1</span>');
+pre.innerHTML=CODE.map(([n])=>`<span class="ln${n<125?' early':''}" data-n="${n}"></span>`).join('');
+const lines=[...pre.children];let codeTimer=null,typeIdx=0,runIdx=-1,pulseKeys=[];
+function startCode(){stopCode();lines.forEach(l=>{l.innerHTML='';l.classList.remove('run');});typeIdx=0;runIdx=-1;
+  if(reduce){lines.forEach((l,i)=>l.innerHTML=hl(CODE[i][1]));return;}
+  const typeStep=()=>{ if(typeIdx>0) lines[typeIdx-1].innerHTML=hl(CODE[typeIdx-1][1]);
+    if(typeIdx<CODE.length){lines[typeIdx].innerHTML=hl(CODE[typeIdx][1])+'<span class="cur"></span>';typeIdx++;codeTimer=setTimeout(typeStep,70);}else codeTimer=setTimeout(runStep,500);};
+  const runStep=()=>{if(runIdx>=0)lines[runIdx].classList.remove('run');do{runIdx=(runIdx+1)%CODE.length;}while(!CODE_PULSE[CODE[runIdx][0]]);
+    lines[runIdx].classList.add('run');pulseKeys=CODE_PULSE[CODE[runIdx][0]];codeTimer=setTimeout(runStep,1100);};
+  codeTimer=setTimeout(typeStep,900);}
+function stopCode(){clearTimeout(codeTimer);codeTimer=null;pulseKeys=[];}
+
+/* render loop */
+const clock=new THREE.Clock(), readout=document.getElementById('readout');
+const basePos=new THREE.Vector3(), lookPt=new THREE.Vector3(), right=new THREE.Vector3(), qy=new THREE.Quaternion(), qp=new THREE.Quaternion();
+const offs=new THREE.Vector3(), sph=new THREE.Spherical(), satPos=new THREE.Vector3(), Y=new THREE.Vector3(0,1,0), upT=new THREE.Vector3(0,1,0), upNow=new THREE.Vector3(0,1,0);
+let lastW=0,lastH=0;
+function tick(){
+  requestAnimationFrame(tick);
+  const dt=Math.min(clock.getDelta(),.05);
+  if(parked && !still) return;
+  if(!still){ const rr=wrapEl.getBoundingClientRect(); if(rr.bottom<-200||rr.top>innerHeight+200) return; }
+  const W=wrapEl.clientWidth,H=wrapEl.clientHeight; if(!W||!H) return;
+  if(W!==lastW||H!==lastH){lastW=W;lastH=H;renderer.setSize(W,H,false);
+    if(stageMode==='full'){
+      // the canvas covers the window, but the camera is framed for the right-hand column (vr):
+      // render the column's frustum extended out to the window's edges, so nothing moves at a swap
+      narrow = vr.w<800; camera.aspect=vr.w/vr.h; camera.setViewOffset(vr.w, vr.h, -vr.x, -vr.y, W, H);
+    } else { narrow=W<800; camera.aspect=W/H; camera.clearViewOffset(); }
+    wrapEl.classList.toggle('narrow',narrow); wrapEl.classList.toggle('compact', stageMode!=='full' && W<560); camera.updateProjectionMatrix();}
+  const k=1-Math.exp(-dt*3.2); stateT+=dt;
+  if(cam.t<1){cam.t=Math.min(1,cam.t+dt/cam.dur);const e=ease(cam.t);cam.pos.lerpVectors(cam.from.pos,cam.to.pos,e);cam.tgt.lerpVectors(cam.from.tgt,cam.to.tgt,e);cam.piv.lerpVectors(cam.from.piv,cam.to.piv,e);cam.pos.y+=Math.sin(Math.PI*e)*cam.lift;}
+  if(!dragging&&!reduce&&!still&&view==='team') yawT+=dt*.05;
+  yaw+=(yawT-yaw)*k; pitch+=(pitchT-pitch)*k;
+  // frame the same subject in a narrower stage by backing the camera off (not on the ground, where scale matters)
+  const S=STATES[view], a=(stageMode==='full'?vr.w/vr.h:W/H), fitT = S.ground ? (a<1?1.15:1) : (a<1.6?1.1:1);
+  fitNow += (fitT-fitNow)*Math.min(1,dt*6); const fit=fitNow;
+  upT.copy(S.ground?up:Y); if(cam.t<1){ const e=ease(cam.t); upNow.copy(cam.fromUp).lerp(upT,e).normalize(); } else upNow.lerp(upT,k).normalize();
+  // drag orbits the camera and its aim about the view's pivot (the subject), around the local up
+  offs.subVectors(cam.pos,cam.tgt).multiplyScalar(fit*zoomK); basePos.copy(cam.tgt).add(offs); lookPt.copy(cam.tgt);
+  right.subVectors(lookPt,basePos).cross(upNow).normalize();
+  qy.setFromAxisAngle(upNow,yaw); qp.setFromAxisAngle(right,-pitch); qy.multiply(qp);
+  camera.position.copy(basePos).sub(cam.piv).applyQuaternion(qy).add(cam.piv);
+  lookPt.sub(cam.piv).applyQuaternion(qy).add(cam.piv);
+  camera.up.copy(upNow); camera.lookAt(lookPt); offs.subVectors(camera.position,lookPt);
+  deploy+=(deployT-deploy)*k;
+  for(const key in parts){const p=parts[key];const pulse=pulseKeys.includes(key)?1:0;p.pulse+=(pulse-p.pulse)*Math.min(1,dt*6);
+    p.f+=(p.ft-p.f)*k;p.h+=(p.ht-p.h)*k;p.e+=(p.et-p.e)*k;const f=Math.max(p.f,p.pulse*.95),h=Math.max(p.h,p.pulse);
+    if(!FIXED.has(key))p.group.position.copy(p.dir).multiplyScalar(p.e);
+    for(const m of p.meshes){const mats=Array.isArray(m.material)?m.material:[m.material];for(const mt of mats){mt.opacity=.05+.95*f;mt.depthWrite=f>.5;}
+      const ed=m.userData.edges;if(ed){ed.material.color.copy(BONE).lerp(RED,h*.25);ed.material.opacity=f<.5?.2:(.16+.22*h);}}}
+  for(const w of ['solarA','solarB'])parts[w].pivot.rotation.y=deploy*Math.PI*.92;
+  wheelRotor.rotation.y+=dt*(view==='gnc'?6:.6);
+  triadF+=((S.triad?1:0)-triadF)*k;triad.visible=triadF>.02;triad.children.forEach(ar=>{ar.line.material.opacity=ar.cone.material.opacity=triadF;});
+  if(view==='gnc'&&!reduce&&!still){sat.rotation.z=Math.sin(stateT*.6)*.12;sat.rotation.x=Math.sin(stateT*.45)*.08;}else{sat.rotation.z*=(1-k);sat.rotation.x*=(1-k);}
+  // the link to Waterloo is always there: faint from space, full on the ground
+  linkF+=((S.link?1:.75)-linkF)*k;link.material.opacity=linkF;link.visible=true;
+  // the ground scene only exists up close: hidden from space
+  groundNear = camera.position.distanceTo(stationPos) < 26; ground.visible = groundNear;
+  anchors.station.getWorldPosition(stationTip);const pos=linkGeo.attributes.position;pos.setXYZ(0,stationTip.x,stationTip.y,stationTip.z);anchors.plateBot.getWorldPosition(satPos);pos.setXYZ(1,satPos.x,satPos.y,satPos.z);pos.needsUpdate=true;link.computeLineDistances();link.material.dashOffset=reduce?0:-stateT*1.2;
+  linkMid.position.copy(stationTip).lerp(satPos,.07);
+  lampF+=((S.desk?1:0)-lampF)*k; lamp.intensity=lampF*3.2;
+  fogF+=((S.ground?1:0)-fogF)*k; scene.fog.density=fogF*(S.desk?.09:.018);
+  if(S.code && cam.t>.82){ const ce=document.getElementById('code'); if(!ce.classList.contains('on')) ce.classList.add('on'); }
+  if(S.desk && sketchP<1 && cam.t>=1){ sketchP=Math.min(1,sketchP+dt/4.5); drawSketch(sketchP); }
+  renderer.render(scene,camera);
+  placeLabels(W,H);
+  sph.setFromVector3(offs);readout.textContent=`Az ${String(Math.round((THREE.MathUtils.radToDeg(sph.theta)+360)%360)).padStart(3,'0')}° · El ${String(Math.round(90-THREE.MathUtils.radToDeg(sph.phi))).padStart(2,'0')}°`;
+}
+
+
+/* ---------------- pages ---------------- */
+const SITE = {"site": {"name": "UW Orbital", "tagline": "University of Waterloo Satellite Design Team", "headline": "Yes, we’re going to space.", "award": "CSDC-7 Winner, 2026", "email": "uworbital@gmail.com", "discord": "https://discord.gg/j32DZswg5b", "onboarding": "https://uworbital.notion.site/Onboarding-8e074b7923a54e1eb9001e2ebd14ed63", "substack": "https://uworbital.substack.com/", "social": [{"label": "Instagram", "handle": "@uworbital", "href": "https://instagram.com/uworbital"}, {"label": "LinkedIn", "handle": "@uw-orbital", "href": "https://www.linkedin.com/company/uw-orbital"}, {"label": "Facebook", "handle": "@uworbital", "href": "https://www.facebook.com/uworbital"}]}, "awards": [{"competition": "CSDC-7", "result": "Winner", "year": "2026"}, {"competition": "CSDC-6", "result": "Winner", "year": "2023"}], "mission": {"title": "Mission", "statement": "Our goal is to launch a 3U CubeSat and make it the first University of Waterloo satellite put in orbit by students. CUBICS pays for the launch.", "sections": [{"heading": "Competition", "body": "The Canadian Satellite Design Challenge asks university teams to design, build, and qualify a 3U CubeSat over two years. Every entry goes through the same design reviews and the same environmental test campaign that a commercial satellite goes through. UW Orbital entered CSDC-6 and CSDC-7, and won both.", "body2": "CSDC-7 is finished. The team now competes for CUBICS, the CubeSats Initiative in Canada for STEM. The Canadian Space Agency runs it and pays for development and launch. UW Orbital applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.", "images": [{"src": "/cad-exploded.png", "alt": "Exploded view of the V6 CubeSat CAD model"}]}, {"heading": "CubeSats", "body": "CubeSats are low-cost, small-footprint alternatives to traditional multi-million dollar satellites which carry specialized science, communications, or biological payloads. The affordability of CubeSat allows for more simplified designs and rapid development timelines, providing a path for student organizations to get involved in the space industry. CubeSats often \"piggyback\" with larger satellites during launch, and once in the correct orbit, are released via springloaded \"dispensers\".", "images": [{"src": "/cad-front.png", "alt": "Front view of the V6 CubeSat CAD model"}]}, {"heading": "Payloads", "body": "Our primary payload finds and tracks resident space objects, which are pieces of space debris. The team builds it with the Waterloo Space Research team, on space sustainability. Two co-aligned sensors watch the same field of view, one longwave infrared (LWIR) and one visible light (VIS). The satellite runs the detection and the tracking on board, without a command from the ground.", "body2": "The secondary payload is an infrared laser beacon prototype from QEYnet. The company develops it for a new approach to post-quantum key distribution. The mission also builds a platform for amateur radio education. Amateur Radio Operators (AROs, also known as ham radio operators) contact the CubeSat on the downlink.", "images": [{"src": "/cad-back.png", "alt": "Back view of the V6 CubeSat CAD model"}]}], "timeline": {"src": "https://static.wixstatic.com/media/6a67b4_34779a5f43cd4a4c97977fb516357365~mv2.jpg", "alt": "CubeSat project timeline"}}, "timeline": [{"date": "May 2024", "title": "Research & CSDC Kickoff", "body": "Majority of the research and technical documentation has been done over the summer 2024. CSDC-7 officially started in Sep 2024."}, {"date": "Oct 2024", "title": "FlatSat Prototyping", "body": "The FlatSat is a high fidelity electrical and functional representation of our CubSat bus. The first prototype."}, {"date": "Apr 2025", "title": "Subsystem Construction", "body": "Development of each subsystem, meaning that each subsystem would be built and tested as it was going into space."}, {"date": "Oct 2025", "title": "Final Assembly", "body": "Assembling subsystem pieces into a CubSat. Performing vibration, thermal testing with our partners to prepare for competition."}, {"date": "Mar 2026", "title": "Vibration & Environmental Testing", "body": "Official evaluation part of CSDC. The CubeSat went through vibration and thermal vacuum testing to simulate the forces of launch, and it passed."}, {"date": "Jun 2026", "title": "CSDC-7 Won", "body": "UW Orbital placed first at CSDC-7, after winning CSDC-6 in 2023."}, {"date": "Nov 2026", "title": "CUBICS Proposal", "body": "The team writes the Stream 2 proposal and adapts the CSDC-7 satellite to the CUBICS mission. The deadline is November 19, 2026."}, {"date": "Next", "title": "Launch", "body": "CUBICS puts the CubeSat in a 500 to 620 km orbit, 3 to 4 years after the project starts. The launch date is TBD."}], "sponsors": [{"name": "WEEF", "fullName": "Waterloo Engineering Endowment Foundation", "tier": "Eternium", "website": "https://uwaterloo.ca/engineering-endowment-foundation/", "since": "Nov 2021", "blurb": "Thanks so much to the Waterloo Engineering Endowment Foundation for providing us with some critical monetary contributions!"}, {"name": "Siemens", "fullName": "Siemens", "tier": "Gold", "website": "https://www.siemens.com/", "since": "January 2022", "blurb": "We're incredibly grateful to Siemens for providing UW Orbital with their licenses and NX software! Siemens Canada is a technology company focused on industry, infrastructure, transport, and healthcare. From more resource-efficient factories, resilient supply chains, and smarter buildings and grids, to cleaner and more comfortable transportation as well as advanced healthcare."}, {"name": "Ansys", "fullName": "Ansys", "tier": "Gold", "website": "https://www.ansys.com/", "since": "January 2022", "blurb": "We're incredibly grateful to Ansys Government Initiatives (AGI) for providing UW Orbital with Licenses to their Systems Took Kit Software. It aids us in analyzing and visualinzing our CubeSat's trajectory!"}, {"name": "Christie Digital", "fullName": "Christie Digital", "tier": "Gold", "website": "https://www.christiedigital.com/", "since": "September 2021", "blurb": "We're incredibly grateful to Christie Digital for conducting our vibration testing at their Kitchener Centre, helping us interpret the vibration test results after CSA, and assisting us in designing parts."}, {"name": "MEF", "fullName": "Waterloo Math Endowment Fund", "tier": "Gold", "website": "https://uwaterloo.ca/math-endowment-fund/", "since": "Sep 2021", "blurb": "Thanks so much to the Waterloo Math Endowment Foundation for providing us with integral monetary contributions! These contributions help keep UW Orbital running smoothly and efficiently."}, {"name": "RLX", "fullName": "RLX", "tier": "Gold", "website": "https://rlxsolutions.com/", "since": "February 2022", "blurb": "We're incredibly grateful to RLX Solutions for providing UW Orbital with a full sponsorship on production of our Printed Circuit Boards! RLX's contribution will allow us to perform crucial rapid prototyping for our subsystems' electrical models."}, {"name": "Demtool", "fullName": "Demtool", "tier": "Gold", "website": "https://demtool.com/", "since": "Febraury 2022", "blurb": "We're incredibly grateful to Demtool Inc. for machining our chassis."}, {"name": "Dean of Eng", "fullName": "UW Faculty of Engineering", "tier": "Silver", "website": "https://uwaterloo.ca/engineering/", "since": "Nov 2021", "blurb": "Thanks so much to the Dean of UW Engineering for providing us with integral monetary contributions! These contributions help keep UW Orbital running smoothly and efficiently."}, {"name": "Hakko", "fullName": "Hakko", "tier": "Silver", "website": "https://www.hakko.com/english/", "since": "March 2022", "blurb": "Thanks so much to Hakko for providing us with a Soldering Station! Hakko is a project management and note-taking software that our team uses on a daily basis for task distribution, documentation, and more."}, {"name": "Altium", "fullName": "Altium", "tier": "Silver", "website": "https://www.altium.com/", "since": "December 2021", "blurb": "Thanks so much to Altium for providing us with their invaluable PCB Design software! Altium is a software tool provider that specializes in PCB Design software that our team uses directly to plan and create PCBs for our Cubesat."}, {"name": "VectorNav", "fullName": "VectorNav", "tier": "Silver", "website": "https://www.vectornav.com/", "since": "Jun 2022", "blurb": "We are inexpressibly grateful to VectorNav for their generous sponsorship of a VN-100 Rugged & Development Kit. This powerful internal measurement device (IMU) provides our satellite with valuable measurements of its attitude, angular and linear velocities, magnetic field interaction and much, much more. The development kit allows for a student team like us to easily learn and operate such a complex device."}, {"name": "Rising Youth", "fullName": "RisingYouth / Canada Service Corps", "tier": "Bronze", "website": "https://www.risingyouth.ca/", "since": "March 2022", "blurb": "We're incredibly grateful to Rising Youth Foundation supported by TakingIT Global, Canada Service Corps, and the Government of Canada for providing UW Orbital with monetary funding of $1500. The Rising Youth Foundation supports youth-led projects that benefit the community. For more information on TakingIT Global and the Canada Service Corps just click on the logos of the organizations!"}, {"name": "Pelican", "fullName": "Pelican", "tier": "Bronze", "website": "https://www.pelican.com/", "since": "June 2022", "blurb": "We're incredibly grateful to Pelican for providing UW Orbital with their with a secure, weather-proof case for our satellite for transport to and from the competition venue."}, {"name": "Stratodynamics", "fullName": "Stratodynamics", "tier": "Bronze", "website": "http://www.stratodynamics.ca/", "since": "", "blurb": "We're incredibly grateful to Stratodynamics for providing UW Orbital with crucial monetary contributions! Stratodynamics provide high-altitude flight services for global clients and collaborators requiring remote earth observations or in-situ monitoring."}, {"name": "IEEE Canadian Foundation", "fullName": "IEEE Canadian Foundation", "tier": "Bronze", "website": "https://www.ieeecanadianfoundation.org/EN/", "since": "April 2022", "blurb": "We're incredibly grateful to the Institute of Electrical and Electronics Engineers Canadian Foundation for providing UW Orbital with monetary funds of a one-time Special grant $1250. The foundation's aim is to foster technological innovation and excellence to benefit humanity!"}, {"name": "SpeedPro", "fullName": "SpeedPro", "tier": "Bronze", "website": "https://www.speedpro.com/", "since": "January 2022", "blurb": "We're incredibly grateful to SpeedPro for providing UW Orbital with amazing custom stickers! which are integral in allowing UW Orbital to reach its lofty goals. SpeedPro is the nation’s leader in large format graphics such as wall murals, event graphics and trade show displays."}, {"name": "RTL-SDR", "fullName": "RTL-SDR", "tier": "Bronze", "website": "https://www.rtl-sdr.com/", "since": "November 2021", "blurb": "We're incredibly grateful to RTL-SDR for providing UW Orbital with a USB-dongle with computer based radio scanner capabilities! RTL-SDR's contribution will allow us to perform crucial activities such as receiving radio signals for our first payload."}, {"name": "EngSoc", "fullName": "Waterloo Engineering Society", "tier": "Bronze", "website": "https://www.engsoc.uwaterloo.ca/", "since": "February 2022", "blurb": "We're incredibly grateful to the Waterloo Engineering Society for providing UW Orbital with crucial monetary contributions, which are integral in allowing UW Orbital to reach its lofty goals."}, {"name": "Waterloo Electroplating", "fullName": "Waterloo Electroplating", "tier": "Bronze", "website": "http://www.waterlooelectroplating.com/", "since": "February 2022", "blurb": "We're incredibly grateful to Waterloo Electroplating & Metal Finishing for their electroplating services."}, {"name": "Great Scott Gadgets", "fullName": "Great Scott Gadgets", "tier": "Bronze", "website": "https://greatscottgadgets.com/", "since": "November 2021", "blurb": "We're incredibly grateful to Great Scott Gadgets for providing UW Orbital with their HackRF One SDR, which is essentially a radio that we can use for ground station prototyping."}], "tiers": ["Eternium", "Gold", "Silver", "Bronze"], "sponsorIntro": "At UW Orbital, our mission is to build a launchpad for students to enter the SpaceTech industry by providing technical, hands-on experience and opportunities to professional networks. Any contribution will help us embark on our journey towards building a CubeSat, and allow us to continue to provide a platform for students looking to get into space exploration and research. By sponsoring us, you will be supporting the future generation of engineers while helping to build a long-lasting community at the University of Waterloo of passionate students from all academic backgrounds.", "sponsorPackage": "https://drive.google.com/file/d/1cKSvqYu6B2IjnV0aT-yh_pDpFeu70S8l/view?usp=sharing", "join": {"why": "We're building a space community at the University of Waterloo, and our mission is to launch the university's first satellite in orbit to do so. If you're interested in building tech that will actually make it to space right during your undergraduate degree, you've come to the right place. Plus, you can do it all while gaining valuable skills in mechanical, electrical, and software engineering.", "steps": [{"n": 1, "title": "Join our Discord", "href": "https://discord.gg/j32DZswg5b"}, {"n": 2, "title": "Read through our onboarding", "href": "https://uworbital.notion.site/Onboarding-8e074b7923a54e1eb9001e2ebd14ed63"}]}, "galleryCount": 13};
+const page=document.getElementById('page'), parkEl=document.getElementById('park');
+const GO='<span class="go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h11M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="2"/></svg></span>';
+const ext = (href, html, cls='') => `<a class="${cls}" href="${href}" target="_blank" rel="noreferrer">${html}</a>`;
+
+function hero({img, screen=false, pos='50% 50%', kicker, crumb, title, lede, acts='', facts=[], four=false}){
+  return `<section class="hero"><img ${screen?'class="screen"':''} src="${img}" alt="" style="object-position:${pos}"><div class="shade"></div><div class="fade"></div>
+  <div class="in"><div class="wrap">
+    ${crumb?`<a class="crumb label" href="${crumb[0]}">← ${esc(crumb[1])}</a>`:''}${kicker?`<p class="label">${esc(kicker)}</p>`:''}
+    <h1 class="h1" style="margin-top:${kicker?'20px':'0'}">${esc(title)}</h1>
+    ${lede?`<p class="lede">${esc(lede)}</p>`:''}
+    ${acts?`<div class="acts">${acts}</div>`:''}
+    ${facts.length?`<dl class="facts${four?' four':''}">${facts.map(([dt,dd])=>`<div><dt class="label">${esc(dt)}</dt><dd>${dd}</dd></div>`).join('')}</dl>`:''}
+  </div></div></section>`;
+}
+const sec = (inner, {title, kicker, action='', style=''}={}) => `<section class="sec opaque" style="${style}"><div class="wrap">
+  ${title||kicker?`<div class="sec-h"><div>${kicker?`<p class="label">${esc(kicker)}</p>`:''}${title?`<h2 class="h2">${esc(title)}</h2>`:''}</div>${action}</div>`:''}
+  ${inner}</div></section>`;
+const arrow = (href, text) => `<a class="arrow grp" href="${href}">${esc(text)} ${GO}</a>`;
+const DIM={'cad-exploded-cut.png':[1765,1280],'cad-front.png':[1613,882],'cad-back.png':[1613,882]};
+function sheet(src, alt, tb=['UW Orbital · V6 CubeSat','Fig. 1','Scale NTS','CAD']){
+  const d=DIM[src]||[4,3];
+  return `<figure class="sheet"><img src="${src}" alt="${esc(alt)}" width="${d[0]}" height="${d[1]}" loading="lazy">
+    <span class="zn" style="left:20px;top:2px">A</span><span class="zn" style="right:20px;top:2px">1</span><span class="zn" style="left:2px;bottom:20px">E</span>
+    <div class="tb"><span class="t1">${esc(tb[0])}</span><span>${esc(tb[1])}</span><span>${esc(tb[2])}</span><span>${esc(tb[3])}</span></div></figure>`;
+}
+const awards = (w=170) => `<div class="awards">${SITE.awards.map(a=>`<figure class="award" style="width:${w}px"><img src="laurel.png" alt=""><figcaption><b>${esc(a.competition)}</b><span>${esc(a.result)}</span><i>${esc(a.year)}</i></figcaption></figure>`).join('')}</div>`;
+const tile = t => `<a class="tile grp" href="#${t.slug}" data-tile="${t.slug}"><img src="img/${t.slug}-tile.jpg" alt="" loading="lazy"><div class="g"></div><div class="t"><p class="n">${esc(t.name)} ${GO}</p><p class="s">${esc(t.summary)}</p></div></a>`;
+
+const closing=`<section class="closing sec opaque"><img class="bg" src="field.jpg" alt=""><div class="wrap in">
+  <div class="l"><p class="label">Join us</p><h2 class="h2 big">Build hardware that leaves the planet.</h2><p>${esc(SITE.join.why)}</p></div>
+  <div class="r"><div class="seal"><svg viewBox="0 0 150 150" fill="none" stroke="#e6dfcf" stroke-width=".8" opacity=".55" aria-hidden="true"><circle cx="75" cy="75" r="74" stroke-dasharray="1 4"/><path d="M75 0V10M75 140V150M0 75H10M140 75H150"/></svg><img src="orbital-mark.png" alt="UW Orbital logo"></div>${ext(SITE.site.discord,'Join our Discord','btn')}</div>
+</div></section>`;
+
+/* Home */
+function homePage(){
+  return hero({img:'field.jpg', screen:true, kicker:SITE.site.tagline, title:SITE.site.headline,
+      lede:"We are building a 3U CubeSat and launching it, to make it the University of Waterloo's first satellite launched by students.",
+      acts:`<a class="btn" href="#join">Join the team</a><a class="btn ghost" href="#mission">Our mission</a>`, four:true,
+      facts:[['CubeSat','3U'],['CSDC-6, first place','2023'],['CSDC-7, first place','2026'],['Next: CUBICS Stream 2 proposal','Nov 2026']]})
+  + sec(`<div class="grid12">
+      <div style="grid-column:1/span 7">${sheet('cad-exploded-cut.png','The UW Orbital V6 CubeSat, shown exploded',['UW Orbital · V6 CubeSat','Fig. 1','Exploded','Sht 01'])}</div>
+      <div style="grid-column:8/span 5">${awards(150)}
+        <h2 class="h2" style="margin:30px 0 22px">Winners of <span style="white-space:nowrap">CSDC-6</span> and <span style="white-space:nowrap">CSDC-7</span>. Now we fly it.</h2>
+        <p class="body-lg">UW Orbital won CSDC-6 in 2023 and CSDC-7 in 2026. The team now competes for CUBICS, the Canadian Space Agency program that funds development and buys the launch.</p>
+        ${arrow('#mission','Read our mission')}</div></div>`)
+  + sec(`<div class="tiles">${TEAMS.map(tile).join('')}</div>`, {title:'Six subteams', action:arrow('#team','Meet the team'), style:'padding-top:24px'})
+  + closing;
+}
+
+/* Mission */
+function missionPage(){
+  const S=SITE.mission.sections;
+  const block=(s,i,fig)=>`<div class="grid12">
+      <div style="grid-column:${i%2?'7/span 6':'1/span 6'};${i%2?'order:2':''}"><p class="label" style="margin-bottom:14px">0${i+1}</p><h2 class="h2" style="margin-bottom:22px">${esc(s.heading)}</h2>
+        <p class="body-lg">${esc(s.body)}</p>${s.body2?`<p class="body-lg">${esc(s.body2)}</p>`:''}</div>
+      <div style="grid-column:${i%2?'1/span 6':'7/span 6'}">${fig}</div></div>`;
+  const tl=SITE.timeline.map((t,i,a)=>`<li class="${i===a.length-1?'next':(i<a.length-2?'done':'')}"><span class="dt mono">${esc(t.date)}</span><span></span><h3>${esc(t.title)}</h3><p>${esc(t.body)}</p></li>`).join('');
+  return hero({img:'img/mission-hero.jpg', kicker:'3U CubeSat', title:SITE.mission.title, lede:SITE.mission.statement})
+  + sec(`<div class="glance">
+      <div><div class="img sheet">${`<img src="cad-exploded-cut.png" alt="Exploded view of the UW Orbital 3U CubeSat assembly" width="1765" height="1280">`}</div>
+        <p class="label l">Satellite</p><h3>3U CubeSat</h3><p class="d">The CubeSat went through vibration and thermal vacuum testing to simulate the forces of launch, and it passed.</p></div>
+      <div><div class="img" style="background:#0c0c0e">${awards(128)}</div>
+        <p class="label l">Competition</p><h3>CSDC-6 and CSDC-7, first place</h3><p class="d">UW Orbital now applies to CUBICS Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on November 19, 2026.</p></div>
+      <div><div class="img"><img src="img/payload-card.jpg" alt="The payload's two co-aligned sensors on the 3D model"></div>
+        <p class="label l">Payload</p><h3>Space debris tracking</h3><p class="d">Our primary payload finds and tracks space debris from orbit. It watches one field of view with a longwave infrared sensor and a visible light sensor.</p></div>
+    </div>`, {title:'The mission at a glance'})
+  + sec(block(S[0],0,`<div style="display:flex;justify-content:center">${awards(220)}</div>`))
+  + sec(block(S[1],1,sheet('cad-front.png','Front view of the V6 CubeSat CAD model',['UW Orbital · V6 CubeSat','Fig. 2','Front','Sht 02'])), {style:'padding-top:24px'})
+  + sec(block(S[2],2,sheet('cad-back.png','Back view of the V6 CubeSat CAD model',['UW Orbital · V6 CubeSat','Fig. 3','Back','Sht 03'])), {style:'padding-top:24px'})
+  + sec(`<ol class="tl">${tl}</ol>`, {kicker:'Timeline', title:'From kickoff to orbit', action:arrow('#team','Meet the subteams')})
+  + closing;
+}
+
+/* Gallery: the team photos live on the old Wix CDN; these frames hold their places */
+function galleryPage(){
+  const ratios=['4/3','3/4','1/1','3/2','4/5','16/10','1/1','4/3','3/4','3/2','4/3','1/1'];
+  const cam='<svg width="34" height="34" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="8" width="22" height="15" rx="1"/><circle cx="14" cy="15.5" r="4.5"/><path d="M9 8L11 5H17L19 8"/></svg>';
+  return hero({img:'field.jpg', screen:true, pos:'50% 30%', kicker:'The team at work', title:'Gallery',
+      facts:[['Photographs',String(SITE.galleryCount)],['The people',`<a class="grp" href="#team">Meet the team ${GO}</a>`],['Instagram',ext(SITE.site.social[0].href,`@uworbital ${GO}`,'grp')]]})
+  + sec(`<div class="masonry">${ratios.map((r,i)=>`<figure class="ph" style="aspect-ratio:${r}"><span class="n mono">Photo ${String(i+2).padStart(2,'0')}</span>${cam}<span class="mono">[Team photo]</span></figure>`).join('')}</div>`)
+  + closing;
+}
+
+/* Sponsors */
+function sponsorsPage(){
+  const intro=SITE.sponsorIntro.split(/(?<=\.) /); const lead=intro[0], rest=intro.slice(1).join(' ');
+  const card=(s,big)=>{
+    const plate=`<div class="plate"><b>${esc(s.name)}</b><i>Logo</i></div>`;
+    const tx=`<a class="nm grp" href="${s.website}" target="_blank" rel="noreferrer">${esc(s.fullName)} ${GO}</a>${s.since?`<p class="since label">Since ${esc(s.since)}</p>`:''}<p class="b">${esc(s.blurb)}</p>`;
+    return big?`<div class="sp big">${plate}<div class="tx">${tx}</div></div>`:`<div class="sp">${plate}${tx}</div>`;
+  };
+  const tiers=SITE.tiers.map(tier=>{
+    const list=SITE.sponsors.filter(s=>s.tier===tier); if(!list.length) return '';
+    const cls= tier==='Eternium'?'':(tier==='Silver'?'tier c4':'tier c3');
+    return sec(tier==='Eternium'?list.map(s=>card(s,true)).join(''):`<div class="${cls}">${list.map(s=>card(s,false)).join('')}</div>`,
+      {kicker:`${list.length} ${list.length===1?'sponsor':'sponsors'}`, title:tier});
+  }).join('');
+  return hero({img:'img/sponsors-hero.jpg', kicker:'Partners', title:'Sponsors', lede:lead,
+      acts:`${ext(SITE.sponsorPackage,'Sponsorship package','btn')}<a class="btn ghost" href="#join">Become a sponsor</a>`,
+      facts:[['Sponsors',String(SITE.sponsors.length)],['Tiers',String(SITE.tiers.length)],['Contact',`<span style="user-select:all;font-size:.8em">${esc(SITE.site.email)}</span>`]]})
+  + tiers
+  + `<section class="closing sec opaque"><img class="bg" src="field.jpg" alt=""><div class="wrap in">
+      <div class="l"><p class="label">Partners</p><h2 class="h2 big">Become a sponsor</h2><p>${esc(rest)}</p></div>
+      <div class="r"><p class="mono" style="margin:0;color:var(--g-lm);user-select:all">${esc(SITE.site.email)}</p>${ext(SITE.sponsorPackage,'Sponsorship package','btn')}</div></div></section>`;
+}
+
+/* Join */
+function joinPage(){
+  const steps=SITE.join.steps.map(s=>[`Step 0${s.n}`, ext(s.href,`${esc(s.title)} ${GO}`,'grp')]);
+  const contacts=[['Email',`<span class="h">${esc(SITE.site.email)}</span>`], ...SITE.site.social.map(s=>[s.label, ext(s.href,esc(s.handle),'h')])];
+  return hero({img:'img/join-hero.jpg', kicker:'Join us', title:'Build hardware that leaves the planet.', facts:steps})
+  + sec(`<div class="grid12"><div style="grid-column:1/span 8"><p class="label" style="margin-bottom:18px">Why join</p><p class="lead-lg" style="max-width:52ch;margin-bottom:30px">${esc(SITE.join.why)}</p>${arrow('#team','Learn about our subteams')}</div>
+      <div style="grid-column:10/span 3;display:flex;justify-content:flex-end"><div class="seal"><svg viewBox="0 0 150 150" fill="none" stroke="#e6dfcf" stroke-width=".8" opacity=".55" aria-hidden="true"><circle cx="75" cy="75" r="74" stroke-dasharray="1 4"/><path d="M75 0V10M75 140V150M0 75H10M140 75H150"/></svg><img src="orbital-mark.png" alt="UW Orbital logo"></div></div></div>`)
+  + sec(`<ul class="contacts">${contacts.map(([l,h])=>`<li><p class="label">${esc(l)}</p>${h}</li>`).join('')}</ul>`, {title:'Contact us', style:'padding-top:24px'});
+}
+
+/* Team + subteams */
+function teamPage(){
+  return hero({img:'field.jpg', screen:true, kicker:'The team', title:'Team', lede:'Six subteams design, build and test the CubeSat.',
+      acts:`<a class="btn" href="#join">Join the team</a>`, facts:[['Team Leads','Kevin D and Ani A'],['Subteams','6'],['Subteam leads','20']]})
+  + `<section class="sec opaque"><div class="wrap">
+    <div class="sec-h"><div><h2 class="h2">Inside the CubeSat</h2></div></div>
+    <div class="explorer">
+      <div class="slot" data-stage></div>
+      <div class="tabs" role="tablist" aria-label="Subteams on the CubeSat">
+        ${TEAMS.map(t=>`<button class="tab" role="tab" data-v="${t.slug}" aria-selected="false"><img src="icons/${t.slug}.png" alt=""><strong>${esc(t.name)}</strong><span>${esc(t.summary)}</span></button>`).join('')}
+        <a class="open grp" id="openLink" href="#mechanical"><span id="openTxt">Open Mechanical</span>${GO}</a>
+      </div>
+    </div></div></section>`
+  + sec(`<div class="tiles">${TEAMS.map(tile).join('')}</div>`, {title:'Six subteams', style:'padding-top:24px'})
+  + closing;
+}
+function teamText(t){
+  return `<div class="fadeable"><a class="crumb label" href="#team">← Team</a><h1 class="h1">${esc(t.name)}</h1>
+    <p class="lede">${esc(t.summary)}</p>
+    <dl class="facts"><div><dt class="label">Leads</dt><dd>${t.leads.length}</dd></div><div><dt class="label">All subteams</dt><dd><a class="grp" href="#team" style="display:inline-flex;align-items:center;gap:12px">Meet the team ${GO}</a></dd></div></dl>
+    <p class="label" style="margin-bottom:18px">About</p><div class="body"><p>${esc(t.body)}</p>${t.body2?`<p>${esc(t.body2)}</p>`:''}</div>
+    ${t.stack?`<p class="label" style="margin:30px 0 14px">Tech stack</p><ul class="stack">${t.stack.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>`:''}
+    <p class="label" style="margin:30px 0 14px">Leads</p><ul class="leads">${t.leads.map(l=>`<li>${esc(l)}</li>`).join('')}</ul></div>`;
+}
+function othersList(t){
+  return TEAMS.map(o=>o===t?`<a href="#${o.slug}" aria-current="page"><span>${esc(o.name)}</span><span class="label">You are here</span></a>`:`<a class="grp" href="#${o.slug}"><span>${esc(o.name)}</span>${GO}</a>`).join('');
+}
+function teamDetail(t){
+  return `<section class="pass"><div class="wrap split">
+    <div class="txt" id="txt">${teamText(t)}</div>
+    <div class="hover"><div class="slot" data-stage></div></div>
+  </div></section>
+  <section class="sec opaque" style="padding-top:64px"><div class="wrap">
+    <div class="sec-h"><h2 class="h2">The other subteams</h2></div>
+    <nav class="others fadeable" id="others" aria-label="Subteams">${othersList(t)}</nav>
+  </div></section>` + closing;
+}
+const PAGES={home:homePage, mission:missionPage, team:teamPage, gallery:galleryPage, sponsors:sponsorsPage, join:joinPage};
+
+document.getElementById('fsub').insertAdjacentHTML('beforeend', TEAMS.map(t=>`<a href="#${t.slug}">${esc(t.name)}</a>`).join(''));
+
+/* ---------------- the stage's three homes ---------------- */
+const fullOK = () => innerWidth>900 && !still;
+function computeVR(){
+  // the satellite is framed for the right-hand column of the subteam layout
+  const col=page.querySelector('.split .hover'); if(!col) return;
+  const r=col.getBoundingClientRect();
+  vr={x:Math.round(r.left), y:110, w:Math.round(r.width), h:Math.max(460, innerHeight-140)};
+  wrapEl.style.setProperty('--vx', vr.x+'px'); lastW=0;
+}
+function mountSlot(slot){ page.classList.remove('thru'); wrapEl.classList.remove('full'); wrapEl.style.cssText=''; slot.appendChild(wrapEl); stageMode='slot'; parked=false; lastW=0; }
+function mountFull(){ page.classList.add('thru'); wrapEl.style.cssText=''; wrapEl.classList.add('full'); document.body.insertBefore(wrapEl, page); stageMode='full'; parked=false; computeVR(); }
+function mountSub(){ if(fullOK()) mountFull(); else mountSlot(page.querySelector('[data-stage]')); }
+function park(){ page.classList.remove('thru'); wrapEl.classList.remove('full'); wrapEl.style.cssText=''; parkEl.appendChild(wrapEl); stageMode='slot'; parked=true; stopCode(); tip.hidden=true; }
+addEventListener('resize', ()=>{ if(stageMode==='full'){ if(fullOK()) computeVR(); else mountSlot(page.querySelector('[data-stage]')); } else if(BY[route] && fullOK() && !pushing) mountFull(); });
+
+/* ---------------- navigation ----------------
+   Every route change animates. Most pages lift out and the next one settles in. Team to a subteam pushes the
+   view into the chosen panel; between subteams the satellite stays and only the text changes. */
+const STATIC=['home','mission','team','gallery','sponsors','join'];
+const routeOf = h => { h=(h||'').replace(/^#/,''); return BY[h]||STATIC.includes(h) ? h : 'home'; };
+let route=null, tourTimer=null, busy=false;
+const wait=ms=>new Promise(r=>setTimeout(r, reduce?0:ms));
+const frame=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+function setNav(r){
+  const top = BY[r] ? 'team' : r;
+  document.querySelectorAll('#mainnav [data-r]').forEach(a=>{ if(a.dataset.r===top) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  document.title = r==='home' ? 'UW Orbital' : `${BY[r]?BY[r].name:r[0].toUpperCase()+r.slice(1)} · UW Orbital`;
+}
+function renderRoute(r){
+  stopTour(); page.innerHTML = PAGES[r] ? PAGES[r]() : teamDetail(BY[r]); setNav(r);
+  if(r==='team'){ mountSlot(page.querySelector('[data-stage]')); wireTabs(); selectTab(BY[view]?view:'mechanical', true); startTour(); }
+  else if(BY[r]){ mountSub(); setView(r, true); }
+  else park();
+}
+async function fadeTo(r){
+  document.body.classList.add('leaving'); await wait(300);
+  route=r; renderRoute(r); window.scrollTo(0,0);
+  document.body.classList.add('entering'); document.body.classList.remove('leaving');
+  await frame(); document.body.classList.remove('entering');
+  await wait(500);
+}
+function targetRect(r){
+  // where the satellite's frame will be once the subteam page is showing, measured on a hidden copy
+  const m=document.createElement('div'); m.style.cssText='position:absolute;left:0;top:0;width:100%;visibility:hidden;pointer-events:none';
+  m.innerHTML=teamDetail(BY[r]); document.body.appendChild(m);
+  let out;
+  if(fullOK()){ const c=m.querySelector('.split .hover').getBoundingClientRect(); out={left:c.left, top:110, width:c.width, height:Math.max(460, innerHeight-140)}; }
+  else { const slot=m.querySelector('[data-stage]'); slot.style.position='static'; const s=slot.getBoundingClientRect(); out={left:s.left, top:s.top+scrollY, width:s.width, height:s.height}; }
+  m.remove(); return out;
+}
+async function pushInto(fromRect, to, ms){
+  // scale the page about the panel's centre and move that centre onto the target's centre
+  const s = to.height/fromRect.height;
+  const pr = page.getBoundingClientRect();
+  const cx = fromRect.left+fromRect.width/2, cy = fromRect.top+fromRect.height/2;
+  const tx = (to.left+to.width/2) - cx, ty = (to.top+to.height/2) - cy;
+  page.style.transition='none'; page.style.transformOrigin = `${cx-pr.left}px ${cy-pr.top}px`; page.getBoundingClientRect();
+  page.style.transition = `transform ${ms}ms cubic-bezier(.45,0,.2,1)`;
+  page.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+  if(ms<=0) return;
+  await new Promise(res=>{ let done=false; const fin=()=>{ if(done) return; done=true; page.removeEventListener('transitionend',onEnd); res(); };
+    const onEnd=e=>{ if(e.target===page && e.propertyName==='transform') fin(); };
+    page.addEventListener('transitionend',onEnd); setTimeout(fin, ms+600); });
+}
+function clearPush(){ page.style.transition='none'; page.style.transform=''; page.style.transformOrigin=''; page.getBoundingClientRect(); page.style.transition=''; }
+async function pullOut(){
+  // the reverse of the push: the subteam text lifts away, then the view pulls back out into the Team explorer
+  const from = stageMode==='full' ? {left:vr.x, top:vr.y, width:vr.w, height:vr.h} : (()=>{ const r=wrapEl.getBoundingClientRect(); return {left:r.left, top:r.top, width:r.width, height:r.height}; })();
+  wrapEl.classList.add('pushing'); pushing=true;
+  page.style.transition='opacity .3s ease-in'; page.style.opacity='0'; document.querySelector('footer').style.opacity='0';
+  if(stageMode==='full'){ const sc=document.getElementById('scrim'); sc.style.transition='opacity .3s'; sc.style.opacity='0'; }
+  await wait(320);
+  route='team'; stopTour(); page.innerHTML=teamPage(); setNav('team');
+  const slot=page.querySelector('[data-stage]');
+  document.getElementById('scrim').style.cssText='';
+  mountSlot(slot); wireTabs();
+  page.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.v===view)));
+  const a=document.getElementById('openLink'); if(a&&BY[view]){ a.href='#'+view; document.getElementById('openTxt').textContent='Open '+BY[view].short; }
+  const sr=slot.getBoundingClientRect(); window.scrollTo(0, Math.max(0, sr.top+scrollY-(innerHeight-sr.height)/2));
+  const to=slot.getBoundingClientRect();
+  // everything around the panel starts hidden and fades back in as the view pulls out
+  const hidden=[];
+  for(let el=slot; el && el!==page; el=el.parentElement){ for(const sib of el.parentElement.children){ if(sib!==el){ sib.style.transition='none'; sib.style.opacity='0'; hidden.push(sib); } } }
+  // start with the panel filling the frame the satellite had on the subteam page
+  const s=from.height/to.height, pr=page.getBoundingClientRect();
+  const cx=to.left+to.width/2, cy=to.top+to.height/2;
+  page.style.transition='none'; page.style.transformOrigin=`${cx-pr.left}px ${cy-pr.top}px`;
+  page.style.transform=`translate(${(from.left+from.width/2)-cx}px,${(from.top+from.height/2)-cy}px) scale(${s})`;
+  page.style.opacity='1'; document.querySelector('footer').style.opacity='';
+  await frame();
+  page.style.transition='transform 1000ms cubic-bezier(.45,0,.2,1)'; page.style.transform='translate(0px,0px) scale(1)';
+  hidden.forEach(el=>{ el.style.transition='opacity .6s ease .35s'; el.style.opacity=''; });
+  await new Promise(res=>{ let done=false; const fin=()=>{ if(done) return; done=true; page.removeEventListener('transitionend',onEnd); res(); };
+    const onEnd=e=>{ if(e.target===page && e.propertyName==='transform') fin(); };
+    page.addEventListener('transitionend',onEnd); setTimeout(fin, 1600); });
+  clearPush(); page.style.opacity=''; hidden.forEach(el=>{ el.style.transition=''; });
+  wrapEl.classList.remove('pushing'); pushing=false; lastW=0;
+  startTour();
+}
+const onScreen = el => { const r=el.getBoundingClientRect(); return r.bottom>80 && r.top<innerHeight-80; };
+
+async function navigate(r, fromEl, fromPop){
+  if(busy) return; r=routeOf(r);
+  if(r===route){ window.scrollTo({top:0, behavior:reduce?'auto':'smooth'}); return; }
+  busy=true; stopTour();
+  if(!fromPop) history.pushState(null,'','#'+r);
+  try{
+    const prev=route;
+    if(BY[prev] && BY[r]){
+      // subteam to subteam: the satellite stays; the text fades, the camera flies, the new text fades in
+      page.classList.add('out'); window.scrollTo({top:0, behavior:reduce?'auto':'smooth'});
+      setView(r); await wait(460);
+      route=r; setNav(r);
+      document.getElementById('txt').innerHTML=teamText(BY[r]); document.getElementById('others').innerHTML=othersList(BY[r]);
+      await wait(500); page.classList.remove('out');
+    } else if(BY[r] && !reduce && ((fromEl && onScreen(fromEl)) || (prev==='team' && !fromEl && onScreen(wrapEl.parentElement)))){
+      // into a subteam from a panel: nothing leaves the page, the view pushes into the panel
+      pushing=true; wrapEl.classList.add('pushing');
+      let panel = wrapEl.parentElement;
+      if(fromEl){
+        // a tile: put the live stage in the tile, framed like its still, so the zoom is into the real thing
+        const img=fromEl.querySelector('img'); if(img) img.style.visibility='hidden';
+        wrapEl.classList.remove('full'); wrapEl.style.cssText=''; fromEl.insertBefore(wrapEl, fromEl.querySelector('.g'));
+        stageMode='slot'; parked=false; lastW=0; setView(r, true); fromEl.classList.add('pushing'); panel=fromEl;
+      } else setView(r, false);
+      const from=panel.getBoundingClientRect(), to=targetRect(r);
+      for(let el=panel; el && el!==page; el=el.parentElement){
+        for(const sib of el.parentElement.children){ if(sib!==el){ sib.style.transition='opacity .45s ease .15s'; sib.style.opacity='0'; } }
+      }
+      await pushInto(from, to, 1100);
+      route=r; clearPush(); page.innerHTML=teamDetail(BY[r]); setNav(r); page.classList.add('out'); window.scrollTo(0,0);
+      mountSub(); wrapEl.classList.remove('pushing'); pushing=false;
+      await wait(60); page.classList.remove('out');
+    } else if(r==='team' && BY[prev] && !reduce){
+      await pullOut();
+    } else {
+      await fadeTo(r);
+    }
+  } finally { busy=false; pushing=false; wrapEl.classList.remove('pushing'); }
+}
+function wireTabs(){ page.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{stopTour();selectTab(b.dataset.v);})); }
+function selectTab(v, instant){
+  page.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.v===v)));
+  const t=BY[v]; const a=document.getElementById('openLink'); if(a&&t){a.href='#'+v;document.getElementById('openTxt').textContent='Open '+t.short;}
+  setView(v, instant);
+}
+function startTour(){ stopTour(); if(reduce) return; tourTimer=setInterval(()=>{ const i=TEAMS.findIndex(t=>t.slug===view); selectTab(TEAMS[(i+1)%6].slug); }, 7000); }
+function stopTour(){ clearInterval(tourTimer); tourTimer=null; }
+
+// every in-page link goes through navigate, so each change can animate
+const hdr=document.querySelector('.hdr'), menuBtn=document.getElementById('menuBtn');
+function menu(open){ hdr.classList.toggle('open',open); menuBtn.setAttribute('aria-expanded',String(open)); }
+menuBtn.addEventListener('click',()=>menu(!hdr.classList.contains('open')));
+addEventListener('keydown',e=>{ if(e.key==='Escape' && hdr.classList.contains('open')){ menu(false); menuBtn.focus(); } });
+document.addEventListener('click', e=>{
+  const a=e.target.closest('a[href^="#"]'); if(!a) return;
+  menu(false);
+  e.preventDefault(); const r=a.getAttribute('href').slice(1);
+  if(a.dataset.tile) return navigate(r, a);
+  navigate(r);
+});
+addEventListener('popstate', ()=>navigate(location.hash, null, true));
+
+// first load
+(function(){ route=routeOf(location.hash); renderRoute(route); })();
+requestAnimationFrame(tick);
+
+/* stills for the static pages: renders one view full-window; right=true frames it in the right half, like a hero */
+window.__sat = { poster(v, clean, z=1, bg='transparent', masked=false, right=false){
+  document.body.classList.add('poster'); document.body.classList.toggle('masked',!!masked); document.body.classList.toggle('clean',!!clean);
+  document.body.style.background=bg; wrapEl.style.cssText=''; wrapEl.style.background=bg; document.body.appendChild(wrapEl);
+  still=true; parked=false; zoomK=z; stopTour();
+  if(right){ const f=typeof right==='object'?right:{x:.5,y:.06,w:.44,h:.88}; wrapEl.classList.add('full'); stageMode='full'; vr={x:Math.round(innerWidth*f.x), y:Math.round(innerHeight*f.y), w:Math.round(innerWidth*f.w), h:Math.round(innerHeight*f.h)}; wrapEl.style.setProperty('--vx', vr.x+'px'); }
+  else { wrapEl.classList.remove('full'); stageMode='slot'; }
+  lastW=0; setView(v,true); } };
+</script>
+
+</body>
 </html>
