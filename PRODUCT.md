@@ -27,19 +27,21 @@ The team has built a 3U CubeSat and put it through the same qualification campai
 
 - The team competes for CUBICS, the CubeSats Initiative in Canada for STEM, run by the Canadian Space Agency. It applies to Stream 2, which gives up to $350,000 over 3 years for a CubeSat of 3U or smaller. Proposals close on 19 November 2026.
 - A University of Waterloo faculty member is the CUBICS applicant. The team decided not to name them on the site.
-- Under CUBICS the CubeSat goes to a 500 to 620 km orbit, 3 to 4 years after the project starts. No launch date is set.
+- Under CUBICS the CubeSat launches 3 to 4 years after the project starts. No launch date is set. The proposal baselines a 500 to 515 km sun-synchronous orbit (08:30 descending node, 27 to 31 minutes of eclipse per 95-minute orbit).
+- The CUBICS mission is named **Hyperion**.
 - Members join through Discord, then work through a Notion onboarding document.
 - The team runs on academic terms. Leads and members change every term, so facts on the site go stale quickly.
 
 ## Capabilities and Constraints
 
 - **Two active projects.** The 3U CubeSat, and the Ground Station that tracks it and holds the radio link.
-- **Primary payload.** A space debris detection payload, built with the Waterloo Space Research team. Two co-aligned sensors, longwave infrared and visible light, find and track resident space objects on board. The secondary payload is the QEYnet laser beacon prototype, which is not confirmed. Amateur radio education stays a mission goal.
-- **Ground station timing.** A 3U CubeSat in low Earth orbit is in view of Waterloo for about 10 minutes per pass. There are 4 to 6 usable passes a day.
+- **Primary payload.** MIRA, built with the Waterloo Space Research team. Two co-aligned cameras (Arducam B0436 5 MP visible, Teledyne FLIR Lepton 3.1R longwave infrared) take paired images of resident space objects during eclipse and downlink them for analysis; detection is not done on board. It builds on SOBER, which flew on the BEXUS 37 balloon.
+- **Secondary payload.** A 520 nm laser beacon from industry partner QEYnet, testing ground-target fine guidance for quantum key distribution (STEVE algorithm, 0.1° pointing). Amateur radio education stays a mission goal.
+- **Ground station.** 433 MHz UHF, half duplex, tracking Yagi on a SatNOGS-based rotator. Hyperion passes the Conestoga UHF station about 3.5 times a day, and gets about 0.8 usable QEYnet optical passes a day.
 - **Six subteams.** Mechanical, Electrical, Guidance Navigation and Controls, Firmware, Software, Business. 17 subteam leads and 1 team lead. Kevin D holds a mechanical lead seat and the team lead seat.
 - **Surfaces.** Home, Mission, Team, 6 subteam pages, Gallery, Sponsors, Join. Blog, Features, and Events pages are parked in code and not routed.
 - **Stack.** React 19, Vite 7, react-router 7, TypeScript. Deployed on Vercel. Repository `UWOrbital/marketing-website`, working branch `updated`.
-- **Undecided.** No accessibility standard has been chosen by the team. No launch date. No CUBICS outcome. The QEYnet infrared laser beacon partnership is not confirmed. It is named on the site as the secondary payload, on the team's instruction of 2026-09-10. ESA Fly Your Satellite is not being pursued.
+- **Undecided.** No accessibility standard has been chosen by the team. No launch date. No CUBICS outcome. QEYnet is named as Hyperion's industry partner in the CUBICS proposal (November 2026). ESA Fly Your Satellite is not being pursued.
 
 ## Brand Commitments
 
@@ -66,8 +68,8 @@ Absences future work must not fabricate:
 
 - No member roster. Full names and LinkedIn URLs were requested from the team but never delivered. The site shows abbreviated names such as "Ani A".
 - Subteam descriptions come from the old Wix site and are unverified. The Software description and its tech stack list are placeholder text awaiting lead confirmation.
-- No named faculty investigator, no launch date, no CUBICS result, no confirmed QEYnet partnership.
-- The primary payload changed on 2026-09-10, from the Arducam camera to the space debris detection payload built with the Waterloo Space Research team. The sensor models and the payload name are not known.
+- No named faculty investigator, no launch date, no CUBICS result.
+- The primary payload changed on 2026-09-10, from the Arducam camera to the space debris payload built with the Waterloo Space Research team. Its name (MIRA) and sensor models come from the CUBICS proposal, November 2026.
 
 ## Product Principles
 
